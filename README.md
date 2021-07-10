@@ -68,3 +68,18 @@ This section has moved here: [https://facebook.github.io/create-react-app/docs/d
 ### `yarn build` fails to minify
 
 This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+
+
+-- Create project: npx create-react-app webshop
+-- npm install --save react-hook-form
+-- install npm and yarn to build src
+
+--run project
+    -- yarn build or npm start
+-- push code
+    -- git remote add origin https://github.com/thanhviet0167/CSDLNC.git
+    -- git branch -M main
+    -- git add .
+    -- git commit -m "new commit"
+    -- git push -u origin main
+
