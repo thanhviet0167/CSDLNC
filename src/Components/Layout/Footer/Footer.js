@@ -9,7 +9,7 @@ const Footer = () =>{
 			<div className="footer-info w3-agileits-info">
 				<div className="col-md-4 address-left agileinfo">
 					<div className="footer-logo header-logo">
-						<h2><a href="index.html"><span>S</span>mart <i>Bazaar</i></a></h2>
+						<h2><a href="index.html"><span>S</span>Naco <i>Tiki</i></a></h2>
 						<h6>Your stores. Your place.</h6>
 					</div>
 					<ul>
