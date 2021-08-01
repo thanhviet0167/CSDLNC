@@ -1,0 +1,33 @@
+﻿1) Ngày tham gia của Nhà Cung Cấp phải trước ngày theo dõi của Theo Dõi
+
+2) Ngày thanh toán của Giao Dịch phải trước ngày hết hạn của Phương Thức Thanh Toán.
+
+3) Ngày thanh toán của Giao Dịch không được trước ngày đặt của Đơn Hàng.
+
+4) Thời gian đánh giá trong Chi Tiết Giỏ Hàng phải sau thời gian cập nhật trong Thông Tin Vận Chuyện với trạng thái là đã giao.
+
+5) Không tạo khiếu nại nếu trạng thái trong thông tin vận chuyển không phải “đã giao”.
+
+6) Trong Khiếu Nại, ngày tạo không được sau ngày hiện tại và không được cách thời gian cập nhật trong Thông Tin Vận Chuyển quá 7 ngày kèm theo điều kiện Trạng Thái trong Thông Tin Vận Chuyển là “đã giao”.
+
+7) Trong giao dịch, ngày thanh toán phải trước thời gian cập nhật trong Thông Tin Vận Chuyển với trạng thái vận chuyển là Đã giao.
+
+8) Số lượng mua trong Chi Tiết Giỏ Hàng không vượt quá số lượng tồn trong Sản Phẩm.
+
+9) Số lượng tặng kèm trong Chi Tiết Quà Tặng không vượt quá số lượng áp dụng tối đa trong Sản Phẩm.
+
+10) Giá bán tặng kèm trong Chi Tiết Quà Tặng được tính bằng cách lấy (1 - phần trăm giảm giá) trong Chi Tiết Voucher nhân với giá hiện hành trong Sản Phẩm.
+
+11) Trong Hình thức vận chuyển, phí giao hàng nội tỉnh nhỏ hơn phí giao hàng ngoại tỉnh.
+
+12) Tổng tiền chưa khuyến mãi trong Giỏ Hàng là tổng giá trị của các Chi Tiết Giỏ Hàng (= Số lượng mua * Giá bán thực tế) và tổng giá trị của các Chi Tiết Quà Tặng (= Số lượng tặng kèm * Giá bán sản phẩm tặng kèm).
+
+13) Thành tiền trong Đơn Hàng được tính bằng tổng tiền chưa khuyến mãi – số tiền giảm thực tế trong Giỏ Hàng.
+
+14) Tổng tiền trong Giao Dịch bằng tổng giá trị các Đơn Hàng mà nó chịu trách nhiệm thanh toán. Giá trị từng Đơn Hàng = thành tiền + phí giao hàng của đơn hàng đó.
+
+15) Lương thực nhận của Bảng lương được tính như sau:
+o	Nếu số ngày công của Bảng lương = số ngày công thỏa thuận trong Hợp đồng lao động, lương tạm tính sẽ là lương thỏa thuận trong Hợp đồng lao động.
+o	Nếu số ngày công của Bảng lương <  số ngày công thỏa thuận trong Hợp đồng lao động, lương tạm tính sẽ là Số ngày công * Lương một ngày công.
+o	Nếu số ngày công của Bảng lương <  số ngày công thỏa thuận trong Hợp đồng lao động, lương tạm tính sẽ là lương thỏa thuận trong Hợp đồng +  (Số ngày công – số ngày công thỏa thuận) * Lương một ngày công.
+o	Sau khi có lương tạm tính, lương thực nhận = lương tạm tính * (1 – bảo hiểm xã hội – thuế) + thưởng + lương phụ cấp của nhân viên trong tháng (tính bằng tổng số tiền phụ cấp)
