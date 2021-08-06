@@ -288,7 +288,7 @@ IF OBJECT_ID(N'KT_GiaBanTangKem_CTQT') IS NOT NULL
 	DROP TRIGGER KT_GiaBanTangKem_CTQT
 GO
 
-Create trigger KT_GiaBanTangKem_CTQT on ChiTietQuaTang after insert, update
+Create trigger KT_GiaBanTangKem_CTQT on ChiTietQuaTang FOR insert, update
 as
 	begin
 		if(UPDATE(MaVoucher) OR UPDATE(SanPhamTangKem))
@@ -559,57 +559,6 @@ update DonHang set PhiVanChuyen = 100
 select * from GiaoDich
 
 -- Câu 22
-IF OBJECT_ID(N'CapNhat_SoTienGiamThucTe') IS NOT NULL
-	DROP TRIGGER CapNhat_SoTienGiamThucTe
-GO
-
-CREATE TRIGGER CapNhat_SoTienGiamThucTe ON GioHang AFTER INSERT, UPDATE
-AS
-	BEGIN
-		IF (UPDATE(TongTienChuaKhuyenMai))
-			BEGIN
-				DECLARE @TongTien BIGINT
-				DECLARE @Voucher BIGINT
-				DECLARE @SoTienGiam BIGINT
-				DECLARE @GiamToiDa BIGINT
-				DECLARE @PhanTram FLOAT
-				DECLARE @ToiThieu BIGINT
-				DECLARE @GioHang BIGINT
-				SET @PhanTram = 0
-				SET @SoTienGiam = 0
-				
-				SELECT @TongTien = i.TongTienChuaKhuyenMai , @Voucher = i.MaVoucher, @GioHang = i.MaGioHang FROM inserted i
-				SELECT @PhanTram = v.PhanTramKhuyenMai, @GiamToiDa = v.SoTienGiamToiDa, @ToiThieu = v.GiaTriDonHangToiThieu FROM Voucher v WHERE v.MaVoucher = @Voucher
-
-				IF @TongTien < @ToiThieu
-					BEGIN
-						UPDATE GioHang SET SoTienGiamThucTe = 0 WHERE MaGioHang = @GioHang
-					END
-				ELSE 
-					BEGIN
-						IF @PhanTram IS NULL
-							BEGIN
-								UPDATE GioHang SET SoTienGiamThucTe = @GiamToiDa WHERE MaGioHang = @GioHang
-							END
-						ELSE
-							BEGIN
-								IF @PhanTram * @TongTien > @GiamToiDa
-									BEGIN
-										UPDATE GioHang SET SoTienGiamThucTe = @GiamToiDa WHERE MaGioHang = @GioHang
-									END
-								ELSE
-									BEGIN
-										UPDATE GioHang SET SoTienGiamThucTe = CAST(@PhanTram * @TongTien AS BIGINT) WHERE MaGioHang = @GioHang
-									END
-							END
-					END
-
-			END
-	END
-GO
-
-
--- Câu 23
 
 IF OBJECT_ID(N'KT_BangLuong') IS NOT NULL
 	DROP TRIGGER KT_BangLuong
