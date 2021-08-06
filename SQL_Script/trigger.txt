@@ -45,7 +45,13 @@ o	Nếu số lượng mua trong Chi tiết giỏ hàng chưa đến số lượn
 
 [R] 21) Tổng tiền trong Giao Dịch bằng tổng giá trị các Đơn Hàng mà nó chịu trách nhiệm thanh toán. Giá trị từng Đơn Hàng = thành tiền + phí giao hàng của đơn hàng đó.
 
-22) Lương thực nhận của Bảng lương được tính như sau:
+22) Tự động cập nhật Số tiền giảm thực tế trong Giỏ hàng như sau:
+	- Nếu tổng tiền chưa khuyến mãi của giỏ hàng thấp hơn giá trị đơn hàng tối thiểu trong Voucher, số tiền giảm thực tế = 0.
+	- Nếu tổng tiền chưa khuyến mãi của giỏ hàng lớn hơn hoặc bằng giá trị đơn hàng tối thiểu trong Voucher, xét loại Voucher:
+		+ Nếu loại voucher = 0, số tiền giảm thực tế = số tiền giảm tối đa.
+		+ Nếu loại voucher = 1, số tiền giảm thực tế = tổng tiền chưa khuyến mãi * phần trăm khuyến mãi tối thiểu. Trường hợp vượt quá số tiền giảm tối đa, số tiền giảm thực tế = số tiền giảm tối đa.
+
+23) Lương thực nhận của Bảng lương được tính như sau:
 o	Nếu số ngày công của Bảng lương = số ngày công thỏa thuận trong Hợp đồng lao động, lương tạm tính sẽ là lương thỏa thuận trong Hợp đồng lao động.
 o	Nếu số ngày công của Bảng lương <  số ngày công thỏa thuận trong Hợp đồng lao động, lương tạm tính sẽ là Số ngày công * Lương một ngày công.
 o	Nếu số ngày công của Bảng lương <  số ngày công thỏa thuận trong Hợp đồng lao động, lương tạm tính sẽ là lương thỏa thuận trong Hợp đồng +  (Số ngày công – số ngày công thỏa thuận) * Lương một ngày công.
