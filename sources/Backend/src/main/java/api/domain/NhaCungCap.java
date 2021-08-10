@@ -40,5 +40,5 @@ public class NhaCungCap extends KhachHang {
 
     @NotNull
     @Column(name = "MaTinhThanhPho", nullable = false)
-    private Long tinhThanhPho;
+    private Integer tinhThanhPho; // FK
 }

@@ -4,10 +4,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 
@@ -19,17 +16,18 @@ import java.io.Serializable;
 public class GioHang implements Serializable {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @NotNull
     @Column(name = "MaGioHang", unique = true, nullable = false)
     private Long maGioHang;
 
     @NotNull
     @Column(name = "KhachHang", length = 20, nullable = false)
-    private String khachHang;
+    private String khachHang; // FK
 
     @NotNull
     @Column(name = "NhaCungCap", length = 20, nullable = false)
-    private String nhaCungCap;
+    private String nhaCungCap; // FK
 
     @NotNull
     @Column(name = "TongTienChuaKhuyenMai", nullable = false)
@@ -43,8 +41,14 @@ public class GioHang implements Serializable {
     @Column(name = "TrangThaiDatHang", nullable = false)
     private Boolean trangThaiDatHang;
 
-    @Column(name = "KhachHang", length = 20, nullable = false)
-    private String khachHang;
+    @Column(name = "MaVoucher")
+    private Long maVoucher; // FK
 
+    @NotNull
+    @Column(name = "SoTienGiamThucTe", nullable = false)
+    private Long soTienGiamThucTe;
+
+    @Column(name = "STT_SoDiaChi")
+    private Integer sttSoDiaChi; // FK
 
 }

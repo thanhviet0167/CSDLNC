@@ -6,6 +6,8 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.time.Instant;
@@ -32,6 +34,8 @@ public class ChiTietGioHang implements Serializable {
     @Column(name="GiaGiam")
     private Long giaGiam;
 
+    @Min(0)
+    @Max(5)
     @Column(name="DanhGia")
     private Integer danhGia;
 

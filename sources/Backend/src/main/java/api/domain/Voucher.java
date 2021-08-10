@@ -5,10 +5,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
@@ -22,6 +19,7 @@ import java.time.Instant;
 public class Voucher implements Serializable {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "MaVoucher", unique=true, nullable = false)
     private Long maVoucher;
 
@@ -50,9 +48,9 @@ public class Voucher implements Serializable {
     @Column(name = "SoTienGiamToiDa")
     private Long soTienGiamToiDa;
 
-    @Column(name = "SanPhamApDung")
+    @Column(name = "SanPhamApDung", nullable = false)
     private Long sanPhamApDung;
 
-    @Column(name = "NhaCungCap")
-    private Long nhaCungCap;
+    @Column(name = "NhaCungCap", length = 20, nullable = false)
+    private String nhaCungCap;
 }

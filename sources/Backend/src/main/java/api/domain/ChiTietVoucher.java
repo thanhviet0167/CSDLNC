@@ -36,11 +36,11 @@ public class ChiTietVoucher implements Serializable {
     public class ChiTietVoucherID implements Serializable {
         @NotNull
         @Column(name="MaVoucher", nullable = false)
-        private Long maVoucher;
+        private Long maVoucher; // FK
 
         @NotNull
         @Column(name="SanPhamTangKem", nullable = false)
-        private Long sanPhamTangKem;
+        private Long sanPhamTangKem; // FK
     }
 
 }

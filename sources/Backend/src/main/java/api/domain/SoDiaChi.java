@@ -10,26 +10,38 @@ import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 
 @Entity
-@Table(name = "BoSuuTap")
+@Table(name = "SoDiaChi")
 @Getter
 @Setter
 @NoArgsConstructor
-public class BoSuuTap implements Serializable {
+public class SoDiaChi implements Serializable {
 
     @EmbeddedId
     @NotNull
-    private BoSuuTapID boSuuTapID;
+    private SoDiaChiID soDiaChiID;
 
     @NotNull
-    @Column(name="TenBoSuuTap", length=100, nullable = false)
-    private String tenBoSuuTap;
+    @Column(name="HoTenNguoiNhan", length=50, nullable = false)
+    private String hoTenNguoiNhan;
+
+    @NotNull
+    @Column(name="DiaChi", length=100, nullable = false)
+    private String diaChi;
+
+    @NotNull
+    @Column(name="MaTinhThanhPho", nullable = false)
+    private Integer maTinhThanhPho; // FK
+
+    @NotNull
+    @Column(name="SDT", length=11, nullable = false)
+    private String sdt;
 
     @Getter
     @Setter
     @NoArgsConstructor
     @AllArgsConstructor
     @Embeddable
-    public class BoSuuTapID implements Serializable {
+    public class SoDiaChiID implements Serializable {
         @NotNull
         @Column(name="Username", length=20, nullable = false)
         private String username; // FK

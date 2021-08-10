@@ -4,10 +4,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.time.Instant;
@@ -20,6 +17,7 @@ import java.time.Instant;
 public class DonHang implements Serializable {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @NotNull
     @Column(name = "MaDonHang", unique = true, nullable = false)
     private Long maDonHang;
@@ -38,7 +36,7 @@ public class DonHang implements Serializable {
 
     @NotNull
     @Column(name = "GioHang", nullable = false)
-    private Long gioHang;
+    private Long gioHang; // FK
 
     @Column(name = "GiaoDich")
     private Long giaoDich;
@@ -49,6 +47,6 @@ public class DonHang implements Serializable {
 
     @NotNull
     @Column(name = "PhiVanChuyen", nullable = false)
-    private Boolean phiVanChuyen;
+    private Long phiVanChuyen;
 
 }
