@@ -432,9 +432,9 @@ IF OBJECT_ID(N'CapNhat_TongTienQuaTang') IS NOT NULL
 	DROP TRIGGER CapNhat_TongTienQuaTang
 GO
 
-CREATE TRIGGER CapNhat_TongTienQuaTang ON ChiTietGioHang AFTER INSERT, UPDATE, DELETE
+CREATE TRIGGER CapNhat_TongTienQuaTang ON ChiTietQuaTang AFTER INSERT, UPDATE, DELETE
 AS
-	IF (UPDATE(SoLuongMua) OR UPDATE(GiaBanThucTe))
+	IF (UPDATE(SoLuongTangKem) OR UPDATE(GiaBanTangKem))
 	BEGIN
 		DECLARE @GiaGiam BIGINT
 		SET @GiaGiam = 0
