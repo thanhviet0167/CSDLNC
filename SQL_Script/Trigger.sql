@@ -288,7 +288,7 @@ IF OBJECT_ID(N'KT_GiaBanTangKem_CTQT') IS NOT NULL
 	DROP TRIGGER KT_GiaBanTangKem_CTQT
 GO
 
-Create trigger KT_GiaBanTangKem_CTQT on ChiTietQuaTang FOR insert, update
+Alter trigger KT_GiaBanTangKem_CTQT on ChiTietQuaTang FOR insert, update
 as
 	begin
 		if(UPDATE(MaVoucher) OR UPDATE(SanPhamTangKem))
@@ -298,12 +298,18 @@ as
 				DECLARE @phanTramGiamGia FLOAT
 				SELECT @maVoucher = i.MaVoucher, @sanPhamTangKem = i.SanPhamTangKem FROM inserted i
 				SELECT @phanTramGiamGia = 1 - (SELECT ct.PhanTramGiamGia FROM ChiTietVoucher ct WHERE ct.MaVoucher = @maVoucher AND ct.SanPhamTangKem = @sanPhamTangKem)
+				print @maVoucher
+				print @sanPhamTangKem
+				print @phanTramGiamGia
 				UPDATE ChiTietQuaTang SET GiaBanTangKem = CAST(@phanTramGiamGia * sp.GiaHienHanh AS BIGINT) FROM SanPham sp WHERE sp.MaSanPham = @sanPhamTangKem
 			END
 	end
 go
 
-update ChiTietQuaTang set MaVoucher = 1
+Select * from ChiTietQuaTang
+update ChiTietQuaTang set MaVoucher =1
+Select * from ChiTietQuaTang
+select * from  SanPham
 
 -- Câu 13 : test ok
 IF OBJECT_ID(N'KT_PhiVanChuyen') IS NOT NULL
