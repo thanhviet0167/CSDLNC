@@ -23,17 +23,6 @@ Create trigger KT_NgayTheoDoi on TheoDoiNhaCungCap for insert, update
 		end
 go
 
-DELETE FROM NhaCungCap WHERE Username = '111'
-DELETE FROM KhachHang WHERE Username = '111'
-DELETE TinhThanhPho WHERE MaTinhThanhPho = 1
-INSERT INTO TinhThanhPho VALUES(1, N'Ha Noi')
-
-INSERT INTO KhachHang VALUES ('111', '111', 'ABC', 'Email', 0, '05/04/1996', 'url-hinh-anh', '0999333222')
-INSERT INTO NhaCungCap VALUES('111', 'ABCD', 'mo ta', '04/04/2000', '0922999333', 'BinhThanh', 1)
-
-DELETE TheoDoiNhaCungCap WHERE MaKhachHang = '111'
-INSERT INTO TheoDoiNhaCungCap VALUES ('111','111','04/04/2000')
-
 -- Cau 2
 
 IF OBJECT_ID(N'KT_NgayThanhToan') IS NOT NULL
@@ -59,17 +48,7 @@ as
 
 	go
 
-DELETE PhuongThucThanhToan WHERE Username = '111'
-DELETE ThongTinThanhToan WHERE TaiKhoanThanhToan = '111'
-DELETE ThongTinCongThanhToan WHERE MaCongThanhToan = 'vp'
-INSERT INTO ThongTinCongThanhToan VALUES('vp','VPBANK')
-INSERT INTO ThongTinThanhToan VALUES('111','vp',1,'ABC','chinhanh','loaithe','08/02/2021')
-INSERT INTO PhuongThucThanhToan VALUES('111','111','vp',1)
-
-DELETE GiaoDich WHERE MaGiaoDich = 1
-INSERT INTO GiaoDich VALUES(1,100000,1,'111','111','vp','08/02/2020')
-
--- Câu 3 : thông qua test
+-- Câu 3
 IF OBJECT_ID(N'KT_NgayDat_ThanhToan') IS NOT NULL
 	DROP TRIGGER KT_NgayDat_ThanhToan
 GO
@@ -92,9 +71,8 @@ Create trigger KT_NgayDat_ThanhToan on GiaoDich for insert, update
 		end
 go
 
-update GiaoDich set NgayThanhToan = N'02-02-2022'
 
--- Câu 4 : thông qua test
+-- Câu 4
 
 IF OBJECT_ID(N'KT_NgayDanhGia') IS NOT NULL
 	DROP TRIGGER KT_NgayDanhGia
@@ -118,10 +96,7 @@ as
 	end
 go
 
-update ChiTietGioHang set ThoiGianDanhGia = N'01-01-2021'
-
-
--- Câu 5 : thông qua
+-- Câu 5
 
 IF OBJECT_ID(N'KT_TTDaGiao_KhieuNai') IS NOT NULL
 	DROP TRIGGER KT_TTDaGiao_KhieuNai
@@ -144,15 +119,13 @@ as
 	end
 go
 
-update KhieuNaiDonHang set TrangThaiXuLy = 0
-
--- Câu 6 : test ok
+-- Câu 6
 
 IF OBJECT_ID(N'KT_NgayKhieuNai') IS NOT NULL
 	DROP TRIGGER KT_NgayKhieuNai
 GO
 
-Alter trigger KT_NgayKhieuNai on KhieuNaiDonHang for insert, update
+CREATE trigger KT_NgayKhieuNai on KhieuNaiDonHang for insert, update
 as
 	begin
 	if update(NgayTaoKhieuNai)
@@ -170,11 +143,7 @@ as
 	end
 go
 
-select * FROM KhieuNaiDonHang i JOIN ThongTinVanChuyen ttvc on i.DonHang = ttvc.DonHang
-				WHERE ttvc.TrangThaiVanChuyen = N'Đã giao' AND (DATEDIFF(day, ttvc.ThoiGianVanChuyen, i.NgayTaoKhieuNai) < 0 OR DATEDIFF(day, ttvc.ThoiGianVanChuyen, i.NgayTaoKhieuNai) > 7)
-update KhieuNaiDonHang set NgayTaoKhieuNai = N'01-17-2021'
-
--- Câu 7 : test ok
+-- Câu 7
 
 IF OBJECT_ID(N'KT_NgayThanhToan_GiaoDich') IS NOT NULL
 	DROP TRIGGER KT_NgayThanhToan_GiaoDich
@@ -193,9 +162,7 @@ as
 
 go
 
-update ThongTinVanChuyen set ThoiGianVanChuyen = N'02-03-2021'
-
--- Câu 8 : test ok
+-- Câu 8
 IF OBJECT_ID(N'TrangThaiThanhToanDonHang') IS NOT NULL
 	DROP TRIGGER TrangThaiThanhToanDonHang
 GO
@@ -209,10 +176,9 @@ AS
 			END
 	END
 GO
-update GiaoDich set TrangThaiThanhToan = 1
 
 
--- Câu 9 : test ok
+-- Câu 9
 IF OBJECT_ID(N'KT_SLTon') IS NOT NULL
 	DROP TRIGGER KT_SLTon
 GO
@@ -234,9 +200,8 @@ as
 	end
 go
 
-update ChiTietGioHang set SoLuongMua = 2
 
--- Câu 10: test ok
+-- Câu 10
 IF OBJECT_ID(N'KT_SLQuaTangKem') IS NOT NULL
 	DROP TRIGGER KT_SLQuaTangKem
 GO
@@ -258,10 +223,7 @@ as
 	end
 go
 
-update ChiTietQuaTang set SoLuongTangKem = 2
-
--- Câu 11 : test ok
-
+-- Câu 11
 IF OBJECT_ID(N'KT_SLQuaTangKem_2') IS NOT NULL
 	DROP TRIGGER KT_SLQuaTangKem_2
 GO
@@ -280,15 +242,13 @@ as
 	end
 go
 
-update ChiTietQuaTang set SoLuongTangKem = 7
 
-
--- Câu 12 : lỗi ràng buộc
+-- Câu 12
 IF OBJECT_ID(N'KT_GiaBanTangKem_CTQT') IS NOT NULL
 	DROP TRIGGER KT_GiaBanTangKem_CTQT
 GO
 
-Alter trigger KT_GiaBanTangKem_CTQT on ChiTietQuaTang FOR insert, update
+Create trigger KT_GiaBanTangKem_CTQT on ChiTietQuaTang FOR insert, update
 as
 	begin
 		if(UPDATE(MaVoucher) OR UPDATE(SanPhamTangKem))
@@ -306,12 +266,15 @@ as
 	end
 go
 
+<<<<<<< HEAD
 Select * from ChiTietQuaTang
 update ChiTietQuaTang set MaVoucher =1
 Select * from ChiTietQuaTang
 select * from  SanPham
+=======
+>>>>>>> 2eb3e540c1c1d2fd30880cd0c0df2b817058d7b4
 
--- Câu 13 : test ok
+-- Câu 13
 IF OBJECT_ID(N'KT_PhiVanChuyen') IS NOT NULL
 	DROP TRIGGER KT_PhiVanChuyen
 GO
@@ -324,7 +287,7 @@ as
 				select * from ThongTinHinhThucVanChuyen htvc
 				where htvc.PhamViVanChuyen = 0 and htvc.PhiGiaoHang > (Select 
 					htvc2.PhiGiaoHang from ThongTinHinhThucVanChuyen htvc2
-					where htvc2.MaHinhThucVanChuyen != htvc.MaHinhThucVanChuyen
+					where htvc2.MaHinhThucVanChuyen = htvc.MaHinhThucVanChuyen
 					and htvc2.PhamViVanChuyen = 1)
 			))
 				begin
@@ -334,9 +297,8 @@ as
 	end
 go
 
-update ThongTinHinhThucVanChuyen set PhiGiaoHang = 100 where PhamViVanChuyen = 0
 
--- Câu 14 : test ok
+-- Câu 14
 IF OBJECT_ID(N'KT_Tgian_VanChuyen') IS NOT NULL
 	DROP TRIGGER KT_Tgian_VanChuyen
 GO
@@ -349,7 +311,7 @@ as
 				select * from ThongTinHinhThucVanChuyen htvc
 				where htvc.PhamViVanChuyen = 0 and htvc.ThoiGianGiaoHang > (Select 
 					htvc2.ThoiGianGiaoHang from ThongTinHinhThucVanChuyen htvc2
-					where htvc2.MaHinhThucVanChuyen != htvc.MaHinhThucVanChuyen
+					where htvc2.MaHinhThucVanChuyen = htvc.MaHinhThucVanChuyen
 					and htvc2.PhamViVanChuyen = 1)
 			))
 				begin
@@ -359,10 +321,7 @@ as
 	end
 go
 
-update ThongTinHinhThucVanChuyen set ThoiGianGiaoHang = 120 where MaHinhThucVanChuyen = 1
-Select * from ThongTinHinhThucVanChuyen
-
--- Câu 15 : test ok
+-- Câu 15
 IF OBJECT_ID(N'CapNhat_PhiVanChuyen') IS NOT NULL
 	DROP TRIGGER CapNhat_PhiVanChuyen
 GO
@@ -394,11 +353,8 @@ AS
 	END
 GO
 
-update DonHang set HinhThucVanChuyen = 1
 
-select * from DonHang
-
--- Câu 16 + Câu 17 : test ok
+-- Câu 16 + Câu 17
 IF OBJECT_ID(N'CapNhat_GiaBanThucTe_GiaGiam') IS NOT NULL
 	DROP TRIGGER CapNhat_GiaBanThucTe_GiaGiam
 GO
@@ -452,11 +408,8 @@ AS
 	END
 GO
 
-Select * from ChiTietGioHang
-Update ChiTietGioHang set SoLuongMua = 21
-Select * from ChiTietGioHang
 
--- Câu 18 : test ok
+-- Câu 18
 IF OBJECT_ID(N'CapNhat_TongTienChuaKM') IS NOT NULL
 	DROP TRIGGER CapNhat_TongTienChuaKM
 GO
@@ -483,19 +436,15 @@ AS
 	END
 GO
 
-select * from GioHang
-update ChiTietGioHang set SoLuongMua = 9
-select * from GioHang
 
-
--- Câu 19 : test ok
+-- Câu 19
 IF OBJECT_ID(N'CapNhat_TongTienQuaTang') IS NOT NULL
 	DROP TRIGGER CapNhat_TongTienQuaTang
 GO
 
-CREATE TRIGGER CapNhat_TongTienQuaTang ON ChiTietGioHang AFTER INSERT, UPDATE, DELETE
+CREATE TRIGGER CapNhat_TongTienQuaTang ON ChiTietQuaTang AFTER INSERT, UPDATE, DELETE
 AS
-	IF (UPDATE(SoLuongMua) OR UPDATE(GiaBanThucTe))
+	IF (UPDATE(SoLuongTangKem) OR UPDATE(GiaBanTangKem))
 	BEGIN
 		DECLARE @GiaGiam BIGINT
 		SET @GiaGiam = 0
@@ -515,11 +464,8 @@ AS
 	END
 GO
 
-select * from GioHang
-update ChiTietGioHang set SoLuongMua = 7
-select * from GioHang
 
--- Câu 20 : test ok
+-- Câu 20
 IF OBJECT_ID(N'CapNhat_ThanhTien_DonHang') IS NOT NULL
 	DROP TRIGGER CapNhat_ThanhTien_DonHang
 GO
@@ -534,12 +480,8 @@ as
 	end
 go
 
-select * from DonHang
-update GioHang set TongTienChuaKhuyenMai = 2000
-select * from DonHang
-select * from GioHang
 
--- Câu 21 : test ok
+-- Câu 21
 IF OBJECT_ID(N'CapNhat_TongTienGiaoDich') IS NOT NULL
 	DROP TRIGGER CapNhat_TongTienGiaoDich
 GO
@@ -558,11 +500,6 @@ as
 			END		
 	end
 go
-select * from GiaoDich
-select * from DonHang
-update DonHang set PhiVanChuyen = 100
-
-select * from GiaoDich
 
 -- Câu 22
 
@@ -617,8 +554,8 @@ as
 	end
 go
 
--- Câu 23 : test ok
 
+-- Câu 23
 IF OBJECT_ID(N'CapNhat_SoTienGiamThucTe') IS NOT NULL
 	DROP TRIGGER CapNhat_SoTienGiamThucTe
 GO
@@ -626,7 +563,7 @@ GO
 Create TRIGGER CapNhat_SoTienGiamThucTe ON GioHang AFTER INSERT, UPDATE
 AS
 	BEGIN
-		IF (UPDATE(TongTienChuaKhuyenMai))
+		IF (UPDATE(TongTienChuaKhuyenMai) OR UPDATE(MaVoucher))
 			BEGIN
 				DECLARE @TongTien BIGINT
 				DECLARE @Voucher BIGINT
@@ -639,40 +576,35 @@ AS
 				SET @SoTienGiam = 0
 				
 				SELECT @TongTien = i.TongTienChuaKhuyenMai , @Voucher = i.MaVoucher, @GioHang = i.MaGioHang FROM inserted i
-				SELECT @PhanTram = v.PhanTramKhuyenMai, @GiamToiDa = v.SoTienGiamToiDa, @ToiThieu = v.GiaTriDonHangToiThieu FROM Voucher v WHERE v.MaVoucher = @Voucher
-				print @PhanTram
-				print @TongTien
-				print @ToiThieu
-				IF @TongTien < @ToiThieu
-					BEGIN
-						UPDATE GioHang SET SoTienGiamThucTe = 0 WHERE MaGioHang = @GioHang
-					END
-				ELSE 
-					BEGIN
-						IF @PhanTram IS NULL
-							BEGIN
-								UPDATE GioHang SET SoTienGiamThucTe = @GiamToiDa WHERE MaGioHang = @GioHang
-							END
-						ELSE
-							BEGIN
-								IF @PhanTram * @TongTien > @GiamToiDa
-									BEGIN
-										UPDATE GioHang SET SoTienGiamThucTe = @GiamToiDa WHERE MaGioHang = @GioHang
-									END
-								ELSE
-									BEGIN
-										UPDATE GioHang SET SoTienGiamThucTe = CAST(@PhanTram * @TongTien AS BIGINT) WHERE MaGioHang = @GioHang
-									END
-							END
-					END
-
+				IF @Voucher IS NOT NULL
+				BEGIN
+					SELECT @PhanTram = v.PhanTramKhuyenMai, @GiamToiDa = v.SoTienGiamToiDa, @ToiThieu = v.GiaTriDonHangToiThieu FROM Voucher v WHERE v.MaVoucher = @Voucher
+					print @PhanTram
+					print @TongTien
+					print @ToiThieu
+					IF @TongTien < @ToiThieu
+						BEGIN
+							UPDATE GioHang SET SoTienGiamThucTe = 0 WHERE MaGioHang = @GioHang
+						END
+					ELSE 
+						BEGIN
+							IF @PhanTram IS NULL
+								BEGIN
+									UPDATE GioHang SET SoTienGiamThucTe = @GiamToiDa WHERE MaGioHang = @GioHang
+								END
+							ELSE
+								BEGIN
+									IF @PhanTram * @TongTien > @GiamToiDa
+										BEGIN
+											UPDATE GioHang SET SoTienGiamThucTe = @GiamToiDa WHERE MaGioHang = @GioHang
+										END
+									ELSE
+										BEGIN
+											UPDATE GioHang SET SoTienGiamThucTe = CAST(@PhanTram * @TongTien AS BIGINT) WHERE MaGioHang = @GioHang
+										END
+								END
+						END
+				END
 			END
 	END
 GO
-
-Select * from GioHang
-update GioHang set TongTienChuaKhuyenMai = 350 where MaVoucher = 1
-Select * from GioHang
-
-
-SELECT v.PhanTramKhuyenMai, v.SoTienGiamToiDa, v.GiaTriDonHangToiThieu FROM Voucher v WHERE v.MaVoucher = 1
