@@ -258,11 +258,21 @@ as
 				DECLARE @phanTramGiamGia FLOAT
 				SELECT @maVoucher = i.MaVoucher, @sanPhamTangKem = i.SanPhamTangKem FROM inserted i
 				SELECT @phanTramGiamGia = 1 - (SELECT ct.PhanTramGiamGia FROM ChiTietVoucher ct WHERE ct.MaVoucher = @maVoucher AND ct.SanPhamTangKem = @sanPhamTangKem)
+				print @maVoucher
+				print @sanPhamTangKem
+				print @phanTramGiamGia
 				UPDATE ChiTietQuaTang SET GiaBanTangKem = CAST(@phanTramGiamGia * sp.GiaHienHanh AS BIGINT) FROM SanPham sp WHERE sp.MaSanPham = @sanPhamTangKem
 			END
 	end
 go
 
+<<<<<<< HEAD
+Select * from ChiTietQuaTang
+update ChiTietQuaTang set MaVoucher =1
+Select * from ChiTietQuaTang
+select * from  SanPham
+=======
+>>>>>>> 2eb3e540c1c1d2fd30880cd0c0df2b817058d7b4
 
 -- Câu 13
 IF OBJECT_ID(N'KT_PhiVanChuyen') IS NOT NULL
