@@ -1,5 +1,6 @@
 package api.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -7,6 +8,8 @@ import lombok.Setter;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Table(name = "DanhMuc")
@@ -27,5 +30,12 @@ public class DanhMuc implements Serializable {
 
     @Column(name = "MoTa", columnDefinition="TEXT")
     private String moTa;
+
+    @OneToMany(mappedBy = "danhMuc")
+    @JsonIgnoreProperties(value = {
+            "danhMuc",
+            "sanPhamSet"
+    })
+    private Set<DanhMucSanPham> danhMucSanPhamSet = new HashSet<>();
 
 }
