@@ -1,5 +1,6 @@
 package api.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -9,6 +10,8 @@ import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.time.Instant;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Table(name = "ThongTinThanhToan")
@@ -38,6 +41,15 @@ public class ThongTinThanhToan implements Serializable {
     @NotNull
     @Column(name="NgayHetHan", nullable = false)
     private Instant ngayHetHan;
+
+    @ManyToOne()
+    @JoinColumn(name = "CongThanhToan", nullable = false)
+    @JsonIgnoreProperties(value = {"thongTinThanhToanSet"}, allowSetters = true)
+    private ThongTinCongThanhToan thongTinCongThanhToan;
+
+    @OneToMany(mappedBy = "thongTinThanhToan")
+    @JsonIgnoreProperties(value = {"thongTinThanhToan", "giaoDichSet"}, allowSetters = true)
+    private Set<PhuongThucThanhToan> phuongThucThanhToanSet = new HashSet<>();
 
     @Getter
     @Setter

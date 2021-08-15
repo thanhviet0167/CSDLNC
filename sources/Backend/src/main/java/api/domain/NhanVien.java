@@ -11,6 +11,8 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
 import java.time.Instant;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Table(name = "NhanVien")
@@ -45,4 +47,10 @@ public class NhanVien implements Serializable {
     @NotNull
     @Column(name = "LoaiNhanVien")
     private Integer loaiNhanVien;
+
+    @OneToMany(mappedBy = "nhanVienXuLy")
+    private Set<KhieuNaiDonHang> khieuNaiDonHangSet = new HashSet<>();
+
+    @OneToMany(mappedBy = "nhanVienGiaoHang")
+    private Set<ThongTinVanChuyen> thongTinVanChuyenSet = new HashSet<>();
 }
