@@ -14,15 +14,15 @@ import java.util.stream.Collectors;
 public class KhachHangMapperImpl implements KhachHangMapper {
 
     @Override
-    public List<KhachHangDTO> toUserDtos(List<KhachHang> khachHangs) {
+    public List<KhachHangDTO> fromModelToDtos(List<KhachHang> khachHangs) {
         return khachHangs.stream()
                 .filter(Objects::nonNull)
-                .map(this::toUserDto)
+                .map(this::fromModelToDto)
                 .collect(Collectors.toList());
     }
 
     @Override
-    public KhachHangDTO toUserDto(KhachHang khachHang) {
+    public KhachHangDTO fromModelToDto(KhachHang khachHang) {
         if (khachHang == null) {
             return null;
         }
@@ -31,7 +31,7 @@ public class KhachHangMapperImpl implements KhachHangMapper {
     }
 
     @Override
-    public KhachHang toUser(KhachHangDTO khachHangDTO) {
+    public KhachHang fromDtoToModel(KhachHangDTO khachHangDTO) {
         if (khachHangDTO == null) {
             return null;
         }
@@ -44,10 +44,10 @@ public class KhachHangMapperImpl implements KhachHangMapper {
     }
 
     @Override
-    public List<KhachHang> toUsers(List<KhachHangDTO> khachHangDTOS) {
+    public List<KhachHang> fromDtoToModels(List<KhachHangDTO> khachHangDTOS) {
         return khachHangDTOS.stream()
                 .filter(Objects::nonNull)
-                .map(this::toUser)
+                .map(this::fromDtoToModel)
                 .collect(Collectors.toList());
     }
 
