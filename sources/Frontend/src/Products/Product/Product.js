@@ -1,4 +1,4 @@
-import React from "react";
+import React,{useState} from "react";
 import Narbar from "../../Components/Layout/Navbar/Navbar";
 import Siderbar from "../../Components/Layout/Sidebar/Sidebar";
 import Category from "../../Components/Layout/Sidebar/Category";
@@ -6,8 +6,27 @@ import { Link } from 'react-router-dom';
 import Subcribe from "../../Components/Layout/Footer/Subcribe";
 import Footer from "../../Components/Layout/Footer/Footer";
 import Introduce from "../../Components/Layout/Footer/Introduce";
+import Cart from "../Cart/Cart";
 
 const Product = () => {
+
+    const [listProduct,setlistProduct] = useState([]);
+    var value = [];
+    
+    for(var i = 0; i < 14 ; i++){
+        var data = <Cart />
+        console.log(data);
+        value.push(data)
+       listProduct.push(data)
+    }
+    
+    
+     
+  //  console.log(value);
+    
+
+    
+    
 
     return (
         <>
@@ -69,6 +88,7 @@ const Product = () => {
                             <div className="clearfix"> </div>
                         </div>
                         <div className="products-row">
+                            {listProduct}
                             <div className="col-md-3 product-grids">
                                 <div className="agile-products">
                                     <div className="new-tag"><h6>20%<br />Off</h6></div>
@@ -341,6 +361,7 @@ const Product = () => {
                                     </div>
                                 </div>
                             </div>
+                            
                             <div className="clearfix"> </div>
                         </div>
                         {/* <!-- add-products -->  */}
