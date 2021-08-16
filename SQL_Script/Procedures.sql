@@ -287,3 +287,56 @@ BEGIN
 	COMMIT TRANSACTION
 END
 GO
+
+/*** THỐNG KÊ TỶ LỆ ĐƠN HÀNG THÀNH CÔNG ***/
+IF OBJECT_ID(N'ThongKe_TyLeDonHangThanhCong') IS NOT NULL
+	DROP PROCEDURE ThongKe_TyLeDonHangThanhCong
+GO
+
+CREATE PROCEDURE ThongKe_TyLeDonHangThanhCong
+@year INT
+AS
+BEGIN
+	SET TRANSACTION ISOLATION LEVEL SERIALIZABLE
+	BEGIN TRANSACTION
+		DECLARE @TongDonHangThanhCong INT
+		SET @TongDonHangThanhCong = 0
+
+		IF @year = 2016
+		BEGIN
+			SET @year = 1
+		END
+		ELSE IF @year = 2017
+		BEGIN
+			SET @year = 2
+		END
+		ELSE IF @year = 2018
+		BEGIN
+			SET @year = 3
+		END
+		ELSE IF @year = 2019
+		BEGIN
+			SET @year = 4
+		END
+		ELSE IF @year = 2020
+		BEGIN
+			SET @year = 5
+		END
+		ELSE IF @year = 2021
+		BEGIN
+			SET @year = 6
+		END
+		ELSE
+		BEGIN
+			PRINT(N'Năm không hợp lệ')
+			ROLLBACK TRANSACTION
+		END
+
+		SELECT COUNT(CASE WHEN TrangThaiThanhToan = 1 THEN 1 END) AS SoLuongDonHangThanhCong, COUNT(MaDonHang) AS SoLuongDonHang
+		FROM DonHangTheoThang WHERE $PARTITION.Partition_By_Year(NgayDat) = @year
+
+	COMMIT TRANSACTION
+END
+GO
+
+EXEC ThongKe_TyLeDonHangThanhCong 2020
