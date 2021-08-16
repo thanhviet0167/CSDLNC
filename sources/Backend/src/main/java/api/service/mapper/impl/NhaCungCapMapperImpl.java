@@ -4,13 +4,21 @@ import api.domain.NhaCungCap;
 import api.service.dto.NhaCungCapDTO;
 import api.service.mapper.NhaCungCapMapper;
 import api.service.mapper.TinhThanhPhoMapper;
+import org.springframework.stereotype.Component;
 
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
+@Component
 public class NhaCungCapMapperImpl implements NhaCungCapMapper {
+
     private final TinhThanhPhoMapper tinhThanhPhoMapper;
+
+    public NhaCungCapMapperImpl(TinhThanhPhoMapper tinhThanhPhoMapper) {
+        this.tinhThanhPhoMapper = tinhThanhPhoMapper;
+    }
+
     @Override
     public List<NhaCungCapDTO> fromModelToDtos(List<NhaCungCap> nhaCungCaps) {
         return nhaCungCaps.stream()
