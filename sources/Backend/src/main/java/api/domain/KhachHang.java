@@ -1,6 +1,7 @@
 package api.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -11,6 +12,8 @@ import javax.validation.constraints.Size;
 import java.io.Serializable;
 import java.sql.Date;
 import java.time.Instant;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Table(name = "KhachHang")
@@ -48,6 +51,41 @@ public class KhachHang implements Serializable {
     @NotNull
     @Column(name = "SDT_DangKy", length = 11, nullable = false)
     private String sdtDangKy;
+
+    @OneToMany(mappedBy = "khachHang", fetch = FetchType.EAGER)
+    @JsonIgnoreProperties(value = {
+            "khachHang",
+            "gioHangSet"
+    }, allowSetters = true)
+    private Set<SoDiaChi> soDiaChiSet = new HashSet<>();
+
+    @OneToMany(mappedBy = "khachHang", fetch = FetchType.EAGER)
+    @JsonIgnoreProperties(value = {"khachHang", "giaoDichSet"}, allowSetters = true)
+    private Set<PhuongThucThanhToan> phuongThucThanhToanSet = new HashSet<>();
+
+    @OneToMany(mappedBy = "sanPham")
+    @JsonIgnoreProperties(value = {
+            "khachHang"
+    })
+    private Set<SanPhamYeuThich> sanPhamYeuThichSet = new HashSet<>();
+
+    @OneToMany(mappedBy = "khachHang")
+    @JsonIgnoreProperties(value = {
+            "khachHang"
+    })
+    private Set<TheoDoiNhaCungCap> theoDoiNhaCungCapSet = new HashSet<>();
+
+    @OneToMany(mappedBy = "khachHang")
+    @JsonIgnoreProperties(value = {
+            "khachHang"
+    })
+    private Set<XemSanPham> xemSanPhamSet = new HashSet<>();
+
+    @OneToMany(mappedBy = "khachHang")
+    @JsonIgnoreProperties(value = {
+            "khachHang"
+    })
+    private Set<GioHang> gioHangSet = new HashSet<>();
 
     public KhachHang(String username) {
         this.username = username;

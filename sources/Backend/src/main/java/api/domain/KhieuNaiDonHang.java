@@ -1,5 +1,6 @@
 package api.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -23,9 +24,6 @@ public class KhieuNaiDonHang implements Serializable {
     @NotNull
     private KhieuNaiDonHangID khieuNaiDonHangID;
 
-    @Column(name="NhanVienXuLy")
-    private Long nhanVienXuLy; // FK
-
     @NotNull
     @Column(name = "NgayTaoKhieuNai", nullable = false)
     private Instant ngayTaoKhieuNai;
@@ -44,6 +42,23 @@ public class KhieuNaiDonHang implements Serializable {
     @Min(0)
     @Column(name = "MucDoHaiLongKhachHang", nullable = false)
     private Integer mucDoHaiLongKhachHang;
+
+//    @Column(name="NhanVienXuLy")
+//    private Long nhanVienXuLy; // FK
+
+    @ManyToOne
+    @JoinColumn(name = "NhanVienXuLy")
+    @JsonIgnoreProperties(value = {
+            "khieuNaiDonHangSet", "thongTinVanChuyenSet"
+    })
+    private NhanVien nhanVienXuLy;
+
+    @ManyToOne
+    @JoinColumn(name = "DonHang", nullable = false)
+    @JsonIgnoreProperties({
+            "khieuNaiDonHangSet"
+    })
+    private DonHang donHang;
 
     @Getter
     @Setter

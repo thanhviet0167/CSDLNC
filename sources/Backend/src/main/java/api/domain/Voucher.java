@@ -1,15 +1,19 @@
 package api.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.Where;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
 import java.time.Instant;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Table(name = "Voucher")
@@ -48,9 +52,42 @@ public class Voucher implements Serializable {
     @Column(name = "SoTienGiamToiDa")
     private Long soTienGiamToiDa;
 
-    @Column(name = "SanPhamApDung", nullable = false)
-    private Long sanPhamApDung;
+//    @Column(name = "SanPhamApDung", nullable = false)
+//    private Long sanPhamApDung;
 
-    @Column(name = "NhaCungCap", length = 20, nullable = false)
-    private String nhaCungCap;
+    @ManyToOne
+    @JoinColumn(name = "SanPhamApDung")
+    @JsonIgnoreProperties(value = {
+            "yeuThichSanPhamSet", "apDungVoucherSet",
+            "tangKemVoucherSet", "xemSanPhamSet",
+            "chiTietGioHangSet", "sanPhamTangKemChiTietQuaTangSet"
+    }, allowSetters = true)
+    private SanPham sanPhamApDung;
+
+//    @Column(name = "NhaCungCap", length = 20, nullable = false)
+//    private String nhaCungCap;
+
+    @ManyToOne
+    @JoinColumn(name = "NhaCungCap")
+    @JsonIgnoreProperties(value = {
+            "boSuuTapSet", "sanPhamSet",
+            "theoDoiNhaCungCapSet", "voucherSet",
+            "gioHangSet"
+    })
+    private NhaCungCap nhaCungCap;
+
+    @OneToMany(mappedBy = "voucher")
+    @JsonIgnoreProperties(value = {
+            "voucher"
+    })
+    private Set<ChiTietVoucher> chiTietVoucherSet = new HashSet<>();
+
+    @OneToMany(mappedBy = "voucher")
+    @JsonIgnoreProperties(value = {
+            "voucher"
+    })
+    private Set<GioHang> gioHangSet = new HashSet<>();
+
+    @OneToMany(mappedBy = "voucher")
+    private Set<VoucherApDung> voucherApDungSet = new HashSet<>();
 }

@@ -8,13 +8,13 @@ import java.util.List;
 
 public interface KhachHangMapper {
 
-    public List<KhachHangDTO> toUserDtos(List<KhachHang> khachHangs);
+    public List<KhachHangDTO> fromModelToDtos(List<KhachHang> khachHangs);
 
-    public KhachHangDTO toUserDto(KhachHang khachHang);
+    public KhachHangDTO fromModelToDto(KhachHang khachHang);
 
-    public KhachHang toUser(KhachHangDTO khachHangDTO);
+    public KhachHang fromDtoToModel(KhachHangDTO khachHangDTO);
 
-    public List<KhachHang> toUsers(List<KhachHangDTO> khachHangDTOS);
+    public List<KhachHang> fromDtoToModels(List<KhachHangDTO> khachHangDTOS);
 
     public KhachHang userFromUsername(String username);
 

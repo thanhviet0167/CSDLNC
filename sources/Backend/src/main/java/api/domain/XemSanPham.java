@@ -1,5 +1,6 @@
 package api.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -20,6 +21,24 @@ public class XemSanPham implements Serializable {
     @EmbeddedId
     @NotNull
     private XemSanPhamID xemSanPhamID;
+
+    @ManyToOne
+    @JoinColumn(name = "sanPham")
+    @JsonIgnoreProperties(value = {
+            "yeuThichSanPhamSet", "apDungVoucherSet",
+            "tangKemVoucherSet", "xemSanPhamSet",
+            "chiTietGioHangSet", "sanPhamTangKemChiTietQuaTangSet"
+    }, allowSetters = true)
+    private SanPham sanPham;
+
+    @ManyToOne
+    @JoinColumn(name = "KhachHang")
+    @JsonIgnoreProperties(value = {
+            "soDiaChiSet", "phuongThucThanhToanSet",
+            "sanPhamYeuThichSet", "theoDoiNhaCungCapSet",
+            "xemSanPhamSet", "gioHangSet"
+    }, allowSetters = true)
+    private KhachHang khachHang;
 
     @Getter
     @Setter
