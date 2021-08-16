@@ -20,7 +20,12 @@ import java.util.Set;
 @Setter
 @NoArgsConstructor
 @Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
-public class NhaCungCap extends KhachHang {
+public class NhaCungCap {
+
+    @Id
+    @NotNull
+    @Column(name = "Username", length = 20, nullable = false)
+    private String username;
 
     @NotNull
     @Column(name = "TenNhaCungCap", length = 100, nullable = false)

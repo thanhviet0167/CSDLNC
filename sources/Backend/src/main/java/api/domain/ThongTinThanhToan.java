@@ -63,7 +63,7 @@ public class ThongTinThanhToan implements Serializable {
 
         @NotNull
         @Column(name="CongThanhToan", length = 30, nullable = false)
-        private String CongThanhToan;
+        private String congThanhToan;
     }
 
 }

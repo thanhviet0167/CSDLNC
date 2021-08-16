@@ -49,19 +49,9 @@ GO
 TRUNCATE TABLE dbo.ChiTietGioHang
 GO
 --
--- Delete data from the table 'dbo.BoSuuTap'
---
-TRUNCATE TABLE dbo.BoSuuTap
-GO
---
 -- Delete data from the table 'dbo.VoucherApDung'
 --
 DELETE dbo.VoucherApDung
-GO
---
--- Delete data from the table 'dbo.SanPham'
---
-DELETE dbo.SanPham
 GO
 --
 -- Delete data from the table 'dbo.DonHang'
@@ -84,9 +74,19 @@ GO
 DELETE dbo.Voucher
 GO
 --
+-- Delete data from the table 'dbo.SanPham'
+--
+DELETE dbo.SanPham
+GO
+--
 -- Delete data from the table 'dbo.PhuongThucThanhToan'
 --
 DELETE dbo.PhuongThucThanhToan
+GO
+--
+-- Delete data from the table 'dbo.BoSuuTap'
+--
+DELETE dbo.BoSuuTap
 GO
 --
 -- Delete data from the table 'dbo.ThongTinThanhToan'

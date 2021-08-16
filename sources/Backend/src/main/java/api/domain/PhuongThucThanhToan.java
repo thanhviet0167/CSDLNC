@@ -21,7 +21,7 @@ public class PhuongThucThanhToan implements Serializable {
 
     @EmbeddedId
     @NotNull
-    private PhuongThucThanhToanID boSuuTapID;
+    private PhuongThucThanhToanID phuongThucThanhToanID;
 
     @NotNull
     @Column(name="TinhTrangXacThuc", nullable = false)
