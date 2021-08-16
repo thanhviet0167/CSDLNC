@@ -5,6 +5,7 @@ import api.domain.KhachHang;
 import api.domain.SoDiaChi;
 import api.domain.TinhThanhPho;
 import api.service.mapper.KhachHangMapper;
+import api.service.mapper.TinhThanhPhoMapper;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.AllArgsConstructor;
 import lombok.Getter;

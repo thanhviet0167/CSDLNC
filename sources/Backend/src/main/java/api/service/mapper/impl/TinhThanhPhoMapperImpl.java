@@ -3,11 +3,13 @@ package api.service.mapper.impl;
 import api.domain.TinhThanhPho;
 import api.service.dto.TinhThanhPhoDTO;
 import api.service.mapper.TinhThanhPhoMapper;
+import org.springframework.stereotype.Component;
 
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
+@Component
 public class TinhThanhPhoMapperImpl implements TinhThanhPhoMapper {
     @Override
     public List<TinhThanhPhoDTO> fromModelToDtos(List<TinhThanhPho> tinhThanhPhos) {

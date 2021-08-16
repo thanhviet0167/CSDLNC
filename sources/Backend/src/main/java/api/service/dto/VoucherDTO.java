@@ -1,6 +1,8 @@
 package api.service.dto;
 
 import api.domain.*;
+import api.service.mapper.NhaCungCapMapper;
+import api.service.mapper.SanPhamMapper;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

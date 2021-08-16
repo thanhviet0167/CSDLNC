@@ -16,8 +16,9 @@ import java.util.Set;
 @Getter
 @Setter
 @NoArgsConstructor
-public class NhaCungCapDTO extends KhachHangDTO {
+public class NhaCungCapDTO {
 
+    private String username;
     private String tenNhaCungCap;
     private String moTa;
     private Instant ngayThamGia;
@@ -32,6 +33,7 @@ public class NhaCungCapDTO extends KhachHangDTO {
     private Set<GioHang> gioHangSet = new HashSet<>();
 
     public NhaCungCapDTO(NhaCungCap nhaCungCap, TinhThanhPhoMapper tinhThanhPhoMapper) {
+        this.username = nhaCungCap.getUsername();
         this.tenNhaCungCap = nhaCungCap.getTenNhaCungCap();
         this.moTa = nhaCungCap.getMoTa();
         this.ngayThamGia = nhaCungCap.getNgayThamGia();

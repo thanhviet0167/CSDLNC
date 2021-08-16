@@ -3,6 +3,8 @@ package api.service.dto;
 import api.domain.ChiTietVoucher;
 import api.domain.SanPham;
 import api.domain.Voucher;
+import api.service.mapper.SanPhamMapper;
+import api.service.mapper.VoucherMapper;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.AllArgsConstructor;
 import lombok.Getter;

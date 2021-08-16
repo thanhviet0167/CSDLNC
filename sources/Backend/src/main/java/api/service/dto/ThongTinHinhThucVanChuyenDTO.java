@@ -2,6 +2,7 @@ package api.service.dto;
 
 import api.domain.HinhThucVanChuyen;
 import api.domain.ThongTinHinhThucVanChuyen;
+import api.service.mapper.HinhThucVanChuyenMapper;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.AllArgsConstructor;
 import lombok.Getter;

@@ -6,11 +6,13 @@ import api.service.dto.DanhMucDTO;
 import api.service.dto.NhanVienDTO;
 import api.service.mapper.DanhMucMapper;
 import api.service.mapper.NhanVienMapper;
+import org.springframework.stereotype.Component;
 
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
+@Component
 public class DanhMucMapperImpl implements DanhMucMapper {
     @Override
     public List<DanhMucDTO> fromModelToDtos(List<DanhMuc> danhMucs) {

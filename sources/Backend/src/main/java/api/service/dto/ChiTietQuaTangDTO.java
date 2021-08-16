@@ -3,6 +3,8 @@ package api.service.dto;
 import api.domain.ChiTietQuaTang;
 import api.domain.SanPham;
 import api.domain.VoucherApDung;
+import api.service.mapper.SanPhamMapper;
+import api.service.mapper.VoucherApDungMapper;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -26,7 +28,7 @@ public class ChiTietQuaTangDTO {
 
     private SanPhamDTO sanPhamTangKem;
 
-    public ChiTietGioHangDTO (ChiTietQuaTang chiTietQuaTang, VoucherApDungMapper voucherApDungMapper, SanPhamMapper sanPhamMapper) {
+    public ChiTietQuaTangDTO (ChiTietQuaTang chiTietQuaTang, VoucherApDungMapper voucherApDungMapper, SanPhamMapper sanPhamMapper) {
         this.giaBanTangKem = chiTietQuaTang.getGiaBanTangKem();
         this.soLuongTangKem = chiTietQuaTang.getSoLuongTangKem();
 

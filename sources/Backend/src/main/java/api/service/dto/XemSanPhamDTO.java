@@ -2,6 +2,7 @@ package api.service.dto;
 
 import api.domain.XemSanPham;
 import api.service.mapper.KhachHangMapper;
+import api.service.mapper.SanPhamMapper;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
