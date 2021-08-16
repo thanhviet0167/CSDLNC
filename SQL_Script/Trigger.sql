@@ -470,6 +470,24 @@ as
 	end
 go
 
+IF OBJECT_ID(N'CapNhat_ThanhTien_DonHang2') IS NOT NULL
+	DROP TRIGGER CapNhat_ThanhTien_DonHang2
+GO
+
+Create trigger CapNhat_ThanhTien_DonHang2 on DonHang FOR INSERT
+as
+	begin
+	IF UPDATE(ThanhTien)
+	BEGIN
+		DECLARE @ThanhTien BIGINT
+		SET @ThanhTien = 0
+		DECLARE @DonHang BIGINT
+		SELECT @DonHang = I.MaDonHang, @ThanhTien = G.TongTienChuaKhuyenMai + G.TongTienQuaTang - G.SoTienGiamThucTe  FROM GioHang G JOIN inserted I ON G.MaGioHang = I.GioHang WHERE G.MaGioHang = I.GioHang
+		UPDATE DonHang SET ThanhTien = @ThanhTien WHERE MaDonHang = @DonHang
+	END
+	end
+go
+
 
 -- Câu 21
 IF OBJECT_ID(N'CapNhat_TongTienGiaoDich') IS NOT NULL
@@ -480,6 +498,25 @@ Create trigger CapNhat_TongTienGiaoDich on DonHang after INSERT, UPDATE
 as
 	begin
 		if(update(ThanhTien) or update(PhiVanChuyen))
+			BEGIN
+				DECLARE @giaodich BIGINT
+				SET @giaodich = -1
+				SELECT @giaodich = i.MaGiaoDich FROM inserted i
+
+				UPDATE GiaoDich set TongTien = 
+				(SELECT SUM(dh.ThanhTien + dh.PhiVanChuyen) FROM DonHang dh WHERE dh.MaGiaoDich = @giaodich)
+			END		
+	end
+go
+
+IF OBJECT_ID(N'CapNhat_TongTienGiaoDich2') IS NOT NULL
+	DROP TRIGGER CapNhat_TongTienGiaoDich2
+GO
+
+Create trigger CapNhat_TongTienGiaoDich2 on GiaoDich FOR INSERT
+as
+	begin
+		if(update(TongTien))
 			BEGIN
 				DECLARE @giaodich BIGINT
 				SET @giaodich = -1
