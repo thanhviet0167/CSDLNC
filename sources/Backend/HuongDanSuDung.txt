@@ -1,0 +1,28 @@
+Thiết lập kết nối sql server:
+B1: Thêm file sqljdbc_auth.dll
+-> link: https://stackoverflow.com/questions/11707056/no-sqljdbc-auth-in-java-library-path
+B2: Sử dụng trên server name \SQLEXPRESS 
+- do sql server có thể chạy nhiều phiên bản server 
+- Do đang sử dụng truy cập bằng Window Authen nên cần phải cấp quyền cho account win truy cập DB
+-> link https://blog.sqlauthority.com/2009/08/20/sql-server-fix-error-cannot-open-database-requested-by-the-login-the-login-failed-login-failed-for-user-nt-authoritynetwork-service/
+  => Lưu ý: tên account hiện tại (thường là có thêm tên user window - DESKTOP-5RLJAJT\linhdd2)
+B3: Mở port và thiết lập kết nối remote
+-> link: https://www.youtube.com/watch?v=tFXZiHMZJmg
+ => Lưu ý: thiết lập trên server SQLEXPRESS 
+
+Khởi chạy backend:
+
+B1: Cài đặt SDK 1.8
+-> link: https://adoptopenjdk.net/?variant=openjdk8&jvmVariant=hotspot
+=> chọn openjdk8 và nhà cung cấp hotspot
+hướng dẫn cấu hình: https://stackjava.com/java/huong-dan-cai-dat-java-8-tren-windows.html
+B2: Cài đặt Maven
+-> link: https://stackjava.com/install/maven-phan-1-maven-la-gi-cai-dat-maven.html
+B3: Build file
+Đứng tại thư mục backend, nhấn Shift+chuột phải chọn powershell
+=> nhập cmd: mvn clean & mvn package spring-boot:repackage
+B4: Chạy file
+-> sau khi build xong, tại thư mục hiện hành sẽ có thêm thư mục target
+-> truy cập thư mục targe bằng cmd : cd ./target
+-> tại thư mục này, chạy cmd: java -jar nacotiki-server.jar
+Lúc này file đã khởi chạy, server có thể truy cập ở: http://localhost:8080/nacotiki
