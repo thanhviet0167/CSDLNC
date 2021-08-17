@@ -61,6 +61,10 @@ public class SanPhamServiceImpl implements SanPhamService {
             formatSort = sort.toLowerCase();
         }
 
+        if (productName != null) {
+            productName = "%" + productName + "%";
+        }
+
         Integer offset = page * pageSize;
         List<Object[]> result;
         Integer totalCount;

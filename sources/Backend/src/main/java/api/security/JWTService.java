@@ -3,6 +3,7 @@ package api.security;
 import api.domain.KhachHang;
 import api.web.rest.vm.LoginVM;
 import io.jsonwebtoken.*;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
@@ -13,11 +14,9 @@ public class JWTService {
     private final long tokenValidityInMilliseconds = 604800; // 7 days
     private final String key = "nacotiki-secret";
 
-    public JWTToken createToken(LoginVM loginVM) {
+    public JWTToken createToken(String username) {
 
         Date validity =  new Date((new Date()).getTime() + this.tokenValidityInMilliseconds);
-
-        String username = loginVM.getUsername().toLowerCase();
 
         String token = Jwts.builder()
                 .setSubject(username)
@@ -40,6 +39,10 @@ public class JWTService {
     }
 
     public boolean validateToken(String authToken) {
+
+        if (StringUtils.isBlank(authToken)) {
+            return false;
+        }
 
         authToken = formatToken(authToken);
 

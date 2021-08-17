@@ -24,7 +24,7 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/admin")
-public class UserResource {
+public class UserAdminResource {
 
     private static final List<String> ALLOWED_ORDERED_PROPERTIES = Collections.unmodifiableList(
             Arrays.asList(
@@ -40,7 +40,7 @@ public class UserResource {
     private final KhachHangMapper khachHangMapper;
     private final JWTService jwtService;
 
-    public UserResource(
+    public UserAdminResource(
             KhachHangService khachHangService,
             KhachHangMapper khachHangMapper,
             JWTService jwtService

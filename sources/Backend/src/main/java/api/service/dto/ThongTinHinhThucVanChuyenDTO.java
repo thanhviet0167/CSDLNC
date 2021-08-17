@@ -22,7 +22,7 @@ public class ThongTinHinhThucVanChuyenDTO {
     private Long maHinhThucVanChuyen;
     private Integer phamViVanChuyen;
     private Long phiGiaoHang;
-    private Instant thoiGianGiaoHang;
+    private Integer thoiGianGiaoHang;
 
     private HinhThucVanChuyenDTO hinhThucVanChuyen;
 

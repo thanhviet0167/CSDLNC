@@ -1,7 +1,9 @@
 package api.web.rest;
 
+import api.domain.BoSuuTap;
 import api.domain.SanPham;
 import api.security.JWTService;
+import api.service.BoSuuTapService;
 import api.service.NhaCungCapService;
 import api.service.dto.NhaCungCapDTO;
 import api.web.rest.vm.ObjectPaginationVM;
@@ -16,6 +18,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.servlet.http.HttpServletRequest;
+import java.util.List;
 import java.util.Optional;
 
 @RestController
@@ -26,9 +29,12 @@ public class NhaCungCapResource {
 
     private final NhaCungCapService nhaCungCapService;
 
-    public NhaCungCapResource(JWTService jwtService, NhaCungCapService nhaCungCapService) {
+    private final BoSuuTapService boSuuTapService;
+
+    public NhaCungCapResource(JWTService jwtService, NhaCungCapService nhaCungCapService,BoSuuTapService boSuuTapService) {
         this.jwtService = jwtService;
         this.nhaCungCapService = nhaCungCapService;
+        this.boSuuTapService = boSuuTapService;
     }
 
     @GetMapping("/store/{id}")
@@ -36,9 +42,9 @@ public class NhaCungCapResource {
             HttpServletRequest request,
             @PathVariable String id
     ) {
-//        if (!jwtService.validateToken(request.getHeader("Authorization"))) {
-//            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
-//        }
+        if (!jwtService.validateToken(request.getHeader("Authorization"))) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        }
 
         Optional<NhaCungCapDTO> sanPhamOptional = nhaCungCapService.findOne(id);
 
@@ -55,23 +61,35 @@ public class NhaCungCapResource {
             @RequestParam String keyword,
             Pageable pageable
     ) {
-//        if (!jwtService.validateToken(request.getHeader("Authorization"))) {
-//            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
-//        }
-
         Page<NhaCungCapDTO> nhaCungCapDTOPage = nhaCungCapService.findByKeyword(keyword, pageable);
 
         ObjectPaginationVM objectPaginationVM = new ObjectPaginationVM(nhaCungCapDTOPage);
 
         return ResponseEntity.ok(objectPaginationVM);
+    }
 
-//        try {
-//            String bodyContent = objectMapper.writeValueAsString(objectPaginationVM);
-//            return ResponseEntity.ok(bodyContent);
-//        } catch (JsonProcessingException ignored) {
-//            ignored.printStackTrace();
-//            return ResponseEntity.notFound().build();
-//        }
+    @GetMapping("/store/{store}/collection")
+    public ResponseEntity<List<BoSuuTap>> getStoreCollection(
+            HttpServletRequest request,
+            @PathVariable String store
+    ) {
+        List<BoSuuTap> boSuuTapList = boSuuTapService.getStoreCollection(store);
 
+        return ResponseEntity.ok(boSuuTapList);
+    }
+
+    @GetMapping("/store/{store}/collection/{stt}")
+    public ResponseEntity<BoSuuTap> getCollection(
+            HttpServletRequest request,
+            @PathVariable String store,
+            @PathVariable Integer stt
+    ) {
+        Optional<BoSuuTap> boSuuTapOptional = boSuuTapService.getCollection(store, stt);
+
+        if (!boSuuTapOptional.isPresent()) {
+            return ResponseEntity.notFound().build();
+        }
+
+        return ResponseEntity.ok(boSuuTapOptional.get());
     }
 }

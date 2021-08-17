@@ -1,7 +1,9 @@
 package api.service.impl;
 
 import api.domain.KhachHang;
+import api.domain.SoDiaChi;
 import api.repository.KhachHangRepository;
+import api.repository.SoDiaChiRepository;
 import api.service.KhachHangService;
 import api.service.dto.KhachHangDTO;
 import api.service.mapper.KhachHangMapper;
@@ -16,6 +18,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import javax.management.Query;
+import java.util.List;
 import java.util.Locale;
 import java.util.Optional;
 
@@ -24,10 +27,12 @@ public class KhachHangServiceImpl implements KhachHangService {
 
     private final KhachHangRepository khachHangRepository;
     private final KhachHangMapper khachHangMapper;
+    private final SoDiaChiRepository soDiaChiRepository;
 
-    public KhachHangServiceImpl(KhachHangRepository khachHangRepository, KhachHangMapper khachHangMapper) {
+    public KhachHangServiceImpl(KhachHangRepository khachHangRepository, SoDiaChiRepository soDiaChiRepository, KhachHangMapper khachHangMapper) {
         this.khachHangRepository = khachHangRepository;
         this.khachHangMapper = khachHangMapper;
+        this.soDiaChiRepository = soDiaChiRepository;
     }
 
     @Override
@@ -118,7 +123,7 @@ public class KhachHangServiceImpl implements KhachHangService {
         Optional<KhachHang> khachHangOptional = khachHangRepository.findByUsernameContainingIgnoreCaseAndPassword(username, password);
 
         if (khachHangOptional.isPresent()) {
-            return khachHangOptional.get().getUsername().toLowerCase();
+            return khachHangOptional.get().getUsername();
         }
 
         return "";
@@ -127,5 +132,10 @@ public class KhachHangServiceImpl implements KhachHangService {
     @Override
     public void deleteUser(String username) {
         khachHangRepository.findByUsernameContainingIgnoreCase(username.toLowerCase()).ifPresent(khachHangRepository::delete);
+    }
+
+    @Override
+    public List<SoDiaChi> getAllKhachHangSoDiaChi(String khachHang) {
+        return soDiaChiRepository.findAllByKhachHang(khachHang);
     }
 }

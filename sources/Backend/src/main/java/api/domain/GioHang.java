@@ -114,4 +114,7 @@ public class GioHang implements Serializable {
 
     @OneToMany(mappedBy = "gioHang", fetch = FetchType.LAZY)
     private Set<VoucherApDung> voucherApDungSet = new HashSet<>();
+
+    @OneToMany(mappedBy = "gioHang", fetch = FetchType.LAZY)
+    private Set<DonHang> donHangSet = new HashSet<>();
 }
