@@ -14,12 +14,10 @@ import java.util.stream.Collectors;
 
 @Component
 public class DonHangMapperImpl implements DonHangMapper {
-    private final GioHangMapper gioHangMapper;
     private final GiaoDichMapper giaoDichMapper;
     private final HinhThucVanChuyenMapper hinhThucVanChuyenMapper;
 
-    public DonHangMapperImpl(GioHangMapper gioHangMapper, GiaoDichMapper giaoDichMapper, HinhThucVanChuyenMapper hinhThucVanChuyenMapper) {
-        this.gioHangMapper = gioHangMapper;
+    public DonHangMapperImpl(GiaoDichMapper giaoDichMapper, HinhThucVanChuyenMapper hinhThucVanChuyenMapper) {
         this.giaoDichMapper = giaoDichMapper;
         this.hinhThucVanChuyenMapper = hinhThucVanChuyenMapper;
     }
@@ -38,7 +36,7 @@ public class DonHangMapperImpl implements DonHangMapper {
             return null;
         }
 
-        return new DonHangDTO( donHang, gioHangMapper,  giaoDichMapper,  hinhThucVanChuyenMapper);
+        return new DonHangDTO( donHang,  giaoDichMapper,  hinhThucVanChuyenMapper);
     }
 
     @Override

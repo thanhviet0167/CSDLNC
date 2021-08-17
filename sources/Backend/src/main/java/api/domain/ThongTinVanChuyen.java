@@ -5,6 +5,8 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.NotFound;
+import org.hibernate.annotations.NotFoundAction;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -29,14 +31,16 @@ public class ThongTinVanChuyen implements Serializable {
     private Instant thoiGianVanChuyen;
 
     @ManyToOne
-    @JoinColumn(name = "NhanVienGiaoHang")
+    @NotFound(action = NotFoundAction.IGNORE)
+    @JoinColumn(name = "NhanVienGiaoHang", insertable = false, updatable = false)
     @JsonIgnoreProperties(value = {
             "khieuNaiDonHangSet", "thongTinVanChuyenSet"
     })
     private NhanVien nhanVienGiaoHang;
 
     @ManyToOne
-    @JoinColumn(name = "DonHang")
+    @NotFound(action = NotFoundAction.IGNORE)
+    @JoinColumn(name = "DonHang", insertable = false, updatable = false)
     @JsonIgnoreProperties(value = {
             "giaoDich",
             "thongTinVanChuyenSet", "khieuNaiDonHangSet"
@@ -45,10 +49,8 @@ public class ThongTinVanChuyen implements Serializable {
 
     @Getter
     @Setter
-    @NoArgsConstructor
-    @AllArgsConstructor
     @Embeddable
-    public class ThongTinVanChuyenID implements Serializable {
+    public static class ThongTinVanChuyenID implements Serializable {
         @NotNull
         @Column(name="NhanVienGiaoHang", nullable = false)
         private Long nhanVienGiaoHang; // FK
@@ -56,6 +58,9 @@ public class ThongTinVanChuyen implements Serializable {
         @NotNull
         @Column(name="DonHang", nullable = false)
         private Long donHang; // FK
+
+        public ThongTinVanChuyenID() {
+        }
     }
 
 }

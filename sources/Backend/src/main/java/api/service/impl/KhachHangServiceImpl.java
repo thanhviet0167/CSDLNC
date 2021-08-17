@@ -13,11 +13,10 @@ import api.web.rest.vm.PasswordChangeVM;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.management.Query;
+import java.util.Locale;
 import java.util.Optional;
 
 @Service
@@ -25,7 +24,6 @@ public class KhachHangServiceImpl implements KhachHangService {
 
     private final KhachHangRepository khachHangRepository;
     private final KhachHangMapper khachHangMapper;
-    private final PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
     public KhachHangServiceImpl(KhachHangRepository khachHangRepository, KhachHangMapper khachHangMapper) {
         this.khachHangRepository = khachHangRepository;
@@ -33,13 +31,13 @@ public class KhachHangServiceImpl implements KhachHangService {
     }
 
     @Override
-    public Optional<KhachHangDTO> getUser(String username) {
-        return khachHangRepository.findByUsername(username).map(KhachHangDTO::new);
+    public Optional<KhachHang> getUser(String username) {
+        return khachHangRepository.findByUsernameContainingIgnoreCase(username);
     }
 
     @Override
-    public Page<KhachHangDTO> getAllUsers(Pageable pageable) {
-        return khachHangRepository.findAll(pageable).map(KhachHangDTO::new);
+    public Page<KhachHang> getAllUsers(Pageable pageable) {
+        return khachHangRepository.findAll(pageable);
     }
 
     @Override
@@ -48,7 +46,7 @@ public class KhachHangServiceImpl implements KhachHangService {
     }
 
     @Override
-    public Page<KhachHangDTO> getUsersWithQuery(Query query, Pageable pageable) {
+    public Page<KhachHang> getUsersWithQuery(Query query, Pageable pageable) {
         return null;
     }
 
@@ -58,34 +56,35 @@ public class KhachHangServiceImpl implements KhachHangService {
     }
 
     @Override
-    public Optional<KhachHangDTO> createUser(ManagedUserVM managedUserVM) throws UsernameAlreadyUsedException {
+    public Optional<KhachHang> createUser(ManagedUserVM managedUserVM) throws UsernameAlreadyUsedException {
         KhachHang khachHang = khachHangMapper.managedUserVMToUser(managedUserVM);
 
         if (StringUtils.isBlank(khachHang.getUsername())) {
             return Optional.empty();
         }
 
-        Optional<KhachHang> userOptional = khachHangRepository.findByUsername(khachHang.getUsername().toLowerCase());
+        Optional<KhachHang> userOptional = khachHangRepository.findByUsernameContainingIgnoreCase(khachHang.getUsername().toLowerCase());
 
         if (userOptional.isPresent()) {
             throw new UsernameAlreadyUsedException();
         }
 
         String password = managedUserVM.getPassword();
-        String encryptedPassword = passwordEncoder.encode(password);
+//        String encryptedPassword = passwordEncoder.encode(password);
+        String encryptedPassword = password;
         khachHang.setPassword(encryptedPassword);
 
-        return Optional.of(khachHangRepository.save(khachHang)).map(KhachHangDTO::new);
+        return Optional.of(khachHangRepository.save(khachHang));
     }
 
     @Override
-    public Optional<KhachHangDTO> updateUser(KhachHang khachHang) {
-        return Optional.of(khachHangRepository.save(khachHang)).map(KhachHangDTO::new);
+    public Optional<KhachHang> updateUser(KhachHang khachHang) {
+        return Optional.of(khachHangRepository.save(khachHang));
     }
 
     @Override
-    public Optional<KhachHangDTO> changePassword(String username, PasswordChangeVM passwordChangeVM) throws InvalidPasswordException {
-        Optional<KhachHang> userOptional = khachHangRepository.findByUsername(username.toLowerCase());
+    public Optional<KhachHang> changePassword(String username, PasswordChangeVM passwordChangeVM) throws InvalidPasswordException {
+        Optional<KhachHang> userOptional = khachHangRepository.findByUsernameContainingIgnoreCase(username.toLowerCase());
 
         if (!userOptional.isPresent()) {
             return Optional.empty();
@@ -97,23 +96,36 @@ public class KhachHangServiceImpl implements KhachHangService {
         String currentClearPassword = passwordChangeVM.getOldPassword();
         String newPassword = passwordChangeVM.getNewPassword();
 
-        if (!passwordEncoder.matches(currentClearPassword, currentEncryptedPassword)) {
+//        if (!passwordEncoder.matches(currentClearPassword, currentEncryptedPassword)) {
+//            throw new InvalidPasswordException();
+//        }
+
+        if (!currentEncryptedPassword.equals(currentClearPassword)) {
             throw new InvalidPasswordException();
         }
 
-        String encryptedPassword = passwordEncoder.encode(newPassword);
+//        String encryptedPassword = passwordEncoder.encode(newPassword);
+        String encryptedPassword = newPassword;
         khachHang.setPassword(encryptedPassword);
 
-        return Optional.of(khachHangRepository.save(khachHang)).map(KhachHangDTO::new);
+        return Optional.of(khachHangRepository.save(khachHang));
     }
 
     @Override
-    public Optional<KhachHangDTO> authenticateUser(LoginVM loginVM) {
-        return Optional.empty();
+    public String authenticateUser(LoginVM loginVM) {
+        String username = loginVM.getUsername();
+        String password = loginVM.getPassword();
+        Optional<KhachHang> khachHangOptional = khachHangRepository.findByUsernameContainingIgnoreCaseAndPassword(username, password);
+
+        if (khachHangOptional.isPresent()) {
+            return khachHangOptional.get().getUsername().toLowerCase();
+        }
+
+        return "";
     }
 
     @Override
     public void deleteUser(String username) {
-        khachHangRepository.findByUsername(username.toLowerCase()).ifPresent(khachHangRepository::delete);
+        khachHangRepository.findByUsernameContainingIgnoreCase(username.toLowerCase()).ifPresent(khachHangRepository::delete);
     }
 }

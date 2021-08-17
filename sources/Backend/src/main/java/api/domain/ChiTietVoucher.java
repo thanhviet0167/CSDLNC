@@ -5,6 +5,8 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.NotFound;
+import org.hibernate.annotations.NotFoundAction;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -30,15 +32,17 @@ public class ChiTietVoucher implements Serializable {
     private Integer soLuongApDungToiDa;
 
     @ManyToOne
-    @JoinColumn(name = "MaVoucher")
+    @NotFound(action = NotFoundAction.IGNORE)
+    @JoinColumn(name = "MaVoucher", insertable = false, updatable = false)
     @JsonIgnoreProperties(value = {
             "chiTietVoucherSet", "gioHangSet",
             "voucherApDungSet"
-    })
+    }, allowSetters = true)
     private Voucher voucher;
 
     @ManyToOne
-    @JoinColumn(name = "SanPhamTangKem")
+    @NotFound(action = NotFoundAction.IGNORE)
+    @JoinColumn(name = "SanPhamTangKem", insertable = false, updatable = false)
     @JsonIgnoreProperties(value = {
             "yeuThichSanPhamSet", "apDungVoucherSet",
             "tangKemVoucherSet", "xemSanPhamSet",
@@ -48,10 +52,8 @@ public class ChiTietVoucher implements Serializable {
 
     @Getter
     @Setter
-    @NoArgsConstructor
-    @AllArgsConstructor
     @Embeddable
-    public class ChiTietVoucherID implements Serializable {
+    public static class ChiTietVoucherID implements Serializable {
         @NotNull
         @Column(name="MaVoucher", nullable = false)
         private Long maVoucher; // FK
@@ -59,6 +61,9 @@ public class ChiTietVoucher implements Serializable {
         @NotNull
         @Column(name="SanPhamTangKem", nullable = false)
         private Long sanPhamTangKem; // FK
+
+        public ChiTietVoucherID() {
+        }
     }
 
 }

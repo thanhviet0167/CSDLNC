@@ -1,5 +1,6 @@
 package api.web.rest;
 
+import api.domain.KhachHang;
 import api.security.JWTService;
 import api.service.KhachHangService;
 import api.service.dto.KhachHangDTO;
@@ -50,15 +51,15 @@ public class UserResource {
     }
 
     @GetMapping("/users/{username}")
-    public ResponseEntity<KhachHangDTO> getUserByUsername(
+    public ResponseEntity<KhachHang> getUserByUsername(
             HttpServletRequest request,
             @PathVariable String username
     ) {
-        if (!jwtService.validateToken(request.getHeader("Authorization"))) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
-        }
+//        if (!jwtService.validateToken(request.getHeader("Authorization"))) {
+//            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+//        }
 
-        Optional<KhachHangDTO> userDtoOptional = khachHangService.getUser(username);
+        Optional<KhachHang> userDtoOptional = khachHangService.getUser(username);
 
         if (!userDtoOptional.isPresent()) {
             return ResponseEntity.notFound().build();
@@ -80,13 +81,13 @@ public class UserResource {
             return ResponseEntity.badRequest().build();
         }
 
-        Page<KhachHangDTO> page = khachHangService.getAllUsers(pageable);
+        Page<KhachHang> page = khachHangService.getAllUsers(pageable);
 
         return ResponseEntity.ok(new ObjectPaginationVM(page));
     }
 
     @PostMapping("/users")
-    public ResponseEntity<KhachHangDTO> createUser(
+    public ResponseEntity<KhachHang> createUser(
             HttpServletRequest request,
             @RequestBody ManagedUserVM managedUserVM
     ) {
@@ -99,7 +100,7 @@ public class UserResource {
         }
 
         try {
-            Optional<KhachHangDTO> userDtoOptional = khachHangService.createUser(managedUserVM);
+            Optional<KhachHang> userDtoOptional = khachHangService.createUser(managedUserVM);
 
             if (userDtoOptional.isPresent()) {
                 return ResponseEntity.ok(userDtoOptional.get());
@@ -113,7 +114,7 @@ public class UserResource {
     }
 
     @PutMapping("/users")
-    public ResponseEntity<KhachHangDTO> updateUser(
+    public ResponseEntity<KhachHang> updateUser(
             HttpServletRequest request,
             @RequestBody KhachHangDTO khachHangDto
     ) {
@@ -121,7 +122,7 @@ public class UserResource {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
         }
 
-        Optional<KhachHangDTO> userDtoOptional = khachHangService.updateUser(khachHangMapper.toUser(khachHangDto));
+        Optional<KhachHang> userDtoOptional = khachHangService.updateUser(khachHangMapper.fromDtoToModel(khachHangDto));
 
         if (!userDtoOptional.isPresent()) {
             return ResponseEntity.badRequest().build();

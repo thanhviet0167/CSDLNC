@@ -24,7 +24,6 @@ public class GioHangDTO {
     private Boolean trangThaiDatHang;
     private Long soTienGiamThucTe;
 
-    private DonHangDTO donHang;
     private KhachHangDTO khachHang;
     private NhaCungCapDTO nhaCungCap;
     private VoucherDTO voucher;
@@ -33,14 +32,13 @@ public class GioHangDTO {
     private Set<ChiTietGioHang> chiTietGioHangSet = new HashSet<>();
     private Set<VoucherApDung> voucherApDungSet = new HashSet<>();
 
-    public GioHangDTO (GioHang gioHang, DonHangMapper donHangMapper, KhachHangMapper khachHangMapper, NhaCungCapMapper nhaCungCapMapper, VoucherMapper voucherMapper, SoDiaChiMapper soDiaChiMapper) {
+    public GioHangDTO (GioHang gioHang, KhachHangMapper khachHangMapper, NhaCungCapMapper nhaCungCapMapper, VoucherMapper voucherMapper, SoDiaChiMapper soDiaChiMapper) {
         this.maGioHang = gioHang.getMaGioHang();
         this.tongTienChuaKhuyenMai = gioHang.getTongTienChuaKhuyenMai();
         this.tongTienQuaTang = gioHang.getTongTienQuaTang();
         this.trangThaiDatHang = gioHang.getTrangThaiDatHang();
         this.soTienGiamThucTe = gioHang.getSoTienGiamThucTe();
 
-        this.donHang = donHangMapper.fromModelToDto(gioHang.getDonHang());
         this.khachHang = khachHangMapper.fromModelToDto(gioHang.getKhachHang());
         this.nhaCungCap = nhaCungCapMapper.fromModelToDto(gioHang.getNhaCungCap());
         this.voucher = voucherMapper.fromModelToDto(gioHang.getVoucher());

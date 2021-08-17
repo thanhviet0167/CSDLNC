@@ -5,6 +5,8 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.NotFound;
+import org.hibernate.annotations.NotFoundAction;
 
 import javax.persistence.*;
 import javax.validation.constraints.Max;
@@ -47,6 +49,7 @@ public class KhieuNaiDonHang implements Serializable {
 //    private Long nhanVienXuLy; // FK
 
     @ManyToOne
+    @NotFound(action = NotFoundAction.IGNORE)
     @JoinColumn(name = "NhanVienXuLy")
     @JsonIgnoreProperties(value = {
             "khieuNaiDonHangSet", "thongTinVanChuyenSet"
@@ -54,7 +57,8 @@ public class KhieuNaiDonHang implements Serializable {
     private NhanVien nhanVienXuLy;
 
     @ManyToOne
-    @JoinColumn(name = "DonHang", nullable = false)
+    @NotFound(action = NotFoundAction.IGNORE)
+    @JoinColumn(name = "DonHang", insertable = false, updatable = false, nullable = false)
     @JsonIgnoreProperties({
             "khieuNaiDonHangSet"
     })
@@ -62,10 +66,8 @@ public class KhieuNaiDonHang implements Serializable {
 
     @Getter
     @Setter
-    @NoArgsConstructor
-    @AllArgsConstructor
     @Embeddable
-    public class KhieuNaiDonHangID implements Serializable {
+    public static class KhieuNaiDonHangID implements Serializable {
         @NotNull
         @Column(name="DonHang", nullable = false)
         private Long donHang; // FK
@@ -73,6 +75,9 @@ public class KhieuNaiDonHang implements Serializable {
         @NotNull
         @Column(name="STT", nullable = false)
         private Integer stt;
+
+        public KhieuNaiDonHangID() {
+        }
     }
 
 }

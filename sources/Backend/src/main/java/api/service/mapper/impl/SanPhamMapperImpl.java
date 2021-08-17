@@ -3,6 +3,7 @@ package api.service.mapper.impl;
 import api.domain.BoSuuTap;
 import api.domain.DanhMucSanPham;
 import api.domain.SanPham;
+import api.service.dto.BoSuuTapDTO;
 import api.service.dto.SanPhamDTO;
 import api.service.mapper.BoSuuTapMapper;
 import api.service.mapper.DanhMucSanPhamMapper;
@@ -41,6 +42,13 @@ public class SanPhamMapperImpl implements SanPhamMapper {
         }
 
         return new SanPhamDTO(sanPham,  nhaCungCapMapper,  danhMucSanPhamMapper,  boSuuTapMapper);
+    }
+
+    @Override
+    public SanPhamDTO fromModelToSearchDto(SanPham sanPham) {
+        SanPhamDTO sanPhamDTO = new SanPhamDTO();
+
+        return sanPhamDTO.toSearchDto(sanPham,  nhaCungCapMapper,  danhMucSanPhamMapper,  boSuuTapMapper);
     }
 
     @Override

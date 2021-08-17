@@ -5,6 +5,8 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.NotFound;
+import org.hibernate.annotations.NotFoundAction;
 
 import javax.persistence.*;
 import javax.validation.constraints.Max;
@@ -47,16 +49,18 @@ public class ChiTietGioHang implements Serializable {
     private Instant thoiGianDanhGia;
 
     @ManyToOne
-    @JoinColumn(name = "MaGioHang")
+    @NotFound(action = NotFoundAction.IGNORE)
+    @JoinColumn(name = "MaGioHang", insertable = false, updatable = false)
     @JsonIgnoreProperties(value = {
             "chiTietGioHangSet",
             "donHangSet"
-    })
+    }, allowSetters = true)
     // voucherApDungSet
     private GioHang gioHang;
 
     @ManyToOne
-    @JoinColumn(name = "MaSanPham")
+    @NotFound(action = NotFoundAction.IGNORE)
+    @JoinColumn(name = "MaSanPham", insertable = false, updatable = false)
     @JsonIgnoreProperties(value = {
             "yeuThichSanPhamSet",
             "tangKemVoucherSet", "xemSanPhamSet",
@@ -67,10 +71,8 @@ public class ChiTietGioHang implements Serializable {
 
     @Getter
     @Setter
-    @NoArgsConstructor
-    @AllArgsConstructor
     @Embeddable
-    public class ChiTietGioHangID implements Serializable {
+    public static class ChiTietGioHangID implements Serializable {
         @NotNull
         @Column(name="MaGioHang", nullable = false)
         private Long maGioHang;
@@ -78,6 +80,9 @@ public class ChiTietGioHang implements Serializable {
         @NotNull
         @Column(name="MaSanPham", nullable = false)
         private Long maSanPham;
+
+        public ChiTietGioHangID() {
+        }
     }
 
 }

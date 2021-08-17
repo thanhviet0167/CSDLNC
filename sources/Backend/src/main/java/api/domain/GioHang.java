@@ -4,6 +4,8 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.NotFound;
+import org.hibernate.annotations.NotFoundAction;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -29,7 +31,8 @@ public class GioHang implements Serializable {
 //    private String khachHang; // FK
 
     @ManyToOne
-    @JoinColumn(name = "KhachHang", nullable = false)
+    @NotFound(action = NotFoundAction.IGNORE)
+    @JoinColumn(name = "KhachHang", insertable = false, updatable = false, nullable = false)
     @JsonIgnoreProperties(value = {
             "soDiaChiSet", "phuongThucThanhToanSet",
             "sanPhamYeuThichSet", "theoDoiNhaCungCapSet",
@@ -42,6 +45,7 @@ public class GioHang implements Serializable {
 //    private String nhaCungCap; // FK
 
     @ManyToOne
+    @NotFound(action = NotFoundAction.IGNORE)
     @JoinColumn(name = "NhaCungCap", nullable = false)
     @JsonIgnoreProperties(value = {
             "boSuuTapSet", "sanPhamSet",
@@ -65,18 +69,19 @@ public class GioHang implements Serializable {
     @NotNull
     @Column(name = "SoTienGiamThucTe", nullable = false)
     private Long soTienGiamThucTe;
-
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "donHang")
-    @JsonIgnoreProperties(value = {
-            "gioHang"
-    })
-    private DonHang donHang;
+//
+//    @OneToOne(cascade = CascadeType.ALL)
+//    @JoinColumn(name = "DonHang")
+//    @JsonIgnoreProperties(value = {
+//            "gioHang"
+//    })
+//    private DonHang donHang;
 
 //    @Column(name = "MaVoucher")
 //    private Long maVoucher; // FK
 
     @ManyToOne
+    @NotFound(action = NotFoundAction.IGNORE)
     @JoinColumn(name = "MaVoucher")
     @JsonIgnoreProperties(value = {
             "gioHangSet",
@@ -89,9 +94,10 @@ public class GioHang implements Serializable {
 //    private Integer sttSoDiaChi; // FK
 
     @ManyToOne
+    @NotFound(action = NotFoundAction.IGNORE)
     @JoinColumns({
-            @JoinColumn(name = "KhachHang"),
-            @JoinColumn(name = "STT_SoDiaChi")
+            @JoinColumn(name = "KhachHang", referencedColumnName = "Username"),
+            @JoinColumn(name = "STT_SoDiaChi", referencedColumnName = "STT")
     })
     @JsonIgnoreProperties(value = {
             "khachHang",
@@ -99,12 +105,13 @@ public class GioHang implements Serializable {
     }, allowSetters = true)
     private SoDiaChi soDiaChi;
 
-    @OneToMany(mappedBy = "gioHang", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "gioHang", fetch = FetchType.LAZY)
+    @NotFound(action = NotFoundAction.IGNORE)
     @JsonIgnoreProperties(value = {
             "gioHang"
     })
     private Set<ChiTietGioHang> chiTietGioHangSet = new HashSet<>();
 
-    @OneToMany(mappedBy = "gioHang")
+    @OneToMany(mappedBy = "gioHang", fetch = FetchType.LAZY)
     private Set<VoucherApDung> voucherApDungSet = new HashSet<>();
 }

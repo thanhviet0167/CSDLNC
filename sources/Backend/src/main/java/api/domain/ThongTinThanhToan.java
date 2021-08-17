@@ -5,6 +5,8 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.NotFound;
+import org.hibernate.annotations.NotFoundAction;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -43,20 +45,20 @@ public class ThongTinThanhToan implements Serializable {
     private Instant ngayHetHan;
 
     @ManyToOne()
-    @JoinColumn(name = "CongThanhToan", nullable = false)
+    @NotFound(action = NotFoundAction.IGNORE)
+    @JoinColumn(name = "CongThanhToan", insertable = false, updatable = false, nullable = false)
     @JsonIgnoreProperties(value = {"thongTinThanhToanSet"}, allowSetters = true)
     private ThongTinCongThanhToan thongTinCongThanhToan;
 
-    @OneToMany(mappedBy = "thongTinThanhToan")
+    @OneToMany(mappedBy = "thongTinThanhToan", fetch = FetchType.LAZY)
+    @NotFound(action = NotFoundAction.IGNORE)
     @JsonIgnoreProperties(value = {"thongTinThanhToan", "giaoDichSet"}, allowSetters = true)
     private Set<PhuongThucThanhToan> phuongThucThanhToanSet = new HashSet<>();
 
     @Getter
     @Setter
-    @NoArgsConstructor
-    @AllArgsConstructor
     @Embeddable
-    public class ThongTinThanhToanID implements Serializable {
+    public static class ThongTinThanhToanID implements Serializable {
         @NotNull
         @Column(name="TaiKhoanThanhToan", length=30, nullable = false)
         private String taiKhoanThanhToan;
@@ -64,6 +66,9 @@ public class ThongTinThanhToan implements Serializable {
         @NotNull
         @Column(name="CongThanhToan", length = 30, nullable = false)
         private String congThanhToan;
+
+        public ThongTinThanhToanID() {
+        }
     }
 
 }

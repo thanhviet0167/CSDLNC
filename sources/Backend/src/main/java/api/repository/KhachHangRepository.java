@@ -8,7 +8,8 @@ import java.util.Optional;
 
 @Repository
 public interface KhachHangRepository extends JpaRepository<KhachHang, String>, KhachHangRepositoryCustom {
-    Optional<KhachHang> findByUsername(String username); //Select * From KhachHang Where Username = username
+    Optional<KhachHang> findByUsernameContainingIgnoreCase(String username); //Select * From KhachHang Where Username = username
+    Optional<KhachHang> findByUsernameContainingIgnoreCaseAndPassword(String username, String password);
 
 
 }

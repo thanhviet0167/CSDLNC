@@ -4,6 +4,8 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.NotFound;
+import org.hibernate.annotations.NotFoundAction;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -28,10 +30,12 @@ public class HinhThucVanChuyen implements Serializable {
     @Column(name = "TenHinhThucVanChuyen", length = 50, nullable = false)
     private String tenHinhThucVanChuyen;
 
-    @OneToMany(mappedBy = "hinhThucVanChuyen", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "hinhThucVanChuyen", fetch = FetchType.LAZY)
+    @NotFound(action = NotFoundAction.IGNORE)
     private Set<ThongTinHinhThucVanChuyen> thongTinHinhThucVanChuyenSet = new HashSet<>();
 
-    @OneToMany(mappedBy = "hinhThucVanChuyen")
+    @OneToMany(mappedBy = "hinhThucVanChuyen", fetch = FetchType.LAZY)
+    @NotFound(action = NotFoundAction.IGNORE)
     @JsonIgnoreProperties(value = {
             "hinhThucVanChuyen", "giaoDich",
             "khieuNaiDonHangSet",

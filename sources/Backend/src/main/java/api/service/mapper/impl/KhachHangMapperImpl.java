@@ -4,13 +4,14 @@ import api.domain.KhachHang;
 import api.service.dto.KhachHangDTO;
 import api.service.mapper.KhachHangMapper;
 import api.web.rest.vm.ManagedUserVM;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
-@Service
+@Component
 public class KhachHangMapperImpl implements KhachHangMapper {
 
     @Override
@@ -82,6 +83,7 @@ public class KhachHangMapperImpl implements KhachHangMapper {
         KhachHang khachHang = new KhachHang();
 
         khachHang.setUsername(managedUserVM.getUsername());
+        khachHang.setSdtDangKy(managedUserVM.getSdtDangKy());
 
         return khachHang;
     }

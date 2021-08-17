@@ -11,6 +11,7 @@ import java.util.stream.Collectors;
 
 @Component
 public class TinhThanhPhoMapperImpl implements TinhThanhPhoMapper {
+
     @Override
     public List<TinhThanhPhoDTO> fromModelToDtos(List<TinhThanhPho> tinhThanhPhos) {
         return tinhThanhPhos.stream()
