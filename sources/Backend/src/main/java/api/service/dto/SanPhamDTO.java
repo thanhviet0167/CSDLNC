@@ -35,6 +35,8 @@ public class SanPhamDTO {
     private Integer soLuongGiamGia;
     private Instant ngayTaoSanPham;
 
+    private Integer rate;
+
     private NhaCungCapDTO nhaCungCap;
 
     private DanhMucSanPhamDTO danhMucSanPham;
@@ -74,4 +76,26 @@ public class SanPhamDTO {
         this.sanPhamTangKemChiTietQuaTangSet.addAll(sanPham.getSanPhamTangKemChiTietQuaTangSet());
     }
 
+    public SanPhamDTO toSearchDto(SanPham sanPham, NhaCungCapMapper nhaCungCapMapper, DanhMucSanPhamMapper danhMucSanPhamMapper, BoSuuTapMapper boSuuTapMapper) {
+        this.maSanPham = sanPham.getMaSanPham();
+        this.tenSanPham = sanPham.getTenSanPham();
+        this.hinhAnh = sanPham.getHinhAnh();
+        this.xuatXu = sanPham.getXuatXu();
+        this.moTa = sanPham.getMoTa();
+        this.giaHienHanh = sanPham.getGiaHienHanh();
+        this.soLuongTon = sanPham.getSoLuongTon();
+        this.giaSi = sanPham.getGiaSi();
+        this.soLuongSi = sanPham.getSoLuongSi();
+        this.giaGiam = sanPham.getGiaGiam();
+        this.soLuongGiamGia = sanPham.getSoLuongGiamGia();
+        this.ngayTaoSanPham = sanPham.getNgayTaoSanPham();
+
+        this.nhaCungCap = nhaCungCapMapper.fromModelToDto(sanPham.getNhaCungCap());
+        this.danhMucSanPham = danhMucSanPhamMapper.fromModelToDto(sanPham.getDanhMucSanPham());
+        this.boSuuTap = boSuuTapMapper.fromModelToDto(sanPham.getBoSuuTap());
+
+        this.apDungVoucherSet.addAll(sanPham.getApDungVoucherSet());
+
+        return this;
+    }
 }

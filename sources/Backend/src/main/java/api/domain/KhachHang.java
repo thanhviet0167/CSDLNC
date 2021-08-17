@@ -5,6 +5,8 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.NotFound;
+import org.hibernate.annotations.NotFoundAction;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -19,7 +21,6 @@ import java.util.Set;
 @Table(name = "KhachHang")
 @Getter
 @Setter
-@MappedSuperclass
 @NoArgsConstructor
 public class KhachHang implements Serializable {
 
@@ -52,36 +53,42 @@ public class KhachHang implements Serializable {
     @Column(name = "SDT_DangKy", length = 11, nullable = false)
     private String sdtDangKy;
 
-    @OneToMany(mappedBy = "khachHang", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "khachHang", fetch = FetchType.LAZY)
+    @NotFound(action = NotFoundAction.IGNORE)
     @JsonIgnoreProperties(value = {
             "khachHang",
             "gioHangSet"
     }, allowSetters = true)
     private Set<SoDiaChi> soDiaChiSet = new HashSet<>();
 
-    @OneToMany(mappedBy = "khachHang", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "khachHang", fetch = FetchType.LAZY)
+    @NotFound(action = NotFoundAction.IGNORE)
     @JsonIgnoreProperties(value = {"khachHang", "giaoDichSet"}, allowSetters = true)
     private Set<PhuongThucThanhToan> phuongThucThanhToanSet = new HashSet<>();
 
-    @OneToMany(mappedBy = "sanPham")
+    @OneToMany(mappedBy = "khachHang", fetch = FetchType.LAZY)
+    @NotFound(action = NotFoundAction.IGNORE)
     @JsonIgnoreProperties(value = {
             "khachHang"
     })
     private Set<SanPhamYeuThich> sanPhamYeuThichSet = new HashSet<>();
 
-    @OneToMany(mappedBy = "khachHang")
+    @OneToMany(mappedBy = "khachHang", fetch = FetchType.LAZY)
+    @NotFound(action = NotFoundAction.IGNORE)
     @JsonIgnoreProperties(value = {
             "khachHang"
     })
     private Set<TheoDoiNhaCungCap> theoDoiNhaCungCapSet = new HashSet<>();
 
-    @OneToMany(mappedBy = "khachHang")
+    @OneToMany(mappedBy = "khachHang", fetch = FetchType.LAZY)
+    @NotFound(action = NotFoundAction.IGNORE)
     @JsonIgnoreProperties(value = {
             "khachHang"
     })
     private Set<XemSanPham> xemSanPhamSet = new HashSet<>();
 
-    @OneToMany(mappedBy = "khachHang")
+    @OneToMany(mappedBy = "khachHang", fetch = FetchType.LAZY)
+    @NotFound(action = NotFoundAction.IGNORE)
     @JsonIgnoreProperties(value = {
             "khachHang"
     })

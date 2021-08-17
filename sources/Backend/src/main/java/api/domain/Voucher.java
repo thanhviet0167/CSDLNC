@@ -5,6 +5,8 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.NotFound;
+import org.hibernate.annotations.NotFoundAction;
 import org.hibernate.annotations.Where;
 
 import javax.persistence.*;
@@ -56,6 +58,7 @@ public class Voucher implements Serializable {
 //    private Long sanPhamApDung;
 
     @ManyToOne
+    @NotFound(action = NotFoundAction.IGNORE)
     @JoinColumn(name = "SanPhamApDung")
     @JsonIgnoreProperties(value = {
             "yeuThichSanPhamSet", "apDungVoucherSet",
@@ -68,6 +71,7 @@ public class Voucher implements Serializable {
 //    private String nhaCungCap;
 
     @ManyToOne
+    @NotFound(action = NotFoundAction.IGNORE)
     @JoinColumn(name = "NhaCungCap")
     @JsonIgnoreProperties(value = {
             "boSuuTapSet", "sanPhamSet",
@@ -76,18 +80,21 @@ public class Voucher implements Serializable {
     })
     private NhaCungCap nhaCungCap;
 
-    @OneToMany(mappedBy = "voucher")
+    @OneToMany(mappedBy = "voucher", fetch = FetchType.LAZY)
+    @NotFound(action = NotFoundAction.IGNORE)
     @JsonIgnoreProperties(value = {
             "voucher"
     })
     private Set<ChiTietVoucher> chiTietVoucherSet = new HashSet<>();
 
-    @OneToMany(mappedBy = "voucher")
+    @OneToMany(mappedBy = "voucher", fetch = FetchType.LAZY)
+    @NotFound(action = NotFoundAction.IGNORE)
     @JsonIgnoreProperties(value = {
             "voucher"
     })
     private Set<GioHang> gioHangSet = new HashSet<>();
 
-    @OneToMany(mappedBy = "voucher")
+    @OneToMany(mappedBy = "voucher", fetch = FetchType.LAZY)
+    @NotFound(action = NotFoundAction.IGNORE)
     private Set<VoucherApDung> voucherApDungSet = new HashSet<>();
 }

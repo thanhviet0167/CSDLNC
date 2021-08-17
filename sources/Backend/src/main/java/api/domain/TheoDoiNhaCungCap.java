@@ -5,6 +5,8 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.NotFound;
+import org.hibernate.annotations.NotFoundAction;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -27,7 +29,8 @@ public class TheoDoiNhaCungCap implements Serializable {
     private Instant ngayTheoDoi;
 
     @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "maNhaCungCap")
+    @NotFound(action = NotFoundAction.IGNORE)
+    @JoinColumn(name = "maNhaCungCap", insertable = false, updatable = false)
     @JsonIgnoreProperties(value = {
             "boSuuTapSet", "sanPhamSet",
             "theoDoiNhaCungCapSet", "voucherSet",
@@ -36,7 +39,8 @@ public class TheoDoiNhaCungCap implements Serializable {
     private NhaCungCap nhaCungCap;
 
     @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "maKhachHang")
+    @NotFound(action = NotFoundAction.IGNORE)
+    @JoinColumn(name = "maKhachHang", insertable = false, updatable = false)
     @JsonIgnoreProperties(value = {
             "soDiaChiSet", "phuongThucThanhToanSet",
             "sanPhamYeuThichSet", "theoDoiNhaCungCapSet",
@@ -46,10 +50,8 @@ public class TheoDoiNhaCungCap implements Serializable {
 
     @Getter
     @Setter
-    @NoArgsConstructor
-    @AllArgsConstructor
     @Embeddable
-    public class TheoDoiNhaCungCapID implements Serializable {
+    public static class TheoDoiNhaCungCapID implements Serializable {
         @NotNull
         @Column(name="MaKhachHang", length=20, nullable = false)
         private String maKhachHang; // FK
@@ -57,6 +59,9 @@ public class TheoDoiNhaCungCap implements Serializable {
         @NotNull
         @Column(name="MaNhaCungCap", length=20, nullable = false)
         private String maNhaCungCap; // FK
+
+        public TheoDoiNhaCungCapID() {
+        }
     }
 
 }

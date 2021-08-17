@@ -5,12 +5,15 @@ import api.domain.NhanVien;
 import api.service.dto.KhachHangDTO;
 import api.service.dto.NhanVienDTO;
 import api.service.mapper.NhanVienMapper;
+import org.springframework.stereotype.Component;
 
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
+@Component
 public class NhanVienMapperImpl implements NhanVienMapper {
+
     @Override
     public List<NhanVienDTO> fromModelToDtos(List<NhanVien> nhanViens) {
         return nhanViens.stream()

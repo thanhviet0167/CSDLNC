@@ -15,23 +15,23 @@ import java.util.Optional;
 
 public interface KhachHangService {
     
-    Optional<KhachHangDTO> getUser(String username);
+    Optional<KhachHang> getUser(String username);
 
-    Page<KhachHangDTO> getAllUsers(Pageable pageable);
+    Page<KhachHang> getAllUsers(Pageable pageable);
 
     Long countAllUsers(Pageable pageable);
 
-    Page<KhachHangDTO> getUsersWithQuery(Query query, Pageable pageable);
+    Page<KhachHang> getUsersWithQuery(Query query, Pageable pageable);
 
     Long countUsersWithQuery(Query query,Pageable pageable);
 
-    Optional<KhachHangDTO> createUser(ManagedUserVM managedUserVM) throws UsernameAlreadyUsedException;
+    Optional<KhachHang> createUser(ManagedUserVM managedUserVM) throws UsernameAlreadyUsedException;
 
-    Optional<KhachHangDTO> updateUser(KhachHang khachHang);
+    Optional<KhachHang> updateUser(KhachHang khachHang);
 
-    Optional<KhachHangDTO> changePassword(String username, PasswordChangeVM passwordChangeVM) throws InvalidPasswordException;
+    Optional<KhachHang> changePassword(String username, PasswordChangeVM passwordChangeVM) throws InvalidPasswordException;
 
-    Optional<KhachHangDTO> authenticateUser(LoginVM loginVM);
+    String authenticateUser(LoginVM loginVM);
 
     void deleteUser(String username);
 }

@@ -5,6 +5,8 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.NotFound;
+import org.hibernate.annotations.NotFoundAction;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -36,6 +38,7 @@ public class SoDiaChi implements Serializable {
 //    private Integer maTinhThanhPho; // FK
 
     @ManyToOne
+    @NotFound(action = NotFoundAction.IGNORE)
     @JoinColumn(name = "MaTinhThanhPho", nullable = false)
     @JsonIgnoreProperties(value = {
             "nhaCungCapSet", "soDiaChiSet"
@@ -47,7 +50,8 @@ public class SoDiaChi implements Serializable {
     private String sdt;
 
     @ManyToOne
-    @JoinColumn(name = "Username", nullable = false)
+    @NotFound(action = NotFoundAction.IGNORE)
+    @JoinColumn(name = "Username", insertable = false, updatable = false, nullable = false)
     @JsonIgnoreProperties(value = {
             "soDiaChiSet", "phuongThucThanhToanSet",
             "sanPhamYeuThichSet", "theoDoiNhaCungCapSet",
@@ -55,7 +59,8 @@ public class SoDiaChi implements Serializable {
     }, allowSetters = true)
     private KhachHang khachHang;
 
-    @OneToMany(mappedBy = "soDiaChi", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "soDiaChi",cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+    @NotFound(action = NotFoundAction.IGNORE)
     @JsonIgnoreProperties(value = {
             "soDiaChi"
     })
@@ -63,10 +68,8 @@ public class SoDiaChi implements Serializable {
 
     @Getter
     @Setter
-    @NoArgsConstructor
-    @AllArgsConstructor
     @Embeddable
-    public class SoDiaChiID implements Serializable {
+    public static class SoDiaChiID implements Serializable {
         @NotNull
         @Column(name="Username", length=20, nullable = false)
         private String username; // FK
@@ -74,6 +77,9 @@ public class SoDiaChi implements Serializable {
         @NotNull
         @Column(name="STT", nullable = false)
         private Integer stt;
+
+        public SoDiaChiID() {
+        }
     }
 
 }

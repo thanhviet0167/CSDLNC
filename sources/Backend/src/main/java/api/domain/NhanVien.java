@@ -4,6 +4,8 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.NotFound;
+import org.hibernate.annotations.NotFoundAction;
 
 import javax.persistence.*;
 import javax.validation.constraints.Min;
@@ -18,7 +20,6 @@ import java.util.Set;
 @Table(name = "NhanVien")
 @Getter
 @Setter
-@MappedSuperclass
 @NoArgsConstructor
 public class NhanVien implements Serializable {
 
@@ -48,9 +49,11 @@ public class NhanVien implements Serializable {
     @Column(name = "LoaiNhanVien")
     private Integer loaiNhanVien;
 
-    @OneToMany(mappedBy = "nhanVienXuLy")
+    @OneToMany(mappedBy = "nhanVienXuLy", fetch = FetchType.LAZY)
+    @NotFound(action = NotFoundAction.IGNORE)
     private Set<KhieuNaiDonHang> khieuNaiDonHangSet = new HashSet<>();
 
-    @OneToMany(mappedBy = "nhanVienGiaoHang")
+    @OneToMany(mappedBy = "nhanVienGiaoHang", fetch = FetchType.LAZY)
+    @NotFound(action = NotFoundAction.IGNORE)
     private Set<ThongTinVanChuyen> thongTinVanChuyenSet = new HashSet<>();
 }

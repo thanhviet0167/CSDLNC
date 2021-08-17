@@ -11,14 +11,12 @@ import java.util.stream.Collectors;
 
 @Component
 public class GioHangMapperImpl implements GioHangMapper {
-    private final DonHangMapper donHangMapper;
     private final KhachHangMapper khachHangMapper;
     private final NhaCungCapMapper nhaCungCapMapper;
     private final VoucherMapper voucherMapper;
     private final SoDiaChiMapper soDiaChiMapper;
 
-    public GioHangMapperImpl(DonHangMapper donHangMapper, KhachHangMapper khachHangMapper, NhaCungCapMapper nhaCungCapMapper, VoucherMapper voucherMapper, SoDiaChiMapper soDiaChiMapper) {
-        this.donHangMapper = donHangMapper;
+    public GioHangMapperImpl(KhachHangMapper khachHangMapper, NhaCungCapMapper nhaCungCapMapper, VoucherMapper voucherMapper, SoDiaChiMapper soDiaChiMapper) {
         this.khachHangMapper = khachHangMapper;
         this.nhaCungCapMapper = nhaCungCapMapper;
         this.voucherMapper = voucherMapper;
@@ -39,7 +37,7 @@ public class GioHangMapperImpl implements GioHangMapper {
             return null;
         }
 
-        return new GioHangDTO( gioHang,  donHangMapper,  khachHangMapper,  nhaCungCapMapper,  voucherMapper,  soDiaChiMapper);
+        return new GioHangDTO( gioHang,  khachHangMapper,  nhaCungCapMapper,  voucherMapper,  soDiaChiMapper);
     }
 
     @Override

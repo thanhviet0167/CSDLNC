@@ -4,6 +4,8 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.NotFound;
+import org.hibernate.annotations.NotFoundAction;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -31,7 +33,8 @@ public class DanhMuc implements Serializable {
     @Column(name = "MoTa", columnDefinition="TEXT")
     private String moTa;
 
-    @OneToMany(mappedBy = "danhMuc")
+    @OneToMany(mappedBy = "danhMuc", fetch = FetchType.LAZY)
+    @NotFound(action = NotFoundAction.IGNORE)
     @JsonIgnoreProperties(value = {
             "danhMuc",
             "sanPhamSet"

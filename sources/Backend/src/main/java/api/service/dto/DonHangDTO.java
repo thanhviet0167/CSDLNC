@@ -26,8 +26,6 @@ public class DonHangDTO {
     private Long thanhTien;
     private Long phiVanChuyen;
 
-    private GioHangDTO gioHang;
-
     private GiaoDichDTO giaoDich;
 
     private HinhThucVanChuyenDTO hinhThucVanChuyen;
@@ -36,7 +34,7 @@ public class DonHangDTO {
 
     private Set<KhieuNaiDonHang> khieuNaiDonHangSet = new HashSet<>();
 
-    public DonHangDTO(DonHang donHang, GioHangMapper gioHangMapper, GiaoDichMapper giaoDichMapper, HinhThucVanChuyenMapper hinhThucVanChuyenMapper) {
+    public DonHangDTO(DonHang donHang, GiaoDichMapper giaoDichMapper, HinhThucVanChuyenMapper hinhThucVanChuyenMapper) {
         this.maDonHang = donHang.getMaDonHang();
         this.trangThaiThanhToan = donHang.getTrangThaiThanhToan();
         this.ngayDat = donHang.getNgayDat();
@@ -46,7 +44,6 @@ public class DonHangDTO {
         this.thongTinVanChuyenSet.addAll(donHang.getThongTinVanChuyenSet());
         this.khieuNaiDonHangSet.addAll(donHang.getKhieuNaiDonHangSet());
 
-        this.gioHang = gioHangMapper.fromModelToDto(donHang.getGioHang());
         this.giaoDich = giaoDichMapper.fromModelToDto(donHang.getGiaoDich());
         this.hinhThucVanChuyen = hinhThucVanChuyenMapper.fromModelToDto(donHang.getHinhThucVanChuyen());
 

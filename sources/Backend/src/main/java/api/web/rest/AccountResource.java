@@ -38,14 +38,14 @@ public class AccountResource {
     }
 
     @PostMapping("/register")
-    public ResponseEntity<KhachHangDTO> registerAccount(@RequestBody ManagedUserVM managedUserVM) {
+    public ResponseEntity<KhachHang> registerAccount(@RequestBody ManagedUserVM managedUserVM) {
 
         if (isPasswordLengthInvalid(managedUserVM.getPassword())) {
             return ResponseEntity.badRequest().build();
         }
 
         try {
-            Optional<KhachHangDTO> userDtoOptional = khachHangService.createUser(managedUserVM);
+            Optional<KhachHang> userDtoOptional = khachHangService.createUser(managedUserVM);
 
             if (userDtoOptional.isPresent()) {
                 return ResponseEntity.ok(userDtoOptional.get());
@@ -59,9 +59,9 @@ public class AccountResource {
 
     @PostMapping("/login")
     public ResponseEntity<JWTToken> loginAccount(@RequestBody LoginVM loginVM) {
-        Optional<KhachHangDTO> authenticatedUserOptional = khachHangService.authenticateUser(loginVM);
+        String username = khachHangService.authenticateUser(loginVM);
 
-        if (!authenticatedUserOptional.isPresent()) {
+        if (StringUtils.isEmpty(username)) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
         }
 
@@ -71,7 +71,7 @@ public class AccountResource {
     }
 
     @GetMapping("/account")
-    public ResponseEntity<KhachHangDTO> getAccount(
+    public ResponseEntity<KhachHang> getAccount(
             HttpServletRequest request
     ) {
         String token = request.getHeader("Authorization");
@@ -80,13 +80,18 @@ public class AccountResource {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
         }
 
-        KhachHangDTO khachHangDTO = khachHangMapper.toUserDto(jwtService.getAuthentication(token));
+        KhachHang khachHang = jwtService.getAuthentication(token);
+        Optional<KhachHang> userOptional = khachHangService.getUser(khachHang.getUsername());
 
-        return ResponseEntity.ok(khachHangDTO);
+        if (!userOptional.isPresent()) {
+            return ResponseEntity.notFound().build();
+        }
+
+        return ResponseEntity.ok(userOptional.get());
     }
 
     @PutMapping("/account/change-password")
-    public ResponseEntity<KhachHangDTO> updateUser(
+    public ResponseEntity<KhachHang> updateUser(
             HttpServletRequest request,
             @RequestBody PasswordChangeVM passwordChangeVM
     ) {
@@ -103,7 +108,7 @@ public class AccountResource {
         KhachHang khachHang = jwtService.getAuthentication(token);
 
         try {
-            Optional<KhachHangDTO> userDtoOptional = khachHangService.changePassword(khachHang.getUsername(), passwordChangeVM);
+            Optional<KhachHang> userDtoOptional = khachHangService.changePassword(khachHang.getUsername(), passwordChangeVM);
 
             if (userDtoOptional.isPresent()) {
                 return ResponseEntity.ok(userDtoOptional.get());

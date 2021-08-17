@@ -15,24 +15,24 @@ import java.util.List;
 public class ObjectPaginationVM implements Serializable {
 
     @JsonProperty("total_count")
-    private Long totalCount;
+    private Integer totalCount;
 
     private Integer size;
 
     @JsonProperty("first_page")
-    private Long firstPage;
+    private Integer firstPage;
 
     @JsonProperty("last_page")
-    private Long lastPage;
+    private Integer lastPage;
 
     @JsonProperty("previous_page")
-    private Long previousPage;
+    private Integer previousPage;
 
     @JsonProperty("current_page")
-    private Long currentPage;
+    private Integer currentPage;
 
     @JsonProperty("next_page")
-    private Long nextPage;
+    private Integer nextPage;
 
     @JsonProperty("content_list")
     List contentList;
@@ -42,16 +42,30 @@ public class ObjectPaginationVM implements Serializable {
             return;
         }
 
-        this.totalCount = page.getTotalElements();
+        this.totalCount = (int) page.getTotalElements();
         this.size = page.getSize();
 
-        this.firstPage = 1L;
-        this.lastPage = page.getTotalPages() > 1L ? page.getTotalPages() : 1L;
+        this.firstPage = 0;
+        this.lastPage = page.getTotalPages() >= 1 ? page.getTotalPages() - 1 : 0;
 
-        this.currentPage = (long) (page.getNumber() + 1);
-        this.previousPage = this.currentPage > 1L ? this.currentPage - 1L : 1L;
-        this.nextPage = this.currentPage + 1 < this.lastPage ? this.currentPage + 1L : this.lastPage;
+        this.currentPage = page.getNumber();
+        this.previousPage = this.currentPage > 0 ? this.currentPage - 1 : 0;
+        this.nextPage = this.currentPage + 1 < this.lastPage ? this.currentPage + 1 : (this.lastPage > 0 ? this.lastPage : 0);
 
         contentList = page.getContent();
+    }
+
+    public ObjectPaginationVM(List contentList, Integer pageNumber, Integer pageSize, Integer totalCount, Integer totalPage) {
+        this.totalCount = totalCount;
+        this.size = pageSize;
+
+        this.firstPage = 0;
+        this.lastPage = totalPage >= 1 ? totalPage - 1 : 0;
+
+        this.currentPage = pageNumber;
+        this.previousPage = this.currentPage > 0 ? this.currentPage - 1 : 0;
+        this.nextPage = this.currentPage + 1 <= this.lastPage ? this.currentPage + 1 : (this.lastPage > 0 ? this.lastPage : 0);
+
+        this.contentList = contentList;
     }
 }

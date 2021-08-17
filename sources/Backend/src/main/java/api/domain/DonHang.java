@@ -4,6 +4,8 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.NotFound;
+import org.hibernate.annotations.NotFoundAction;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -45,16 +47,17 @@ public class DonHang implements Serializable {
 //    @Column(name = "GioHang", nullable = false)
 //    private Long gioHang; // FK
 
-    @OneToOne(mappedBy = "gioHang")
-    @JsonIgnoreProperties(value = {
-            "donHang"
-    })
-    private GioHang gioHang;
+//    @OneToOne(mappedBy = "donHang")
+//    @JsonIgnoreProperties(value = {
+//            "donHang"
+//    })
+//    private GioHang gioHang;
 
 //    @Column(name = "GiaoDich")
 //    private Long giaoDich; // FK
 
     @ManyToOne
+    @NotFound(action = NotFoundAction.IGNORE)
     @JoinColumn(name = "GiaoDich")
     @JsonIgnoreProperties(value = {
             "donHangSet"
@@ -66,17 +69,20 @@ public class DonHang implements Serializable {
 //    private Long hinhThucVanChuyen; // FK
 
     @ManyToOne
+    @NotFound(action = NotFoundAction.IGNORE)
     @JoinColumn(name = "HinhThucVanChuyen", nullable = false)
     @JsonIgnoreProperties(value = {
             "donHangSet"
     })
     private HinhThucVanChuyen hinhThucVanChuyen;
 
-    @OneToMany(mappedBy = "donHang")
+    @OneToMany(mappedBy = "donHang", fetch = FetchType.LAZY)
+    @NotFound(action = NotFoundAction.IGNORE)
     @JsonIgnoreProperties(value = {"donHang"})
     private Set<ThongTinVanChuyen> thongTinVanChuyenSet = new HashSet<>();
 
-    @OneToMany(mappedBy = "donHang")
+    @OneToMany(mappedBy = "donHang", fetch = FetchType.LAZY)
+    @NotFound(action = NotFoundAction.IGNORE)
     @JsonIgnoreProperties(value = {
             "donHang"
     })

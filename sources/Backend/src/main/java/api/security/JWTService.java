@@ -17,8 +17,10 @@ public class JWTService {
 
         Date validity =  new Date((new Date()).getTime() + this.tokenValidityInMilliseconds);
 
+        String username = loginVM.getUsername().toLowerCase();
+
         String token = Jwts.builder()
-                .setSubject(loginVM.getUsername())
+                .setSubject(username)
                 .signWith(SignatureAlgorithm.HS512, key)
                 .setExpiration(validity)
                 .compact();

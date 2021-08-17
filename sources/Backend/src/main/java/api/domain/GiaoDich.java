@@ -4,6 +4,8 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.NotFound;
+import org.hibernate.annotations.NotFoundAction;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -49,10 +51,11 @@ public class GiaoDich implements Serializable {
 //    private String congThanhToan; // FK
 
     @ManyToOne
+    @NotFound(action = NotFoundAction.IGNORE)
     @JoinColumns({
-            @JoinColumn(name = "KhachHang", nullable = false),
-            @JoinColumn(name = "TaiKhoanThanhToan", nullable = false),
-            @JoinColumn (name = "CongThanhToan", nullable = false)
+            @JoinColumn(name = "KhachHang", referencedColumnName = "Username", nullable = false),
+            @JoinColumn(name = "TaiKhoanThanhToan", referencedColumnName = "TaiKhoanThanhToan", nullable = false),
+            @JoinColumn (name = "CongThanhToan", referencedColumnName = "CongThanhToan", nullable = false)
     })
     @JsonIgnoreProperties(value = {
             "giaoDichSet"
@@ -60,6 +63,7 @@ public class GiaoDich implements Serializable {
     private PhuongThucThanhToan phuongThucThanhToan;
 
     @OneToMany(mappedBy = "giaoDich", fetch = FetchType.LAZY)
+    @NotFound(action = NotFoundAction.IGNORE)
     @JsonIgnoreProperties(value = {
             "giaoDich", "hinhThucVanChuyen",
             "thongTinVanChuyenSet", "khieuNaiDonHangSet"

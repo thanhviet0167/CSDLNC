@@ -42,11 +42,6 @@
         </dependency>
 
         <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-security</artifactId>
-        </dependency>
-
-        <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
             <version>1.18.12</version>
@@ -88,6 +83,13 @@
             <artifactId>jackson-databind</artifactId>
             <version>2.12.0</version>
         </dependency>
+
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-annotations</artifactId>
+            <version>2.12.0</version>
+        </dependency>
+
         <!-- End For JSON -->
     </dependencies>
     <build>

@@ -4,6 +4,8 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.NotFound;
+import org.hibernate.annotations.NotFoundAction;
 import org.hibernate.annotations.Where;
 
 import javax.persistence.*;
@@ -63,12 +65,16 @@ public class SanPham implements Serializable {
     @Column(name = "NgayTaoSanPham", nullable = false)
     private Instant ngayTaoSanPham;
 
+    @Transient
+    private Integer rate;
+
 //    @NotNull
 //    @Column(name = "NhaCungCap", nullable = false)
 //    private String nhaCungCap; // FK
 
     @ManyToOne
-    @JoinColumn(name = "NhaCungCap")
+    @NotFound(action = NotFoundAction.IGNORE)
+    @JoinColumn(name = "NhaCungCap", insertable = false, updatable = false)
     @JsonIgnoreProperties(value = {
             "boSuuTapSet", "sanPhamSet",
             "theoDoiNhaCungCapSet", "voucherSet",
@@ -80,6 +86,7 @@ public class SanPham implements Serializable {
     //    private Long danhMucSanPham; // FK
 
     @ManyToOne
+    @NotFound(action = NotFoundAction.IGNORE)
     @JoinColumn(name = "DanhMucSanPham", nullable = false)
     @JsonIgnoreProperties(value = {"sanPhamSet"})
     private DanhMucSanPham danhMucSanPham;
@@ -87,9 +94,10 @@ public class SanPham implements Serializable {
     //    @Column(name = "STT_BoSuuTap", nullable = false)
     //    private Integer sttBoSuuTap;
     @ManyToOne
+    @NotFound( action = NotFoundAction.IGNORE )
     @JoinColumns({
-            @JoinColumn(name = "NhaCungCap"),
-            @JoinColumn(name = "STT_BoSuuTap")
+            @JoinColumn(name = "NhaCungCap", referencedColumnName = "Username"),
+            @JoinColumn(name = "STT_BoSuuTap", referencedColumnName = "STT")
     })
     @JsonIgnoreProperties(value = {
             "nhaCungCap",
@@ -97,14 +105,16 @@ public class SanPham implements Serializable {
     })
     private BoSuuTap boSuuTap;
 
-    @OneToMany(mappedBy = "sanPham")
+    @OneToMany(mappedBy = "sanPham", fetch = FetchType.LAZY)
+    @NotFound(action = NotFoundAction.IGNORE)
     @JsonIgnoreProperties(value = {
             "sanPham"
     })
     private Set<SanPhamYeuThich> yeuThichSanPhamSet = new HashSet<>();
 
-    @Where(clause = "NgayKetThuc > current_time()")
-    @OneToMany(mappedBy = "sanPhamApDung", fetch = FetchType.EAGER)
+    @Where(clause = "NgayKetThuc > CURRENT_TIMESTAMP")
+    @OneToMany(mappedBy = "sanPhamApDung", fetch = FetchType.LAZY)
+    @NotFound(action = NotFoundAction.IGNORE)
     @JsonIgnoreProperties(value = {
             "gioHangSet",
             "voucherApDungSet"
@@ -112,24 +122,28 @@ public class SanPham implements Serializable {
     private Set<Voucher> apDungVoucherSet = new HashSet<>();
 
     @OneToMany(mappedBy = "sanPhamTangKem", fetch = FetchType.LAZY)
+    @NotFound(action = NotFoundAction.IGNORE)
     @JsonIgnoreProperties(value = {
             "sanPhamTangKem"
     })
     private Set<ChiTietVoucher> tangKemVoucherSet = new HashSet<>();
 
-    @OneToMany(mappedBy = "sanPham")
+    @OneToMany(mappedBy = "sanPham", fetch = FetchType.LAZY)
+    @NotFound(action = NotFoundAction.IGNORE)
     @JsonIgnoreProperties(value = {
             "sanPham"
     })
     private Set<XemSanPham> xemSanPhamSet = new HashSet<>();
 
     @OneToMany(mappedBy = "sanPham", fetch = FetchType.LAZY)
+    @NotFound(action = NotFoundAction.IGNORE)
     @JsonIgnoreProperties(value = {
             "sanPham"
     })
     private Set<ChiTietGioHang> chiTietGioHangSet = new HashSet<>();
 
     @OneToMany(mappedBy = "sanPhamTangKem", fetch = FetchType.LAZY)
+    @NotFound(action = NotFoundAction.IGNORE)
     @JsonIgnoreProperties(value = {
             "sanPhamTangKem"
     })

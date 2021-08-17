@@ -1,18 +1,18 @@
 package api.repository;
 
-import api.domain.SanPham;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
+import api.web.rest.vm.ObjectPaginationVM;
+import org.springframework.stereotype.Repository;
 
-public interface CustomSanPhamRepostiory {
+@Repository
+public interface SanPhamRepositoryCustom {
 
-    Page<SanPham> findByFilter(
+    ObjectPaginationVM findByFilter(
             String productName,
             Long category, Long productCategory,
             String store, Integer collection,
             Long fromPrice, Long toPrice,
             Integer fromRate, Integer toRate,
             Integer fromDiscount, Integer toDiscount,
-            Pageable pageable
+            Integer pageNumber, Integer pageSize, String sort
             );
 }
