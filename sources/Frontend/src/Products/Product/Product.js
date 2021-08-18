@@ -1,4 +1,4 @@
-import React,{useState} from "react";
+import React,{useState, useEffect} from "react";
 import Narbar from "../../Components/Layout/Navbar/Navbar";
 import Siderbar from "../../Components/Layout/Sidebar/Sidebar";
 import Category from "../../Components/Layout/Sidebar/Category";
@@ -7,29 +7,39 @@ import Subcribe from "../../Components/Layout/Footer/Subcribe";
 import Footer from "../../Components/Layout/Footer/Footer";
 import Introduce from "../../Components/Layout/Footer/Introduce";
 import Cart from "../Cart/Cart";
+import PageCart from "../Cart/PageCart";
 
-const Product = () => {
+const Product = ({listProduct, load_more}) => {
 
-    const [listProduct,setlistProduct] = useState([]);
-    var value = [];
     
-    for(var i = 0; i < 14 ; i++){
-        var data = <Cart />
-        console.log(data);
-        value.push(data)
-       listProduct.push(data)
+  //  var value = listProduct;
+    
+    
+    const [count, setCount] = useState(0);
+    const [value, setValue] = useState({list : listProduct});
+
+   
+    
+    
+    const load = ()=>{
+        load_more();
+       setValue({list:listProduct});
+     //   document.getElementsByClassName("products-row").item(leng).innerHTML(listProduct);
     }
     
-    
-     
-  //  console.log(value);
-    
+    useEffect(() => {
+        // Cập nhập document title sử dụng browser API
+    //    document.getElementById("list").append(<div>Hello</div>) ;
 
     
     
+      });
 
     return (
         <>
+        
+     
+
             <div className="header">
                 <Narbar></Narbar>
                 <Siderbar></Siderbar>
@@ -87,283 +97,8 @@ const Product = () => {
                             </ul>
                             <div className="clearfix"> </div>
                         </div>
-                        <div className="products-row">
-                            {listProduct}
-                            <div className="col-md-3 product-grids">
-                                <div className="agile-products">
-                                    <div className="new-tag"><h6>20%<br />Off</h6></div>
-                                    <Link to="single.html"><img src="images/e1.png" className="img-responsive" alt="img" /></Link>
-                                    <div className="agile-product-text">
-                                        <h5><Link to="single.html">Audio speaker</Link></h5>
-                                        <h6><del>$200</del> $100</h6>
-                                        <form action="#" method="post">
-                                            <input type="hidden" name="cmd" value="_cart" />
-                                            <input type="hidden" name="add" value="1" />
-                                            <input type="hidden" name="w3ls_item" value="Audio speaker" />
-                                            <input type="hidden" name="amount" value="100.00" />
-                                            <button type="submit" className="w3ls-cart pw3ls-cart"><i className="fa fa-cart-plus" aria-hidden="true"></i> Add to cart</button>
-                                        </form>
-                                    </div>
-                                </div>
-                            </div>
-                            <div className="col-md-3 product-grids">
-                                <div className="agile-products">
-                                    <div className="new-tag"><h6>New</h6></div>
-                                    <Link to="single.html"><img src="images/e2.png" className="img-responsive" alt="img" /></Link>
-                                    <div className="agile-product-text">
-                                        <h5><Link to="single.html">Refrigerator</Link></h5>
-                                        <h6><del>$700</del> $300</h6>
-                                        <form action="#" method="post">
-                                            <input type="hidden" name="cmd" value="_cart" />
-                                            <input type="hidden" name="add" value="1" />
-                                            <input type="hidden" name="w3ls_item" value="Refrigerator" />
-                                            <input type="hidden" name="amount" value="300.00" />
-                                            <button type="submit" className="w3ls-cart pw3ls-cart"><i className="fa fa-cart-plus" aria-hidden="true"></i> Add to cart</button>
-                                        </form>
-                                    </div>
-                                </div>
-                            </div>
-                            <div className="col-md-3 product-grids">
-                                <div className="agile-products">
-                                    <div className="new-tag"><h6>5% <br /> Off</h6></div>
-                                    <Link to="single.html"><img src="images/e3.png" className="img-responsive" alt="img" /></Link>
-                                    <div className="agile-product-text">
-                                        <h5><Link to="single.html">Smart Phone</Link></h5>
-                                        <h6><del>$100</del> $70</h6>
-                                        <form action="#" method="post">
-                                            <input type="hidden" name="cmd" value="_cart" />
-                                            <input type="hidden" name="add" value="1" />
-                                            <input type="hidden" name="w3ls_item" value="Smart Phone" />
-                                            <input type="hidden" name="amount" value="70.00" />
-                                            <button type="submit" className="w3ls-cart pw3ls-cart"><i className="fa fa-cart-plus" aria-hidden="true"></i> Add to cart</button>
-                                        </form>
-                                    </div>
-                                </div>
-                            </div>
-                            <div className="col-md-3 product-grids">
-                                <div className="agile-products">
-                                    <div className="new-tag"><h6>New</h6></div>
-                                    <Link to="single.html"><img src="images/e4.png" className="img-responsive" alt="img" /></Link>
-                                    <div className="agile-product-text">
-                                        <h5><Link to="single.html">Digital Camera</Link></h5>
-                                        <h6><del>$100</del> $80</h6>
-                                        <form action="#" method="post">
-                                            <input type="hidden" name="cmd" value="_cart" />
-                                            <input type="hidden" name="add" value="1" />
-                                            <input type="hidden" name="w3ls_item" value="Digital Camera" />
-                                            <input type="hidden" name="amount" value="80.00" />
-                                            <button type="submit" className="w3ls-cart pw3ls-cart"><i className="fa fa-cart-plus" aria-hidden="true"></i> Add to cart</button>
-                                        </form>
-                                    </div>
-                                </div>
-                            </div>
-                            <div className="col-md-3 product-grids">
-                                <div className="agile-products">
-                                    <div className="new-tag"><h6>New</h6></div>
-                                    <Link to="single.html"><img src="images/e4.png" className="img-responsive" alt="img" /></Link>
-                                    <div className="agile-product-text">
-                                        <h5><Link to="single.html">Digital Camera</Link></h5>
-                                        <h6><del>$100</del> $80</h6>
-                                        <form action="#" method="post">
-                                            <input type="hidden" name="cmd" value="_cart" />
-                                            <input type="hidden" name="add" value="1" />
-                                            <input type="hidden" name="w3ls_item" value="Digital Camera" />
-                                            <input type="hidden" name="amount" value="80.00" />
-                                            <button type="submit" className="w3ls-cart pw3ls-cart"><i className="fa fa-cart-plus" aria-hidden="true"></i> Add to cart</button>
-                                        </form>
-                                    </div>
-                                </div>
-                            </div>
-                            <div className="col-md-3 product-grids">
-                                <div className="agile-products">
-                                    <div className="new-tag"><h6>5% <br /> Off</h6></div>
-                                    <Link to="single.html"><img src="images/e3.png" className="img-responsive" alt="img" /></Link>
-                                    <div className="agile-product-text">
-                                        <h5><Link to="single.html">Smart Phone</Link></h5>
-                                        <h6><del>$100</del> $70</h6>
-                                        <form action="#" method="post">
-                                            <input type="hidden" name="cmd" value="_cart" />
-                                            <input type="hidden" name="add" value="1" />
-                                            <input type="hidden" name="w3ls_item" value="Smart Phone" />
-                                            <input type="hidden" name="amount" value="70.00" />
-                                            <button type="submit" className="w3ls-cart pw3ls-cart"><i className="fa fa-cart-plus" aria-hidden="true"></i> Add to cart</button>
-                                        </form>
-                                    </div>
-                                </div>
-                            </div>
-                            <div className="col-md-3 product-grids">
-                                <div className="agile-products">
-                                    <div className="new-tag"><h6>20%<br />Off</h6></div>
-                                    <Link to="single.html"><img src="images/e1.png" className="img-responsive" alt="img" /></Link>
-                                    <div className="agile-product-text">
-                                        <h5><Link to="single.html">Audio speaker</Link></h5>
-                                        <h6><del>$200</del> $100</h6>
-                                        <form action="#" method="post">
-                                            <input type="hidden" name="cmd" value="_cart" />
-                                            <input type="hidden" name="add" value="1" />
-                                            <input type="hidden" name="w3ls_item" value="Audio speaker" />
-                                            <input type="hidden" name="amount" value="100.00" />
-                                            <button type="submit" className="w3ls-cart pw3ls-cart"><i className="fa fa-cart-plus" aria-hidden="true"></i> Add to cart</button>
-                                        </form>
-                                    </div>
-                                </div>
-                            </div>
-                            <div className="col-md-3 product-grids">
-                                <div className="agile-products">
-                                    <div className="new-tag"><h6>New</h6></div>
-                                    <Link to="single.html"><img src="images/e2.png" className="img-responsive" alt="img" /></Link>
-                                    <div className="agile-product-text">
-                                        <h5><Link to="single.html">Refrigerator</Link></h5>
-                                        <h6><del>$700</del> $300</h6>
-                                        <form action="#" method="post">
-                                            <input type="hidden" name="cmd" value="_cart" />
-                                            <input type="hidden" name="add" value="1" />
-                                            <input type="hidden" name="w3ls_item" value="Refrigerator" />
-                                            <input type="hidden" name="amount" value="300.00" />
-                                            <button type="submit" className="w3ls-cart pw3ls-cart"><i className="fa fa-cart-plus" aria-hidden="true"></i> Add to cart</button>
-                                        </form>
-                                    </div>
-                                </div>
-                            </div>
-                            <div className="col-md-3 product-grids">
-                                <div className="agile-products">
-                                    <div className="new-tag"><h6>20%<br />Off</h6></div>
-                                    <Link to="single.html"><img src="images/e1.png" className="img-responsive" alt="img" /></Link>
-                                    <div className="agile-product-text">
-                                        <h5><Link to="single.html">Audio speaker</Link></h5>
-                                        <h6><del>$200</del> $100</h6>
-                                        <form action="#" method="post">
-                                            <input type="hidden" name="cmd" value="_cart" />
-                                            <input type="hidden" name="add" value="1" />
-                                            <input type="hidden" name="w3ls_item" value="Audio speaker" />
-                                            <input type="hidden" name="amount" value="100.00" />
-                                            <button type="submit" className="w3ls-cart pw3ls-cart"><i className="fa fa-cart-plus" aria-hidden="true"></i> Add to cart</button>
-                                        </form>
-                                    </div>
-                                </div>
-                            </div>
-                            <div className="col-md-3 product-grids">
-                                <div className="agile-products">
-                                    <div className="new-tag"><h6>New</h6></div>
-                                    <Link to="single.html"><img src="images/e2.png" className="img-responsive" alt="img" /></Link>
-                                    <div className="agile-product-text">
-                                        <h5><Link to="single.html">Refrigerator</Link></h5>
-                                        <h6><del>$700</del> $300</h6>
-                                        <form action="#" method="post">
-                                            <input type="hidden" name="cmd" value="_cart" />
-                                            <input type="hidden" name="add" value="1" />
-                                            <input type="hidden" name="w3ls_item" value="Refrigerator" />
-                                            <input type="hidden" name="amount" value="300.00" />
-                                            <button type="submit" className="w3ls-cart pw3ls-cart"><i className="fa fa-cart-plus" aria-hidden="true"></i> Add to cart</button>
-                                        </form>
-                                    </div>
-                                </div>
-                            </div>
-                            <div className="col-md-3 product-grids">
-                                <div className="agile-products">
-                                    <div className="new-tag"><h6>5% <br /> Off</h6></div>
-                                    <Link to="single.html"><img src="images/e3.png" className="img-responsive" alt="img" /></Link>
-                                    <div className="agile-product-text">
-                                        <h5><Link to="single.html">Smart Phone</Link></h5>
-                                        <h6><del>$100</del> $70</h6>
-                                        <form action="#" method="post">
-                                            <input type="hidden" name="cmd" value="_cart" />
-                                            <input type="hidden" name="add" value="1" />
-                                            <input type="hidden" name="w3ls_item" value="Smart Phone" />
-                                            <input type="hidden" name="amount" value="70.00" />
-                                            <button type="submit" className="w3ls-cart pw3ls-cart"><i className="fa fa-cart-plus" aria-hidden="true"></i> Add to cart</button>
-                                        </form>
-                                    </div>
-                                </div>
-                            </div>
-                            <div className="col-md-3 product-grids">
-                                <div className="agile-products">
-                                    <div className="new-tag"><h6>New</h6></div>
-                                    <Link to="single.html"><img src="images/e4.png" className="img-responsive" alt="img" /></Link>
-                                    <div className="agile-product-text">
-                                        <h5><Link to="single.html">Digital Camera</Link></h5>
-                                        <h6><del>$100</del> $80</h6>
-                                        <form action="#" method="post">
-                                            <input type="hidden" name="cmd" value="_cart" />
-                                            <input type="hidden" name="add" value="1" />
-                                            <input type="hidden" name="w3ls_item" value="Digital Camera" />
-                                            <input type="hidden" name="amount" value="80.00" />
-                                            <button type="submit" className="w3ls-cart pw3ls-cart"><i className="fa fa-cart-plus" aria-hidden="true"></i> Add to cart</button>
-                                        </form>
-                                    </div>
-                                </div>
-                            </div>
-                            <div className="col-md-3 product-grids">
-                                <div className="agile-products">
-                                    <div className="new-tag"><h6>New</h6></div>
-                                    <Link to="single.html"><img src="images/e4.png" className="img-responsive" alt="img" /></Link>
-                                    <div className="agile-product-text">
-                                        <h5><Link to="single.html">Digital Camera</Link></h5>
-                                        <h6><del>$100</del> $80</h6>
-                                        <form action="#" method="post">
-                                            <input type="hidden" name="cmd" value="_cart" />
-                                            <input type="hidden" name="add" value="1" />
-                                            <input type="hidden" name="w3ls_item" value="Digital Camera" />
-                                            <input type="hidden" name="amount" value="80.00" />
-                                            <button type="submit" className="w3ls-cart pw3ls-cart"><i className="fa fa-cart-plus" aria-hidden="true"></i> Add to cart</button>
-                                        </form>
-                                    </div>
-                                </div>
-                            </div>
-                            <div className="col-md-3 product-grids">
-                                <div className="agile-products">
-                                    <div className="new-tag"><h6>5% <br /> Off</h6></div>
-                                    <Link to="single.html"><img src="images/e3.png" className="img-responsive" alt="img" /></Link>
-                                    <div className="agile-product-text">
-                                        <h5><Link to="single.html">Smart Phone</Link></h5>
-                                        <h6><del>$100</del> $70</h6>
-                                        <form action="#" method="post">
-                                            <input type="hidden" name="cmd" value="_cart" />
-                                            <input type="hidden" name="add" value="1" />
-                                            <input type="hidden" name="w3ls_item" value="Smart Phone" />
-                                            <input type="hidden" name="amount" value="70.00" />
-                                            <button type="submit" className="w3ls-cart pw3ls-cart"><i className="fa fa-cart-plus" aria-hidden="true"></i> Add to cart</button>
-                                        </form>
-                                    </div>
-                                </div>
-                            </div>
-                            <div className="col-md-3 product-grids">
-                                <div className="agile-products">
-                                    <div className="new-tag"><h6>20%<br />Off</h6></div>
-                                    <Link to="single.html"><img src="images/e1.png" className="img-responsive" alt="img" /></Link>
-                                    <div className="agile-product-text">
-                                        <h5><Link to="single.html">Audio speaker</Link></h5>
-                                        <h6><del>$200</del> $100</h6>
-                                        <form action="#" method="post">
-                                            <input type="hidden" name="cmd" value="_cart" />
-                                            <input type="hidden" name="add" value="1" />
-                                            <input type="hidden" name="w3ls_item" value="Audio speaker" />
-                                            <input type="hidden" name="amount" value="100.00" />
-                                            <button type="submit" className="w3ls-cart pw3ls-cart"><i className="fa fa-cart-plus" aria-hidden="true"></i> Add to cart</button>
-                                        </form>
-                                    </div>
-                                </div>
-                            </div>
-                            <div className="col-md-3 product-grids">
-                                <div className="agile-products">
-                                    <div className="new-tag"><h6>New</h6></div>
-                                    <Link to="single.html"><img src="images/e2.png" className="img-responsive" alt="img" /></Link>
-                                    <div className="agile-product-text">
-                                        <h5><Link to="single.html">Refrigerator</Link></h5>
-                                        <h6><del>$700</del> $300</h6>
-                                        <form action="#" method="post">
-                                            <input type="hidden" name="cmd" value="_cart" />
-                                            <input type="hidden" name="add" value="1" />
-                                            <input type="hidden" name="w3ls_item" value="Refrigerator" />
-                                            <input type="hidden" name="amount" value="300.00" />
-                                            <button type="submit" className="w3ls-cart pw3ls-cart"><i className="fa fa-cart-plus" aria-hidden="true"></i> Add to cart</button>
-                                        </form>
-                                    </div>
-                                </div>
-                            </div>
-                            
-                            <div className="clearfix"> </div>
-                        </div>
+                        <PageCart listProduct={listProduct} load_data={load_more}></PageCart>
+                        
                         {/* <!-- add-products -->  */}
                         <div className="w3ls-add-grids w3agile-add-products">
                             <Link to="#">
