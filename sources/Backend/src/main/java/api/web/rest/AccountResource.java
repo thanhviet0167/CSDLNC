@@ -65,7 +65,7 @@ public class AccountResource {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
         }
 
-        JWTToken jwtToken = jwtService.createToken(loginVM);
+        JWTToken jwtToken = jwtService.createToken(username);
 
         return ResponseEntity.ok(jwtToken);
     }

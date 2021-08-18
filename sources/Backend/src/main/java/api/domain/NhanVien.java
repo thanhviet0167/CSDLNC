@@ -29,7 +29,7 @@ public class NhanVien implements Serializable {
     private Long maNhanVien;
 
     @NotNull
-    @Column(name = "HoTen", length = 100, nullable = false)
+    @Column(name = "HoTenNhanVien", length = 100, nullable = false)
     private String hoTen;
 
     @NotNull
@@ -38,7 +38,7 @@ public class NhanVien implements Serializable {
 
     @NotNull
     @Column(name = "DiaChi", length = 100, nullable = false)
-    private Instant diaChi;
+    private String diaChi;
 
     @NotNull
     @Column(name = "EmailCaNhan", length = 50)

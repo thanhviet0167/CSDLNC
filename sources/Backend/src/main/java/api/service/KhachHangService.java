@@ -1,6 +1,7 @@
 package api.service;
 
 import api.domain.KhachHang;
+import api.domain.SoDiaChi;
 import api.service.dto.KhachHangDTO;
 import api.web.rest.errors.InvalidPasswordException;
 import api.web.rest.errors.UsernameAlreadyUsedException;
@@ -11,6 +12,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
 import javax.management.Query;
+import java.util.List;
 import java.util.Optional;
 
 public interface KhachHangService {
@@ -34,4 +36,6 @@ public interface KhachHangService {
     String authenticateUser(LoginVM loginVM);
 
     void deleteUser(String username);
+
+    List<SoDiaChi> getAllKhachHangSoDiaChi(String khachHang);
 }

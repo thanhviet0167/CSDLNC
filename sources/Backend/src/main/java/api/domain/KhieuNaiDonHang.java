@@ -73,7 +73,7 @@ public class KhieuNaiDonHang implements Serializable {
         private Long donHang; // FK
 
         @NotNull
-        @Column(name="STT", nullable = false)
+        @Column(name="STT_KhieuNai", nullable = false)
         private Integer stt;
 
         public KhieuNaiDonHangID() {

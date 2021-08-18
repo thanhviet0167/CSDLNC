@@ -30,7 +30,7 @@ public class ThongTinHinhThucVanChuyen implements Serializable {
 
     @NotNull
     @Column(name="ThoiGianGiaoHang")
-    private Instant thoiGianGiaoHang;
+    private Integer thoiGianGiaoHang;
 
     @ManyToOne
     @NotFound(action = NotFoundAction.IGNORE)

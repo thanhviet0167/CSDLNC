@@ -23,7 +23,7 @@ public class NhanVienDTO {
     private Long maNhanVien;
     private String hoTen;
     private Instant ngaySinh;
-    private Instant diaChi;
+    private String diaChi;
     private String emailCaNhan;
 
     @Min(0)

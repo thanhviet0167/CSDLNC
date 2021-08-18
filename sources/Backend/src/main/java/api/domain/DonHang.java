@@ -47,18 +47,20 @@ public class DonHang implements Serializable {
 //    @Column(name = "GioHang", nullable = false)
 //    private Long gioHang; // FK
 
-//    @OneToOne(mappedBy = "donHang")
-//    @JsonIgnoreProperties(value = {
-//            "donHang"
-//    })
-//    private GioHang gioHang;
+    @ManyToOne
+    @NotFound(action = NotFoundAction.IGNORE)
+    @JoinColumn(name = "GioHang")
+    @JsonIgnoreProperties(value = {
+            "donHangSet"
+    })
+    private GioHang gioHang;
 
 //    @Column(name = "GiaoDich")
 //    private Long giaoDich; // FK
 
     @ManyToOne
     @NotFound(action = NotFoundAction.IGNORE)
-    @JoinColumn(name = "GiaoDich")
+    @JoinColumn(name = "MaGiaoDich")
     @JsonIgnoreProperties(value = {
             "donHangSet"
     })
