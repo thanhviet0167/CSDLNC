@@ -22,7 +22,6 @@ public class GioHang implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @NotNull
     @Column(name = "MaGioHang", unique = true, nullable = false)
     private Long maGioHang;
 
@@ -30,9 +29,9 @@ public class GioHang implements Serializable {
 //    @Column(name = "KhachHang", length = 20, nullable = false)
 //    private String khachHang; // FK
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @NotFound(action = NotFoundAction.IGNORE)
-    @JoinColumn(name = "KhachHang", insertable = false, updatable = false, nullable = false)
+    @JoinColumn(name = "KhachHang", referencedColumnName = "Username", nullable = false)
     @JsonIgnoreProperties(value = {
             "soDiaChiSet", "phuongThucThanhToanSet",
             "sanPhamYeuThichSet", "theoDoiNhaCungCapSet",
@@ -46,7 +45,7 @@ public class GioHang implements Serializable {
 
     @ManyToOne
     @NotFound(action = NotFoundAction.IGNORE)
-    @JoinColumn(name = "NhaCungCap", nullable = false)
+    @JoinColumn(name = "NhaCungCap")
     @JsonIgnoreProperties(value = {
             "boSuuTapSet", "sanPhamSet",
             "theoDoiNhaCungCapSet", "voucherSet",
@@ -54,19 +53,15 @@ public class GioHang implements Serializable {
     })
     private NhaCungCap nhaCungCap;
 
-    @NotNull
     @Column(name = "TongTienChuaKhuyenMai", nullable = false)
     private Long tongTienChuaKhuyenMai;
 
-    @NotNull
     @Column(name = "TongTienQuaTang", nullable = false)
     private Long tongTienQuaTang;
 
-    @NotNull
     @Column(name = "TrangThaiDatHang", nullable = false)
     private Boolean trangThaiDatHang;
 
-    @NotNull
     @Column(name = "SoTienGiamThucTe", nullable = false)
     private Long soTienGiamThucTe;
 //
@@ -96,14 +91,17 @@ public class GioHang implements Serializable {
     @ManyToOne
     @NotFound(action = NotFoundAction.IGNORE)
     @JoinColumns({
-            @JoinColumn(name = "KhachHang", referencedColumnName = "Username"),
-            @JoinColumn(name = "STT_SoDiaChi", referencedColumnName = "STT")
+            @JoinColumn(name = "KhachHang", referencedColumnName = "Username",  updatable = false, insertable = false),
+            @JoinColumn(name = "STT_SoDiaChi", referencedColumnName = "STT",  updatable = false, insertable = false)
     })
     @JsonIgnoreProperties(value = {
             "khachHang",
             "gioHangSet"
     }, allowSetters = true)
     private SoDiaChi soDiaChi;
+
+    @Column(name = "STT_SoDiaChi")
+    private Integer sttSoDiaChi;
 
     @OneToMany(mappedBy = "gioHang", fetch = FetchType.LAZY)
     @NotFound(action = NotFoundAction.IGNORE)
@@ -113,8 +111,10 @@ public class GioHang implements Serializable {
     private Set<ChiTietGioHang> chiTietGioHangSet = new HashSet<>();
 
     @OneToMany(mappedBy = "gioHang", fetch = FetchType.LAZY)
+    @NotFound(action = NotFoundAction.IGNORE)
     private Set<VoucherApDung> voucherApDungSet = new HashSet<>();
 
     @OneToMany(mappedBy = "gioHang", fetch = FetchType.LAZY)
+    @NotFound(action = NotFoundAction.IGNORE)
     private Set<DonHang> donHangSet = new HashSet<>();
 }

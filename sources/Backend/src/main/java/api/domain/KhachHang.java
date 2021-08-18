@@ -29,7 +29,7 @@ public class KhachHang implements Serializable {
     private String username;
 
     @JsonIgnore
-    @NotNull
+//    @NotNull
     @Size(min = 8, max = 20)
     @Column(name = "Password", length = 20, nullable = false)
     private String password;
@@ -49,7 +49,7 @@ public class KhachHang implements Serializable {
     @Column(name = "AnhDaiDien", length = 100)
     private String anhDaiDien;
 
-    @NotNull
+//    @NotNull
     @Column(name = "SDT_DangKy", length = 11, nullable = false)
     private String sdtDangKy;
 

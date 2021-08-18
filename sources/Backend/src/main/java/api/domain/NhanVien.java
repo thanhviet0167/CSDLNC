@@ -40,7 +40,6 @@ public class NhanVien implements Serializable {
     @Column(name = "DiaChi", length = 100, nullable = false)
     private String diaChi;
 
-    @NotNull
     @Column(name = "EmailCaNhan", length = 50)
     private String emailCaNhan;
 

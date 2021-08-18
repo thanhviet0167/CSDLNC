@@ -22,7 +22,6 @@ import java.util.Set;
 public class SoDiaChi implements Serializable {
 
     @EmbeddedId
-    @NotNull
     private SoDiaChiID soDiaChiID;
 
     @NotNull

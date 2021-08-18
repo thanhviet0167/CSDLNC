@@ -22,7 +22,6 @@ public class HinhThucVanChuyen implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @NotNull
     @Column(name = "MaHinhThucVanChuyen", unique = true, nullable = false)
     private Long maHinhThucVanChuyen;
 

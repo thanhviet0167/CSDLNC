@@ -22,7 +22,6 @@ public class DanhMuc implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @NotNull
     @Column(name = "MaDanhMuc", unique = true, nullable = false)
     private Long maDanhMuc;
 

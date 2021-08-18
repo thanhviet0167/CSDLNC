@@ -23,7 +23,6 @@ public class DonHang implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @NotNull
     @Column(name = "MaDonHang", unique = true, nullable = false)
     private Long maDonHang;
 

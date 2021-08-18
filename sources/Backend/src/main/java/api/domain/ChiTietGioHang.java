@@ -26,11 +26,9 @@ public class ChiTietGioHang implements Serializable {
     @NotNull
     private ChiTietGioHangID chiTietGioHangID;
 
-    @NotNull
     @Column(name="SoLuongMua", nullable = false)
     private Integer soLuongMua;
 
-    @NotNull
     @Column(name="GiaBanThucTe", nullable = false)
     private Long giaBanThucTe;
 

@@ -23,11 +23,9 @@ public class ChiTietVoucher implements Serializable {
     @NotNull
     private ChiTietVoucherID chiTietVoucherID;
 
-    @NotNull
     @Column(name="PhanTramGiamGia", nullable = false)
     private Float phanTramGiamGia;
 
-    @NotNull
     @Column(name="SoLuongApDungToiDa", nullable = false)
     private Integer soLuongApDungToiDa;
 

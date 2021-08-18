@@ -61,11 +61,35 @@ public class GioHangResource {
         return ResponseEntity.ok(gioHangOptional.get());
     }
 
+    @PostMapping("/cart")
+    public ResponseEntity<GioHang> create(
+            HttpServletRequest request,
+            @RequestBody GioHang gioHang
+    ) {
+        String token = request.getHeader("Authorization");
+
+        if (!jwtService.validateToken(token)) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        }
+
+        KhachHang khachHang = jwtService.getAuthentication(token);
+
+        GioHang gioHangResult = gioHangService.create(gioHang, khachHang);
+
+        return ResponseEntity.ok(gioHangResult);
+    }
+
     @DeleteMapping("/cart/{id}")
     public void delete(
             HttpServletRequest request,
             @PathVariable Long id
     ) {
+
+        String token = request.getHeader("Authorization");
+
+        if (!jwtService.validateToken(token)) {
+            return;
+        }
         gioHangService.delete(id);
     }
 }
