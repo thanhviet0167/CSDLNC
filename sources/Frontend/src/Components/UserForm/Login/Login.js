@@ -8,17 +8,19 @@ import Footer from "../../Layout/Footer/Footer";
 import Introduce from "../../Layout/Footer/Introduce";
 import Subcribe from "../../Layout/Footer/Subcribe";
 
-const Login = ({ LoginHandler, user }) => {
+const Login = ({ LoginHandler, user, handle_Login, account }) => {
   const [details, setDetails] = useState({ email: "", password: "" });
 
   const submitHandler = e => {
     e.preventDefault();
-    LoginHandler(details);
+   // LoginHandler(details);
+   handle_Login(details['email'], details['password']);
+   
   }
   const style_error = {
     color: 'red'
   }
-  if (user.email.length <= 0) {
+  if (!account['usename']) {
     return (
       <>
         <div className="header">
@@ -48,10 +50,11 @@ const Login = ({ LoginHandler, user }) => {
           <div className="container">
             <h3 className="w3ls-title w3ls-title1">Login to your account</h3>
             <div className="login-body">
-              <form action="#" method="post">
-                <input type="text" className="user" name="email" placeholder="Enter your email" required="" />
-                <input type="password" name="password" className="lock" placeholder="Password" required="" />
-                <input type="submit" value="Login" />
+              <form onSubmit={submitHandler}>
+                <input type="text" className="user" onChange={e => setDetails({ ...details, email: e.target.value })} value={details.email} name="email" placeholder="Enter your email" required="" />
+                <input type="password"  className="lock" onChange={e => setDetails({ ...details, password: e.target.value })} value={details.password}
+                               id="password" name="password" placeholder="Password" required="" />
+                <input type="submit" value="Login"/>
                 <div className="forgot-grid">
                   <label className="checkbox"><input type="checkbox" name="checkbox" /><i></i>Remember me</label>
                   <div className="forgot">
@@ -59,6 +62,7 @@ const Login = ({ LoginHandler, user }) => {
                   </div>
                   <div className="clearfix"> </div>
                 </div>
+                <p id="error" style = {{color:"red"}}></p>
               </form>
             </div>
             <h6> Not a Member? <Link to="/sign-up">Sign Up Now »</Link> </h6>

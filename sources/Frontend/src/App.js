@@ -28,9 +28,94 @@ import axios from 'axios'
 
 
 function App() {
-  const account = {
-    email: "thanhviet0167@gmail.com",
-    password: "123456"
+  const [account, setAccount] = useState({
+    usename: "",
+    status : false,
+    token:''
+  });
+
+  
+
+  const handle_logout = ()=>{
+    console.log("Hello" + localStorage.getItem("username"))
+    localStorage.setItem("username","");
+    localStorage.setItem("token","");
+    setAccount({
+      usename:'',
+      status:false,
+      token:''
+    })
+    
+  }
+
+  const handle_Login = (_username, _password)=>{
+    var data = {
+      username: _username,
+      password: _password
+    }
+    var check = false;
+    
+    fetch('http://localhost:8080/nacotiki/api/login', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(data)
+    })
+      .then(res => res.json())
+      .then(json => {
+       
+        if(json.id_token.length){
+          document.getElementById("error").innerHTML = "";
+          check = true;
+          localStorage.setItem('token', json.id_token);
+          localStorage.setItem('username', _username);
+          console.log(json.id_token)
+          onChange_login(_username, json.id_token, true)
+          console.log(localStorage.getItem("username"))
+        }
+        
+        
+      });
+
+      if(!check){
+        document.getElementById("error").innerHTML = "Username or password is not correct";
+      }
+      else{
+        document.getElementById("error").innerHTML = "";
+        console.log("Truee")
+      }
+  }
+
+
+  const handle_signup = (data)=>{
+    
+    var check = false;
+    fetch('http://localhost:8080/nacotiki/api/register', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(data)
+    })
+      .then(res => res.json())
+      .then(json => {
+        check = true
+        console.log(json)
+        document.getElementById('error_signup').innerHTML = ""
+      });
+      if(!check){
+        document.getElementById('error_signup').innerHTML = "Username arealdy exist";
+      }
+    
+  }
+
+  const onChange_login = (_username,_jtoken, _status) =>{
+    setAccount({
+      usename:_username,
+      token: _jtoken,
+      status: _status
+    })
   }
 
   const [filter, setFilter] = useState({
@@ -52,6 +137,7 @@ function App() {
     setproductDetail({detail: product})
     
   }
+
 
   const handle_sort = (type)=> {
     setFilter({
@@ -118,6 +204,8 @@ function App() {
   const [count, setCount] = useState({total:0});
 
   useEffect(()=>{
+
+    //localStorage.setItem('token', json.token);
     var _product = [];
     // for(var i = 0; i < listProduct['product'].length; i++){
     //   _product.push(listProduct['product'][i]);
@@ -268,9 +356,9 @@ function App() {
       <div className="App">
         <Router>
           <Switch>
-              <Route path="/" exact><Home user= {user} handler_search_product = {search_product} searchKey = {searchKey}/>  </Route>
-              <Route path="/login" exact><Login LoginHandler = {LoginHandler} user = {user}/></Route>
-              <Route path="/sign-up" exact><Signup/></Route>
+              <Route path="/" exact><Home user= {user} handler_search_product = {search_product} searchKey = {searchKey} account={account} handle_logout = {handle_logout}/>  </Route>
+              <Route path="/login" exact><Login LoginHandler = {LoginHandler} user = {user} handle_Login = {handle_Login} account={account}/></Route>
+              <Route path="/sign-up" exact><Signup handle_signup={handle_signup}/></Route>
               <Route path="/forgot-password" exact><ResestPassword/></Route>
               <Route path="/contact-us" exact><Contact/></Route>
               <Route path="/product" exact><Product listProduct = {searchKey['list_product_search']} load_more = {load_more} handle_sort = {handle_sort}
