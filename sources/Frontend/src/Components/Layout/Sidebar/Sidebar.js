@@ -1,9 +1,13 @@
 import React from "react";
 import { Link } from 'react-router-dom';
 
-const Siderbar = () => {
+const Siderbar = ({handler_search_product}) => {
 
-
+	const handler_search = () =>{
+		
+	//	console.log(document.getElementById("search").value)
+		handler_search_product(document.getElementById("search").value)
+	}
 
     return (
         <>
@@ -15,9 +19,9 @@ const Siderbar = () => {
 					<h6>Your stores. Your place.</h6> 
 				</div>	
 				<div className="header-search">
-					<form action="#" method="post">
-						<input type="search" name="Search" placeholder="Search for a Product..." required=""/>
-						<button type="submit" className="btn btn-default" aria-label="Left Align">
+					<form action = "/product">
+						<input type="search" name="Search" id="search" placeholder="Search for a Product..." required=""/>
+						<button type="button" className="btn btn-default" aria-label="Left Align" onClick = {handler_search}>
 							<i className="fa fa-search" aria-hidden="true"> </i>
 						</button>
 					</form>

@@ -55,7 +55,7 @@ const Shopping_Cart = () => {
 
                     <div className="product">
                         <div className="product-image">
-                            <img src="https://s.cdpn.io/3/dingo-dog-bones.jpg"  alt = ""/>
+                            <img src="images/e1.png"  alt = ""/>
                         </div>
                         <div className="product-details">
                             <div className="product-title">Dingo Dog Bones</div>
@@ -78,7 +78,7 @@ const Shopping_Cart = () => {
                     <div className="product">
                         <div className="product-image">
                             <img
-                                src="https://s.cdpn.io/3/large-NutroNaturalChoiceAdultLambMealandRiceDryDogFood.png" alt = ""
+                                src="images/e2.png" alt = ""
                             />
                         </div>
                         <div className="product-details">
@@ -118,7 +118,7 @@ const Shopping_Cart = () => {
                         </div>
                     </div>
 
-                    <button className="checkout">Checkout</button>
+                    <button className="checkout"><Link to='/check-out'>Checkout</Link></button>
                 </div>
             </section>
 
