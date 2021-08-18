@@ -1,7 +1,7 @@
 import React from 'react'
 import { Link } from 'react-router-dom';
 
-const Cart = () => {
+const Cart = ({name_product,price}) => {
 
 
 
@@ -12,8 +12,8 @@ const Cart = () => {
                     <div className="new-tag"><h6>20%<br />Off</h6></div>
                     <Link to="single.html"><img src="images/e1.png" className="img-responsive" alt="img" /></Link>
                     <div className="agile-product-text">
-                        <h5><Link to="single.html">Audio speaker</Link></h5>
-                        <h6><del>$200</del> $100</h6>
+                        <h5><Link >{name_product}</Link></h5>
+                        <h6><del>{price} VND</del> {price+100} VND</h6>
                         <form action="#" method="post">
                             <input type="hidden" name="cmd" value="_cart" />
                             <input type="hidden" name="add" value="1" />

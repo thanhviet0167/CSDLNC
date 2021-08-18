@@ -154,7 +154,8 @@ const Home = ({ user, handler_search_product, searchKey }) => {
 		); 
 	}
 	else{
-		return <Redirect to ="/product"/>
+		var url = "/product?keyword=" + searchKey['key_search'];
+		return <Redirect to = {url}/>
 	}
        
 };

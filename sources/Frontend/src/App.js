@@ -33,6 +33,63 @@ function App() {
     password: "123456"
   }
 
+  const [filter, setFilter] = useState({
+    search: '',
+    sort:'',
+    store:'',
+    fromPrice: 0,
+    toPrice:0,
+    fromRate:0,
+    toRate:0,
+    count:0
+  });
+
+
+  const handle_sort = (type)=> {
+    setFilter({
+      search: '',
+      fromPrice: 0,
+      toPrice: 0,
+      sort:type,
+      store:'',
+      fromRate:0,
+      toRate:0,
+      count:0
+      
+    })
+
+  }
+  const handle_price = (from, to)=> {
+   
+    setFilter({
+      search: '',
+      fromPrice: from,
+      toPrice: to,
+      sort:'asc',
+      store:'',
+      fromRate:0,
+      toRate:0,
+      count:0
+    })
+
+    console.log(filter)
+  }
+  const handle_rate = (from, to)=> {
+   
+    setFilter({
+      search: '',
+      fromRate: from,
+      toRate: to,
+      sort:'',
+      store:'',
+      fromPrice:0,
+      toPrice:0,
+      count:0
+    })
+
+    console.log(filter)
+  }
+
   const [user,setUser] = useState({email: "", password: ""});
  // const [error, setError] = useState("");
   const LoginHandler = details => {
@@ -54,38 +111,134 @@ function App() {
 
   useEffect(()=>{
     var _product = [];
-    for(var i = 0; i < listProduct['product'].length; i++){
-      _product.push(listProduct['product'][i]);
-    }
+    // for(var i = 0; i < listProduct['product'].length; i++){
+    //   _product.push(listProduct['product'][i]);
+    // }
+    
     async function fetchPostList(){
-      for(var i = 0; i < 4; i++){
-        var data = <Cart />
       
-        _product.push(data)
+    //   for(var i = 0; i < searchKey['list_product_search'].length; i++){
+    //     var data = <Cart name_product = {searchKey['list_product_search'][i]['tenSanPham']}
+    //     price = {searchKey['list_product_search'][i]['giaHienHanh']}/>
+      
+    //     _product.push(data)
+    // }
+    // setlistProduct({product:_product})
+    // console.log(searchKey['list_product_search'])
+    if((filter['sort'].length > 0 || filter['search'].length > 0) && filter['fromPrice'] == 0){
+
+      console.log("Toi day" + filter['search']);
+
+      fetch('http://localhost:8080/nacotiki/api/product/search?query=store%3D' + searchKey['key_search'] + '&page=0&size=10&sort=product_price,' + filter['sort'], {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+      })
+        .then(res => res.json())
+        .then(json => {
+          console.log("json " + json['content_list'])
+          
+          setsearchKey({
+            ... searchKey,
+            list_product_search: json['content_list']
+          })
+        });
+
+        setFilter({
+          ... filter,
+          sort:'',
+          search:''
+        })
     }
-    setlistProduct({product:_product})
+    else{
+      if(filter['fromPrice'] > 0){
+        fetch('http://localhost:8080/nacotiki/api/product/search?query=store%3D'+ searchKey['key_search'] +'&fromPrice%3D'+filter['fromPrice'] +'%26toPrice%3D'+filter['toPrice']+'&page=0&size=10&sort=product_price,'
+        + 'asc', {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+      })
+        .then(res => res.json())
+        .then(json => {
+          console.log("json " + json['content_list'])
+          
+          setsearchKey({
+            ... searchKey,
+            list_product_search: json['content_list']
+          })
+        });
+
+        setFilter({
+          ... filter,
+          fromPrice:0,
+          toPrice:0,
+          sort: ''
+        })
+      }
+      else{
+        if(filter['fromRate'] > 0){
+
+          console.log("Rate" + 'http://localhost:8080/nacotiki/api/product/search?query=store%3D'+ searchKey['key_search']+'&fromRate%3D'+filter['fromRate'] +'%26toRate%3D'+filter['toRate']+'&page=0&size=10&sort=product_price,')
+
+          fetch('http://localhost:8080/nacotiki/api/product/search?query=store%3D'+ searchKey['key_search']+'&fromRate%3D'+filter['fromRate'] +'%26toRate%3D'+filter['toRate']+'&page=0&size=10&sort=product_price,'
+          + 'desc', {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+        })
+          .then(res => res.json())
+          .then(json => {
+            console.log("json " + json)
+            
+            setsearchKey({
+              ... searchKey,
+              list_product_search: json['content_list']
+            })
+          });
+  
+          setFilter({
+            ... filter,
+            fromRate:0,
+            toRate:0,
+            sort:''
+          })
+        }
+      }
+    }
+   
   }
   fetchPostList();
-  },[count]);
+  },[filter]);
  
   
 
   const search_product = (_key_search) => {
     setsearchKey({key_search:_key_search});
+    setFilter({
+      ... filter,
+      search: _key_search
+    })
   //  console.log("Result : "+searchKey['key_search']);
     if(_key_search){
      
 
-      fetch('http://localhost:8080/nacotiki/api/product/search?query=store%3DRenteria1995&page=0&size=10&sort=product_price,asc', {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-    })
-      .then(res => res.json())
-      .then(json => {
-        console.log(json)
-      });
+    //   fetch('http://localhost:8080/nacotiki/api/product/search?query=store%3DRenteria1995&page=0&size=10&sort=product_price,asc', {
+    //   method: 'GET',
+    //   headers: {
+    //     'Content-Type': 'application/json'
+    //   },
+    // })
+    //   .then(res => res.json())
+    //   .then(json => {
+        
+    //     setsearchKey({
+    //       ... searchKey,
+    //       list_product_search: json['content_list']
+    //     })
+    //   });
     }
   }
 
@@ -98,7 +251,7 @@ function App() {
     
     const load_more = () => {
     
-        setCount({count:listProduct.length});
+        setFilter({... filter,count:listProduct.length});
         console.log(listProduct.length)
         
     }
@@ -112,7 +265,10 @@ function App() {
               <Route path="/sign-up" exact><Signup/></Route>
               <Route path="/forgot-password" exact><ResestPassword/></Route>
               <Route path="/contact-us" exact><Contact/></Route>
-              <Route path="/product" exact><Product listProduct = {listProduct['product']} load_more = {load_more} /></Route>
+              <Route path="/product" exact><Product listProduct = {searchKey['list_product_search']} load_more = {load_more} handle_sort = {handle_sort}
+                handle_price = {handle_price} filter = {filter} handler_search_product = {search_product}
+                handle_rate = {handle_rate}
+              /></Route>
               <Route path="/shopping-cart" exact><Shopping_Cart /></Route>
               <Route path="/product-details" exact><Product_Details /></Route>
               <Route path="/check-out" exact><Checkout /></Route>

@@ -83,7 +83,7 @@ const PageCart = ({listProduct, load_data}) => {
                 </div>
                 
             
-                <button className="btn btn-primary" style={{ margin: "10px 370px", with: "50px" }} onClick={()=>load()}>Load more..</button>
+                <button className="btn btn-primary" style={{ margin: "10px 370px", with: "50px" }} onClick={()=>load()}>Load data</button>
                 {/* <button className="btn btn-primary" style={{ margin: "10px 20px", with: "25px" }}>Previous</button>
                 <button className="btn btn-primary" style={{ margin: "10px 5px", with: "25x" }}>Net</button> */}
 

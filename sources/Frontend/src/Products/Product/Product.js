@@ -9,21 +9,50 @@ import Introduce from "../../Components/Layout/Footer/Introduce";
 import Cart from "../Cart/Cart";
 import PageCart from "../Cart/PageCart";
 
-const Product = ({listProduct, load_more}) => {
+const Product = ({listProduct, load_more, handle_sort, handle_price, filter, handler_search_product, handle_rate}) => {
 
     
   //  var value = listProduct;
     
     
     const [count, setCount] = useState(0);
-    const [value, setValue] = useState({list : listProduct});
+    const [value, setValue] = useState({
+        product : [],
+        count: 0
+      });
+      
+    const [list_search, setlist_search] = useState({
+        product : []
+      });
 
+    const sort = (type)=>{
+        handle_sort(type);
+    }
    
+    useEffect(()=>{
+        function updateList(){
+            
+            var pr= []
+            
+            for(var i = 0; i < value['product'].length; i++){
+                var data = <Cart name_product = {value['product'][i]['tenSanPham']}
+                price = {value['product'][i]['giaHienHanh']}></Cart>
+                pr.push(data)
+            }
+            setlist_search({product:pr})
+        }
+        updateList();
+    },[value])
     
+    const filter_sort = (type) =>{
+        handle_sort(type);
+        setValue({product:listProduct})
+    }
+
     
     const load = ()=>{
-        load_more();
-       setValue({list:listProduct});
+        
+        setValue({product:listProduct})
      //   document.getElementsByClassName("products-row").item(leng).innerHTML(listProduct);
     }
     
@@ -42,7 +71,7 @@ const Product = ({listProduct, load_more}) => {
 
             <div className="header">
                 <Narbar></Narbar>
-                <Siderbar></Siderbar>
+                <Siderbar handler_search_product = {handler_search_product}></Siderbar>
                 <div className="header-three">
                     {/* <!-- header-three --> */}
                     <div className="container">
@@ -79,8 +108,8 @@ const Product = ({listProduct, load_more}) => {
                                 <li className="dropdown head-dpdn">
                                     <Link to="#" className="dropdown-toggle" data-toggle="dropdown">Filter By<span className="caret"></span></Link>
                                     <ul className="dropdown-menu">
-                                        <li><Link to="#">Low price</Link></li>
-                                        <li><Link to="#">High price</Link></li>
+                                        <li><Link onClick = {()=>filter_sort('desc')}>Low price</Link></li>
+                                        <li><Link onClick = {()=>filter_sort('asc')}>High price</Link></li>
                                         <li><Link to="#">Latest</Link></li>
                                         <li><Link to="#">Popular</Link></li>
                                     </ul>
@@ -97,7 +126,7 @@ const Product = ({listProduct, load_more}) => {
                             </ul>
                             <div className="clearfix"> </div>
                         </div>
-                        <PageCart listProduct={listProduct} load_data={load_more}></PageCart>
+                        <PageCart listProduct={list_search['product']} load_data={load}></PageCart>
                         
                         {/* <!-- add-products -->  */}
                         <div className="w3ls-add-grids w3agile-add-products">
@@ -113,13 +142,27 @@ const Product = ({listProduct, load_more}) => {
                             <div className="slider-left">
                                 <h4>Filter By Price</h4>
                                 <div className="row row1 scroll-pane">
-                                    <label className="checkbox"><input type="checkbox" name="checkbox" /><i></i>0 - $100 </label>
-                                    <label className="checkbox"><input type="checkbox" name="checkbox" /><i></i>$100 - $200 </label>
+                                    <label className="checkbox"><input type="checkbox" name="checkbox" onClick ={()=>handle_price(0,220000)}/><i></i>0 - $100 </label>
+                                    <label className="checkbox"><input type="checkbox" name="checkbox" onClick ={()=>handle_price(636313,824330)}/><i></i>$100 - $200 </label>
                                     <label className="checkbox"><input type="checkbox" name="checkbox" /><i></i>$200 - $250  </label>
                                     <label className="checkbox"><input type="checkbox" name="checkbox" /><i></i>$250 - $300 </label>
                                     <label className="checkbox"><input type="checkbox" name="checkbox" /><i></i>$350 - $400 </label>
                                     <label className="checkbox"><input type="checkbox" name="checkbox" /><i></i>$450 - $500  </label>
                                     <label className="checkbox"><input type="checkbox" name="checkbox" /><i></i>More</label>
+                                </div>
+                            </div>
+                            <br/>
+                            <br />
+                            <br/>
+                            <br />
+                            <div className="slider-left">
+                                <h4>Filter By Rate</h4>
+                                <div className="row row1 scroll-pane">
+                                    <label className="checkbox"><input type="checkbox" name="checkbox" onClick = {()=>handle_rate(1,2)}/><i></i>1 star - 2 star</label>
+                                    <label className="checkbox"><input type="checkbox" name="checkbox" onClick = {()=>handle_rate(2,3)}/><i></i>2 star - 3 star</label>
+                                    <label className="checkbox"><input type="checkbox" name="checkbox" onClick = {()=>handle_rate(3,4)}/><i></i>3 star - 4 star</label>
+                                    <label className="checkbox"><input type="checkbox" name="checkbox" onClick = {()=>handle_rate(4,5)}/><i></i>4 star - 5 star</label>
+                                
                                 </div>
                             </div>
                             <div className="sidebar-row">
