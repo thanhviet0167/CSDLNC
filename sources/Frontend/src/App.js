@@ -44,6 +44,14 @@ function App() {
     count:0
   });
 
+  const [productDetail, setproductDetail] = useState({
+    detail: {}
+  });
+
+  const handle_product_details = (product) => {
+    setproductDetail({detail: product})
+    
+  }
 
   const handle_sort = (type)=> {
     setFilter({
@@ -267,10 +275,10 @@ function App() {
               <Route path="/contact-us" exact><Contact/></Route>
               <Route path="/product" exact><Product listProduct = {searchKey['list_product_search']} load_more = {load_more} handle_sort = {handle_sort}
                 handle_price = {handle_price} filter = {filter} handler_search_product = {search_product}
-                handle_rate = {handle_rate}
+                handle_rate = {handle_rate} handle_product_details = {handle_product_details}
               /></Route>
               <Route path="/shopping-cart" exact><Shopping_Cart /></Route>
-              <Route path="/product-details" exact><Product_Details /></Route>
+              <Route path="/product-details" exact><Product_Details product_detail = {productDetail}/></Route>
               <Route path="/check-out" exact><Checkout /></Route>
               <Route path="/card" exact><Card /></Route>
               <Route path="/sitemap" exact><Sitemap /></Route>

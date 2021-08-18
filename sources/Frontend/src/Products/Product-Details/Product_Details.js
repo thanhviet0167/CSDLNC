@@ -8,7 +8,9 @@ import Footer from "../../Components/Layout/Footer/Footer";
 import Introduce from "../../Components/Layout/Footer/Introduce";
 
 
-const Product_Details = () => {
+const Product_Details = ({product_detail}) => {
+    console.log("Hello productdetails");
+    console.log(product_detail)
 
     return (
         <>
@@ -64,7 +66,7 @@ const Product_Details = () => {
                                 </div>
                             </div>
                             <div className="col-md-6 single-top-right">
-                                <h3 className="item_name">Electric Snow Blower</h3>
+                                <h3 className="item_name">{product_detail['detail']['tenSanPham']}</h3>
                                 <p>Processing Time: Item will be shipped out within 2-3 working days. </p>
                                 <div className="single-rating">
                                     <ul>
@@ -79,14 +81,14 @@ const Product_Details = () => {
                                 </div>
                                 <div className="single-price">
                                     <ul>
-                                        <li>$540</li>
-                                        <li><del>$600</del></li>
+                                        <li>${product_detail['detail']['giaHienHanh']}</li>
+                                        <li><del>${product_detail['detail']['giaGiam']}</del></li>
                                         <li><span className="w3off">10% OFF</span></li>
                                         <li>Ends on: June,5th</li>
                                         <li><Link to="#"><i className="fa fa-gift" aria-hidden="true"></i> Coupon</Link></li>
                                     </ul>
                                 </div>
-                                <p className="single-price-text">Fusce a egestas nibh, eget ornare erat. Proin placerat, urna et consequat efficitur, sem odio blandit enim, sit amet euismod turpis est mattis lectus. Vestibulum maximus quam et quam egestas imperdiet. In dignissim auctor viverra. </p>
+                                <p className="single-price-text">{product_detail['detail']['moTa']}</p>
                                 <form action="#" method="post">
                                     <input type="hidden" name="cmd" value="_cart" />
                                     <input type="hidden" name="add" value="1" />

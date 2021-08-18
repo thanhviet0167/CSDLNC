@@ -9,7 +9,8 @@ import Introduce from "../../Components/Layout/Footer/Introduce";
 import Cart from "../Cart/Cart";
 import PageCart from "../Cart/PageCart";
 
-const Product = ({listProduct, load_more, handle_sort, handle_price, filter, handler_search_product, handle_rate}) => {
+const Product = ({listProduct, load_more, handle_sort, handle_price, filter, handler_search_product, handle_rate, 
+    handle_product_details}) => {
 
     
   //  var value = listProduct;
@@ -30,13 +31,15 @@ const Product = ({listProduct, load_more, handle_sort, handle_price, filter, han
     }
    
     useEffect(()=>{
+
         function updateList(){
             
             var pr= []
             
             for(var i = 0; i < value['product'].length; i++){
                 var data = <Cart name_product = {value['product'][i]['tenSanPham']}
-                price = {value['product'][i]['giaHienHanh']}></Cart>
+                price = {value['product'][i]['giaHienHanh']} product_detail = {value['product'][i]} 
+                handle_product_details = {handle_product_details}></Cart>
                 pr.push(data)
             }
             setlist_search({product:pr})
