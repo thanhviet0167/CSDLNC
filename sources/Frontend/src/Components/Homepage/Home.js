@@ -11,7 +11,7 @@ import Deal from "../Layout/Deals/Deal";
 import Banner from "../Layout/Banner/Banner";
 import Featured_Product from "../../Products/Product/Featured_Product";
 
-const Home = ({ user, handler_search_product, searchKey }) => {
+const Home = ({ user, handler_search_product, searchKey, account, handle_logout }) => {
     console.log(searchKey['key_search']);
 	
 
@@ -44,7 +44,7 @@ const Home = ({ user, handler_search_product, searchKey }) => {
 	
 		{/* <!-- header --> */}
 		<div className="header">
-			<Narbar></Narbar>
+			<Narbar account = {account} handle_logout = {handle_logout}></Narbar>
 			<Siderbar handler_search_product = {handler_search_product}></Siderbar>
 			<div className="header-three">
 				{/* <!-- header-three --> */}

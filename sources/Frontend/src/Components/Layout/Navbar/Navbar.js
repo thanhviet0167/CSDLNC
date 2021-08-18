@@ -1,7 +1,24 @@
 import React from "react";
 import { Link } from 'react-router-dom';
 import '../Navbar/Navbar.css'
-const Narbar = () => {
+const Narbar = ({account, handle_logout}) => {
+
+	const is_Login = <ul className="dropdown-menu">
+	<li><a href="/login">{localStorage.getItem('username')} </a></li> 
+	<li><Link to="/"><p onClick = {handle_logout}>Logout</p></Link></li> 
+	<li><Link to="login.html">My Orders</Link></li>  
+	<li><Link to="login.html">Wallet</Link></li> 
+</ul> 
+
+	const no_Login = <ul className="dropdown-menu">
+	<li><a href="/login">Login </a></li> 
+	<li><a href="/sign-up">Sign Up</a></li> 
+	<li><Link to="login.html">My Orders</Link></li>  
+	<li><Link to="login.html">Wallet</Link></li> 
+</ul> 
+	
+
+
     return (
         <div className="w3ls-header">
             {/* <!--header-one-->  */}
@@ -12,12 +29,13 @@ const Narbar = () => {
 				<ul>
 					<li className="dropdown head-dpdn">
 						<Link to="#" className="dropdown-toggle" data-toggle="dropdown"><i className="fa fa-user" aria-hidden="true"></i> My Account<span className="caret"></span></Link>
-						<ul className="dropdown-menu">
+						{/* <ul className="dropdown-menu">
 							<li><a href="/login">Login </a></li> 
 							<li><a href="/sign-up">Sign Up</a></li> 
 							<li><Link to="login.html">My Orders</Link></li>  
 							<li><Link to="login.html">Wallet</Link></li> 
-						</ul> 
+						</ul>  */}
+						{localStorage.getItem('username')?is_Login:no_Login}
 					</li> 
 					<li className="dropdown head-dpdn">
 						<Link to="#" className="dropdown-toggle" data-toggle="dropdown"><i className="fa fa-percent" aria-hidden="true"></i> Today's Deals<span className="caret"></span></Link>
