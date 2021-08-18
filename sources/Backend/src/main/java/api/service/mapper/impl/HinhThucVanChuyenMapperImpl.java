@@ -7,10 +7,12 @@ import org.springframework.stereotype.Component;
 
 import java.util.List;
 import java.util.Objects;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @Component
 public class HinhThucVanChuyenMapperImpl implements HinhThucVanChuyenMapper {
+
     @Override
     public List<HinhThucVanChuyenDTO> fromModelToDtos(List<HinhThucVanChuyen> hinhThucVanChuyens) {
         return hinhThucVanChuyens.stream()
@@ -25,7 +27,12 @@ public class HinhThucVanChuyenMapperImpl implements HinhThucVanChuyenMapper {
             return null;
         }
 
-        return new HinhThucVanChuyenDTO(hinhThucVanChuyen);
+        HinhThucVanChuyenDTO hinhThucVanChuyenDTO = new HinhThucVanChuyenDTO();
+
+        hinhThucVanChuyenDTO.setMaHinhThucVanChuyen(hinhThucVanChuyen.getMaHinhThucVanChuyen());
+        hinhThucVanChuyenDTO.setTenHinhThucVanChuyen(hinhThucVanChuyen.getTenHinhThucVanChuyen());
+
+        return hinhThucVanChuyenDTO;
     }
 
     @Override
@@ -36,6 +43,9 @@ public class HinhThucVanChuyenMapperImpl implements HinhThucVanChuyenMapper {
 
         HinhThucVanChuyen hinhThucVanChuyen = new HinhThucVanChuyen();
 
+        hinhThucVanChuyen.setMaHinhThucVanChuyen(hinhThucVanChuyenDTO.getMaHinhThucVanChuyen());
+        hinhThucVanChuyen.setTenHinhThucVanChuyen(hinhThucVanChuyenDTO.getTenHinhThucVanChuyen());
+
         return hinhThucVanChuyen;
     }
 
@@ -45,5 +55,15 @@ public class HinhThucVanChuyenMapperImpl implements HinhThucVanChuyenMapper {
                 .filter(Objects::nonNull)
                 .map(this::fromDtoToModel)
                 .collect(Collectors.toList());
+    }
+
+    @Override
+    public Set<HinhThucVanChuyenDTO> fromModelToDtoSet(Set<HinhThucVanChuyen> hinhThucVanChuyenSet) {
+        return hinhThucVanChuyenSet.stream().map(this::fromModelToDto).collect(Collectors.toSet());
+    }
+
+    @Override
+    public Set<HinhThucVanChuyen> fromDtoToModelSet(Set<HinhThucVanChuyenDTO> hinhThucVanChuyenDtoSet) {
+        return hinhThucVanChuyenDtoSet.stream().map(this::fromDtoToModel).collect(Collectors.toSet());
     }
 }

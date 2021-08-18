@@ -22,15 +22,7 @@ public class HinhThucVanChuyenDTO {
     private Long maHinhThucVanChuyen;
     private String tenHinhThucVanChuyen;
 
-    private Set<ThongTinHinhThucVanChuyen> thongTinHinhThucVanChuyenSet = new HashSet<>();
-    private Set<DonHang> donHangSet = new HashSet<>();
-
-    public HinhThucVanChuyenDTO(HinhThucVanChuyen hinhThucVanChuyen) {
-        this.maHinhThucVanChuyen = hinhThucVanChuyen.getMaHinhThucVanChuyen();
-        this.tenHinhThucVanChuyen = hinhThucVanChuyen.getTenHinhThucVanChuyen();
-
-        this.thongTinHinhThucVanChuyenSet.addAll(hinhThucVanChuyen.getThongTinHinhThucVanChuyenSet());
-        this.donHangSet.addAll(hinhThucVanChuyen.getDonHangSet());
-    }
+    private Set<ThongTinHinhThucVanChuyenDTO> thongTinHinhThucVanChuyenSet;
+    private Set<DonHangDTO> donHangSet;
 
 }
