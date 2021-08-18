@@ -1,8 +1,10 @@
 package api.service;
 
 import api.domain.DonHang;
+import api.domain.GiaoDich;
 import api.domain.KhachHang;
 import api.web.rest.vm.CompleteOrderVM;
+import api.web.rest.vm.CompleteTransactionVM;
 import api.web.rest.vm.OrderVM;
 
 import java.util.List;
@@ -14,4 +16,6 @@ public interface DonHangService {
     Optional<DonHang> getOne(Long id);
 
     CompleteOrderVM create(OrderVM donHang, KhachHang khachHang);
+
+    CompleteTransactionVM payment(GiaoDich giaoDich);
 }

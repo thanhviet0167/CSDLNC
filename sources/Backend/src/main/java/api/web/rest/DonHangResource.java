@@ -6,6 +6,7 @@ import api.domain.KhachHang;
 import api.security.JWTService;
 import api.service.DonHangService;
 import api.web.rest.vm.CompleteOrderVM;
+import api.web.rest.vm.CompleteTransactionVM;
 import api.web.rest.vm.OrderVM;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -81,5 +82,23 @@ public class DonHangResource {
         CompleteOrderVM completeOrderVM = donHangService.create(donHang, khachHang);
 
         return ResponseEntity.ok(completeOrderVM);
+    }
+
+    @PostMapping("/payment")
+    public ResponseEntity<CompleteTransactionVM> payment(
+            HttpServletRequest request,
+            @RequestBody GiaoDich giaoDich
+    ) {
+        String token = request.getHeader("Authorization");
+
+        if (!jwtService.validateToken(token)) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        }
+
+        KhachHang khachHang = jwtService.getAuthentication(token);
+
+        CompleteTransactionVM completeTransactionVM = donHangService.payment(giaoDich);
+
+        return ResponseEntity.ok(completeTransactionVM);
     }
 }
