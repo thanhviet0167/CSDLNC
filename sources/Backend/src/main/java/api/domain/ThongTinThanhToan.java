@@ -44,7 +44,7 @@ public class ThongTinThanhToan implements Serializable {
     @Column(name="NgayHetHan", nullable = false)
     private Instant ngayHetHan;
 
-    @ManyToOne()
+    @ManyToOne
     @NotFound(action = NotFoundAction.IGNORE)
     @JoinColumn(name = "CongThanhToan", insertable = false, updatable = false, nullable = false)
     @JsonIgnoreProperties(value = {"thongTinThanhToanSet"}, allowSetters = true)

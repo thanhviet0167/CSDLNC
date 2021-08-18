@@ -23,7 +23,6 @@ public class GiaoDich implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @NotNull
     @Column(name = "MaGiaoDich", unique = true, nullable = false)
     private Long maGiaoDich;
 
@@ -34,7 +33,6 @@ public class GiaoDich implements Serializable {
     @Column(name = "TrangThaiThanhToan", nullable = false)
     private Boolean trangThaiThanhToan;
 
-    @NotNull
     @Column(name = "NgayThanhToan", nullable = false)
     private Instant ngayThanhToan;
 

@@ -103,6 +103,9 @@ public class GioHang implements Serializable {
     @Column(name = "STT_SoDiaChi")
     private Integer sttSoDiaChi;
 
+    @Transient
+    private Long phiVanChuyen;
+
     @OneToMany(mappedBy = "gioHang", fetch = FetchType.LAZY)
     @NotFound(action = NotFoundAction.IGNORE)
     @JsonIgnoreProperties(value = {

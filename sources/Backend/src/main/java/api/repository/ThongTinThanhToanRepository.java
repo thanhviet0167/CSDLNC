@@ -6,4 +6,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface ThongTinThanhToanRepository extends JpaRepository<ThongTinThanhToan, ThongTinThanhToan.ThongTinThanhToanID> {
+    ThongTinThanhToan findByThongTinThanhToanID_CongThanhToanAndThongTinThanhToanID_TaiKhoanThanhToan(String cong, String taiKhoan);
 }

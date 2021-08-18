@@ -9,6 +9,7 @@ import org.hibernate.annotations.NotFoundAction;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import java.io.Serializable;
 import java.time.Instant;
 import java.util.HashSet;
 import java.util.Set;
@@ -18,7 +19,7 @@ import java.util.Set;
 @Setter
 @NoArgsConstructor
 @Table(name = "NhaCungCap")
-public class NhaCungCap {
+public class NhaCungCap implements Serializable {
 
     @Id
     @Column(name = "Username", unique=true, nullable = false)

@@ -42,8 +42,8 @@ public class PhuongThucThanhToan implements Serializable {
     @ManyToOne
     @NotFound(action = NotFoundAction.IGNORE)
     @JoinColumns({
-            @JoinColumn(name = "TaiKhoanThanhToan", insertable = false, updatable = false),
-            @JoinColumn(name = "CongThanhToan", insertable = false, updatable = false)
+            @JoinColumn(name = "TaiKhoanThanhToan", referencedColumnName = "TaiKhoanThanhToan", insertable = false, updatable = false),
+            @JoinColumn(name = "CongThanhToan", referencedColumnName = "CongThanhToan", insertable = false, updatable = false)
     })
     @JsonIgnoreProperties(value = {"phuongThucThanhToanSet"}, allowSetters = true)
     private ThongTinThanhToan thongTinThanhToan;
