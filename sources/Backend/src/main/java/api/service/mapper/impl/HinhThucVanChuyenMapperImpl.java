@@ -2,7 +2,9 @@ package api.service.mapper.impl;
 
 import api.domain.HinhThucVanChuyen;
 import api.service.dto.HinhThucVanChuyenDTO;
+import api.service.dto.ThongTinHinhThucVanChuyenDTO;
 import api.service.mapper.HinhThucVanChuyenMapper;
+import api.service.mapper.ThongTinHinhThucVanChuyenMapper;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -12,6 +14,12 @@ import java.util.stream.Collectors;
 
 @Component
 public class HinhThucVanChuyenMapperImpl implements HinhThucVanChuyenMapper {
+
+    private final ThongTinHinhThucVanChuyenMapper thongTinHinhThucVanChuyenMapper;
+
+    public HinhThucVanChuyenMapperImpl(ThongTinHinhThucVanChuyenMapper thongTinHinhThucVanChuyenMapper) {
+        this.thongTinHinhThucVanChuyenMapper = thongTinHinhThucVanChuyenMapper;
+    }
 
     @Override
     public List<HinhThucVanChuyenDTO> fromModelToDtos(List<HinhThucVanChuyen> hinhThucVanChuyens) {
@@ -28,9 +36,11 @@ public class HinhThucVanChuyenMapperImpl implements HinhThucVanChuyenMapper {
         }
 
         HinhThucVanChuyenDTO hinhThucVanChuyenDTO = new HinhThucVanChuyenDTO();
+        Set<ThongTinHinhThucVanChuyenDTO> thongTinHinhThucVanChuyenDTOSet = thongTinHinhThucVanChuyenMapper.fromModelToDtoSet(hinhThucVanChuyen.getThongTinHinhThucVanChuyenSet());
 
         hinhThucVanChuyenDTO.setMaHinhThucVanChuyen(hinhThucVanChuyen.getMaHinhThucVanChuyen());
         hinhThucVanChuyenDTO.setTenHinhThucVanChuyen(hinhThucVanChuyen.getTenHinhThucVanChuyen());
+        hinhThucVanChuyenDTO.setThongTinHinhThucVanChuyenSet(thongTinHinhThucVanChuyenDTOSet);
 
         return hinhThucVanChuyenDTO;
     }

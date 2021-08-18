@@ -1,6 +1,5 @@
 package api.service.dto;
 
-import api.domain.ThongTinHinhThucVanChuyen;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -13,12 +12,9 @@ public class ThongTinHinhThucVanChuyenDTO {
 
     private ThongTinHinhThucVanChuyenIDDTO thongTinHinhThucVanChuyenID;
 
-    private HinhThucVanChuyenDTO hinhThucVanChuyen;
-
     private Integer phamViVanChuyen;
     private Long phiGiaoHang;
     private Integer thoiGianGiaoHang;
-
 
     @Getter
     @Setter

@@ -14,12 +14,6 @@ import java.util.stream.Collectors;
 @Service
 public class ThongTinHinhThucVanChuyenMapperImpl implements ThongTinHinhThucVanChuyenMapper {
 
-    private final HinhThucVanChuyenMapper hinhThucVanChuyenMapper;
-
-    public ThongTinHinhThucVanChuyenMapperImpl(HinhThucVanChuyenMapper hinhThucVanChuyenMapper) {
-        this.hinhThucVanChuyenMapper = hinhThucVanChuyenMapper;
-    }
-
     @Override
     public List<ThongTinHinhThucVanChuyenDTO> fromModelToDtos(List<ThongTinHinhThucVanChuyen> thongTinHinhThucVanChuyens) {
         return thongTinHinhThucVanChuyens.stream().map(this::fromModelToDto).collect(Collectors.toList());
@@ -33,17 +27,14 @@ public class ThongTinHinhThucVanChuyenMapperImpl implements ThongTinHinhThucVanC
 
         ThongTinHinhThucVanChuyenDTO thongTinHinhThucVanChuyenDTO = new ThongTinHinhThucVanChuyenDTO();
 
-        HinhThucVanChuyenDTO hinhThucVanChuyenDTO = hinhThucVanChuyenMapper.fromModelToDto(thongTinHinhThucVanChuyen.getHinhThucVanChuyen());
-
         ThongTinHinhThucVanChuyenDTO.ThongTinHinhThucVanChuyenIDDTO thongTinHinhThucVanChuyenIDDTO = new ThongTinHinhThucVanChuyenDTO.ThongTinHinhThucVanChuyenIDDTO();
         thongTinHinhThucVanChuyenIDDTO.setMaHinhThucVanChuyen(thongTinHinhThucVanChuyen.getThongTinHinhThucVanChuyenID().getMaHinhThucVanChuyen());
         thongTinHinhThucVanChuyenIDDTO.setPhamViVanChuyen(thongTinHinhThucVanChuyen.getThongTinHinhThucVanChuyenID().getPhamViVanChuyen());
 
         thongTinHinhThucVanChuyenDTO.setThongTinHinhThucVanChuyenID(thongTinHinhThucVanChuyenIDDTO);
-        thongTinHinhThucVanChuyenDTO.setHinhThucVanChuyen(hinhThucVanChuyenDTO);
         thongTinHinhThucVanChuyenDTO.setPhamViVanChuyen(thongTinHinhThucVanChuyen.getThongTinHinhThucVanChuyenID().getPhamViVanChuyen());
         thongTinHinhThucVanChuyenDTO.setPhiGiaoHang(thongTinHinhThucVanChuyen.getPhiGiaoHang());
-        thongTinHinhThucVanChuyenDTO.setThoiGianGiaoHang(thongTinHinhThucVanChuyenDTO.getThoiGianGiaoHang());
+        thongTinHinhThucVanChuyenDTO.setThoiGianGiaoHang(thongTinHinhThucVanChuyen.getThoiGianGiaoHang());
 
         return thongTinHinhThucVanChuyenDTO;
     }
