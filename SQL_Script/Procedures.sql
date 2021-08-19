@@ -340,3 +340,22 @@ END
 GO
 
 EXEC ThongKe_TyLeDonHangThanhCong 2020
+
+/*** Cập nhật số lượng hàng tồn ***/
+IF OBJECT_ID(N'update_HangTon') IS NOT NULL
+	DROP PROCEDURE ThongKe_TyLeDonHangThanhCong
+GO
+CREATE PROCEDURE update_HangTon
+	@MaGioHang BIGINT
+AS
+BEGIN
+	SET TRANSACTION ISOLATION LEVEL REPEATABLE READ
+	BEGIN TRANSACTION
+		IF EXISTS (SELECT * FROM ChiTietGioHang CT JOIN SanPham S ON CT.MaSanPham = S.MaSanPham WHERE CT.MaGioHang = @MaGioHang AND CT.SoLuongMua > S.SoLuongTon)
+		BEGIN
+			PRINT(N'Đơn hàng không thể tạo vì số lượng sản phẩm vượt quá số lượng tồn')
+			ROLLBACK TRANSACTION
+		END
+		UPDATE SanPham SET SoLuongTon = SoLuongTon - CT.SoLuongMua FROM ChiTietGioHang CT JOIN SanPham S ON CT.MaSanPham = S.MaSanPham WHERE CT.MaGioHang = @MaGioHang
+	COMMIT TRANSACTION
+END
