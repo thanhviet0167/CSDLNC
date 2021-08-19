@@ -1,7 +1,7 @@
 import React from 'react'
 import { Link } from 'react-router-dom';
 
-const Cart = ({name_product,price, product_detail, handle_product_details}) => {
+const Cart = ({name_product,price, price_current, product_detail, handle_product_details}) => {
 
     const handleproduct_detail = ()=>{
         handle_product_details(product_detail);
@@ -15,7 +15,7 @@ const Cart = ({name_product,price, product_detail, handle_product_details}) => {
                     <Link to="single.html"><img src="images/e1.png" className="img-responsive" alt="img" /></Link>
                     <div className="agile-product-text">
                         <h5><Link onClick = {()=> handleproduct_detail()} to='/product-details'>{name_product}</Link></h5>
-                        <h6><del>{price} VND</del> {price+100} VND</h6>
+                        <h6><del>{price_current} VND</del> {price} VND</h6>
                         <form action="#" method="post">
                             <input type="hidden" name="cmd" value="_cart" />
                             <input type="hidden" name="add" value="1" />

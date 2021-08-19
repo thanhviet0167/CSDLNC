@@ -37,7 +37,7 @@ const Product = ({listProduct, load_more, handle_sort, handle_price, filter, han
             var pr= []
             
             for(var i = 0; i < value['product'].length; i++){
-                var data = <Cart name_product = {value['product'][i]['tenSanPham']}
+                var data = <Cart name_product = {value['product'][i]['tenSanPham']} price_current = {value['product'][i]['giaGiam']}
                 price = {value['product'][i]['giaHienHanh']} product_detail = {value['product'][i]} 
                 handle_product_details = {handle_product_details}></Cart>
                 pr.push(data)
