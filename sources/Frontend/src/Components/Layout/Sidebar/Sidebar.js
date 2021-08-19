@@ -31,10 +31,12 @@ const Siderbar = ({handler_search_product}) => {
 						<Link to="/contact-us"><i className="fa fa-map-marker" aria-hidden="true"></i> CONTACT US</Link>						
 					</div>
 					<div className="cart"> 
-						<form action="#" method="post" className="last"> 
+						<form className="last"> 
 							<input type="hidden" name="cmd" value="_cart" />
 							<input type="hidden" name="display" value="1" />
-							<button className="w3view-cart" type="submit" name="submit" value=""><i className="fa fa-cart-arrow-down" aria-hidden="true"></i></button>
+							<Link to='/shopping-cart'><button className="w3view-cart" type="button" name="submit" value=""><i className="fa fa-cart-arrow-down" aria-hidden="true">{localStorage.getItem('size')}</i></button></Link>
+							
+							
 						</form>  
 					</div>
 					<div className="clearfix"> </div> 

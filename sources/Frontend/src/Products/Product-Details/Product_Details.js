@@ -8,10 +8,23 @@ import Footer from "../../Components/Layout/Footer/Footer";
 import Introduce from "../../Components/Layout/Footer/Introduce";
 
 
-const Product_Details = ({product_detail}) => {
+const Product_Details = ({product_detail, add_to_cart}) => {
     console.log("Hello productdetails");
     console.log(product_detail)
+    const add_cart = () => {
+        var data = {
+            'chiTietGioHangID' : {
+                "maSanPham": product_detail['detail']['maSanPham']
+            },
+            "soLuongMua": 1,
+            "giaBanThucTe": product_detail['detail']['giaHienHanh'],
+            "giaGiam": product_detail['detail']['giaHienHanh']
+        }
 
+        console.log(data)
+        add_to_cart(data)
+       
+    }
     return (
         <>
             <div className="header">
@@ -89,12 +102,12 @@ const Product_Details = ({product_detail}) => {
                                     </ul>
                                 </div>
                                 <p className="single-price-text">{product_detail['detail']['moTa']}</p>
-                                <form action="#" method="post">
+                                <form>
                                     <input type="hidden" name="cmd" value="_cart" />
                                     <input type="hidden" name="add" value="1" />
                                     <input type="hidden" name="w3ls_item" value="Snow Blower" />
                                     <input type="hidden" name="amount" value="540.00" />
-                                    <button type="submit" className="w3ls-cart" ><i className="fa fa-cart-plus" aria-hidden="true"></i> Add to cart</button>
+                                    <button type="button" className="w3ls-cart" onClick = {add_cart} ><i className="fa fa-cart-plus" aria-hidden="true"></i> Add to cart</button>
                                 </form>
                                 <button className="w3ls-cart w3ls-cart-like"><i className="fa fa-heart-o" aria-hidden="true"></i> Add to Wishlist</button>
                             </div>

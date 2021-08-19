@@ -34,6 +34,8 @@ function App() {
     token:''
   });
 
+
+
   
 
   const handle_logout = ()=>{
@@ -211,6 +213,18 @@ function App() {
     //   _product.push(listProduct['product'][i]);
     // }
     
+
+    if(JSON.parse(localStorage.getItem('list_cart'))){
+    
+      
+      setListCart({
+        cart: JSON.parse(localStorage.getItem('list_cart')),
+        total: localStorage.getItem('total'),
+        size: localStorage.getItem('size')
+      })
+    }
+    console.log(list_cart)
+
     async function fetchPostList(){
       
     //   for(var i = 0; i < searchKey['list_product_search'].length; i++){
@@ -351,6 +365,157 @@ function App() {
         console.log(listProduct.length)
         
     }
+
+    
+    const [list_cart, setListCart] = useState({
+      cart: [],
+      total: 0,
+      size: 0
+    })
+
+    const add_to_cart = (data) =>{
+      var cart_current = list_cart['cart']
+
+      var _total = 0
+      
+      if(cart_current.length > 0){
+        var check = false;
+        for(var i = 0; i < cart_current.length; i++){
+          if(cart_current[i]['chiTietGioHangID']['maSanPham'] == data['chiTietGioHangID']['maSanPham'])
+          {
+            cart_current[i]['soLuongMua'] += data['soLuongMua']
+            cart_current[i]['giaBanThucTe'] = cart_current[i]['soLuongMua']*cart_current[i]['giaGiam']
+            check = true
+          }
+        }
+        if(!check){
+          cart_current.push(data);
+        }
+        for(var i = 0; i < cart_current.length; i++){
+          _total += cart_current[i]['giaBanThucTe']
+        }
+        
+      }
+      else{
+        cart_current.push(data);
+      }
+
+
+
+
+      localStorage.setItem('list_cart',JSON.stringify(cart_current));
+      localStorage.setItem('size',cart_current.length);
+      localStorage.setItem('total',_total)
+      setListCart({
+        cart: cart_current,
+        total: _total,
+        size: cart_current.length
+      })
+
+      console.log(list_cart['cart'])
+      
+      console.log(JSON.parse(localStorage.getItem('list_cart')))
+     // localStorage.setItem('list_cart',JSON.stringify([]));
+      
+    }
+
+    const handle_update_plus = (product_id) => {
+     
+      var current = JSON.parse(localStorage.getItem('list_cart'));
+      for(var i = 0; i < current.length; i++){
+        if(current[i]['chiTietGioHangID']['maSanPham'] == product_id){
+          current[i]['soLuongMua'] += 1;
+          current[i]['giaBanThucTe'] = current[i]['soLuongMua']*current[i]['giaGiam']
+        }
+      }
+      var _total = 0;
+      for(var i = 0; i < current.length; i++){
+        _total += current[i]['giaBanThucTe']
+      }
+
+      console.log(current)
+
+      localStorage.setItem('list_cart',JSON.stringify(current));
+      localStorage.setItem('size',current.length);
+      localStorage.setItem('total',_total)
+
+      setListCart({
+        cart: JSON.parse(localStorage.getItem('list_cart')),
+        total: localStorage.getItem('total'),
+        size: localStorage.getItem('size')
+      })
+
+    }
+
+    const handle_update_moin = (product_id) => {
+     
+      var current = JSON.parse(localStorage.getItem('list_cart'));
+      for(var i = 0; i < current.length; i++){
+        if(current[i]['chiTietGioHangID']['maSanPham'] == product_id){
+          current[i]['soLuongMua'] -= 1;
+          if(current[i]['soLuongMua'] == 0){
+            current.splice(i, 1); 
+          }
+          else{
+            current[i]['giaBanThucTe'] = current[i]['soLuongMua']*current[i]['giaGiam']
+          }
+        
+          
+        }
+      
+      }
+      
+      var _total = 0;
+      for(var i = 0; i < current.length; i++){
+        _total += current[i]['giaBanThucTe']
+      }
+
+      console.log(current)
+
+      localStorage.setItem('list_cart',JSON.stringify(current));
+      localStorage.setItem('size',current.length);
+      localStorage.setItem('total',_total)
+
+      setListCart({
+        cart: JSON.parse(localStorage.getItem('list_cart')),
+        total: localStorage.getItem('total'),
+        size: localStorage.getItem('size')
+      })
+
+    }
+
+
+    const handle_remove = (product_id) => {
+     
+      var current = JSON.parse(localStorage.getItem('list_cart'));
+      for(var i = 0; i < current.length; i++){
+        if(current[i]['chiTietGioHangID']['maSanPham'] == product_id){
+         
+            current.splice(i, 1); 
+        }
+      
+      }
+      
+      var _total = 0;
+      for(var i = 0; i < current.length; i++){
+        _total += current[i]['giaBanThucTe']
+      }
+
+      console.log(current)
+
+      localStorage.setItem('list_cart',JSON.stringify(current));
+      localStorage.setItem('size',current.length);
+      localStorage.setItem('total',_total)
+
+      setListCart({
+        cart: JSON.parse(localStorage.getItem('list_cart')),
+        total: localStorage.getItem('total'),
+        size: localStorage.getItem('size')
+      })
+
+    }
+
+
     
     return (
       <div className="App">
@@ -365,8 +530,9 @@ function App() {
                 handle_price = {handle_price} filter = {filter} handler_search_product = {search_product}
                 handle_rate = {handle_rate} handle_product_details = {handle_product_details}
               /></Route>
-              <Route path="/shopping-cart" exact><Shopping_Cart /></Route>
-              <Route path="/product-details" exact><Product_Details product_detail = {productDetail}/></Route>
+              <Route path="/shopping-cart" exact><Shopping_Cart handle_update_plus = {handle_update_plus} handle_update_moin = {handle_update_moin} 
+              handle_remove = {handle_remove}/></Route>
+              <Route path="/product-details" exact><Product_Details product_detail = {productDetail} add_to_cart = {add_to_cart}/></Route>
               <Route path="/check-out" exact><Checkout /></Route>
               <Route path="/card" exact><Card /></Route>
               <Route path="/sitemap" exact><Sitemap /></Route>
