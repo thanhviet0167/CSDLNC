@@ -87,6 +87,11 @@ public class DonHangServiceImpl implements DonHangService {
 
         giaoDichResult.setPhuongThucThanhToan(phuongThucThanhToan);
 
+        gioHangList.forEach(gioHang -> {
+                donHangRepository.capNhatHangTon(gioHang.getMaGioHang());
+            }
+        );
+
         // cap nhat trang thai gio hang
         List<GioHang> gioHangResultList = gioHangList.stream().map(gioHang -> {
             if (gioHang == null) return null;

@@ -177,6 +177,8 @@ public class GioHangServiceImpl implements GioHangService {
         gioHangResult.setChiTietGioHangSet(new HashSet<>(result1));
         gioHangResult.setVoucherApDungSet(new HashSet<>(result3));
 
-        return gioHangResult;
+        Optional<GioHang> finalGioHang = gioHangRepository.findByMaGioHang(gioHangResult.getMaGioHang());
+
+        return finalGioHang.get();
     }
 }
