@@ -7,6 +7,7 @@ import api.service.BoSuuTapService;
 import api.service.NhaCungCapService;
 import api.service.dto.NhaCungCapDTO;
 import api.web.rest.vm.ObjectPaginationVM;
+import api.web.rest.vm.RevenueStatisticsVM;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.data.domain.Page;
@@ -18,6 +19,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.servlet.http.HttpServletRequest;
+import java.time.Instant;
 import java.util.List;
 import java.util.Optional;
 
@@ -91,5 +93,21 @@ public class NhaCungCapResource {
         }
 
         return ResponseEntity.ok(boSuuTapOptional.get());
+    }
+
+    @GetMapping("/store/{store}/statistics/revenue")
+    public ResponseEntity<RevenueStatisticsVM> getRevenueStatistics(
+            HttpServletRequest request,
+            @PathVariable String store,
+            @RequestParam String from,
+            @RequestParam String to
+    ) {
+        if (!jwtService.validateToken(request.getHeader("Authorization"))) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        }
+
+        RevenueStatisticsVM statisticsVM = nhaCungCapService.getRevenueStatistics(store, from, to);
+
+        return ResponseEntity.ok(statisticsVM);
     }
 }
