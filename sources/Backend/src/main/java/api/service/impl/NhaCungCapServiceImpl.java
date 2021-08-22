@@ -4,6 +4,7 @@ import api.repository.NhaCungCapRepository;
 import api.service.NhaCungCapService;
 import api.service.dto.NhaCungCapDTO;
 import api.service.mapper.NhaCungCapMapper;
+import api.web.rest.vm.ProductStatisticsVM;
 import api.web.rest.vm.RevenueStatisticsVM;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -29,6 +30,11 @@ public class NhaCungCapServiceImpl implements NhaCungCapService {
     @Override
     public Optional<NhaCungCapDTO> findOne(String keyword) {
         return nhaCungCapRepository.findById(keyword).map(nhaCungCapMapper::fromModelToDto);
+    }
+
+    @Override
+    public Page<NhaCungCapDTO> findByKeyword(String keyword, Pageable pageable) {
+        return nhaCungCapRepository.findAllByTenNhaCungCapContainsOrUsernameIs(keyword, keyword, pageable).map(nhaCungCapMapper::fromModelToDto);
     }
 
     @Override
@@ -64,7 +70,46 @@ public class NhaCungCapServiceImpl implements NhaCungCapService {
     }
 
     @Override
-    public Page<NhaCungCapDTO> findByKeyword(String keyword, Pageable pageable) {
-        return nhaCungCapRepository.findAllByTenNhaCungCapContainsOrUsernameIs(keyword, keyword, pageable).map(nhaCungCapMapper::fromModelToDto);
+    public ProductStatisticsVM getProductSubscriptionStatistics(String store) {
+        ProductStatisticsVM productStatisticsVM = new ProductStatisticsVM();
+        List<ProductStatisticsVM.ProductStatisticItem> productStatisticItems = new ArrayList<>();
+
+        List<Object[]> resultList = nhaCungCapRepository.getProductSubscriptionStatistics(store);
+
+        resultList.forEach(result -> {
+            Long productId = ((BigInteger) result[0]).longValue();
+            String productName = (String) result[1];
+            int count = (int) result[3];
+
+            ProductStatisticsVM.ProductStatisticItem item = new ProductStatisticsVM.ProductStatisticItem(productId, productName, count);
+            productStatisticItems.add(item);
+        });
+
+        productStatisticsVM.setLoai("YeuThich");
+        productStatisticsVM.setSanPham(productStatisticItems);
+
+        return productStatisticsVM;
+    }
+
+    @Override
+    public ProductStatisticsVM getProductSaleStatistics(String store) {
+        ProductStatisticsVM productStatisticsVM = new ProductStatisticsVM();
+        List<ProductStatisticsVM.ProductStatisticItem> productStatisticItems = new ArrayList<>();
+
+        List<Object[]> resultList = nhaCungCapRepository.getProductSaleStatistics(store);
+
+        resultList.forEach(result -> {
+            Long productId = ((BigInteger) result[0]).longValue();
+            String productName = (String) result[1];
+            int count = (int) result[3];
+
+            ProductStatisticsVM.ProductStatisticItem item = new ProductStatisticsVM.ProductStatisticItem(productId, productName, count);
+            productStatisticItems.add(item);
+        });
+
+        productStatisticsVM.setLoai("BanRa");
+        productStatisticsVM.setSanPham(productStatisticItems);
+
+        return productStatisticsVM;
     }
 }

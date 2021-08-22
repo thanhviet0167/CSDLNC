@@ -7,6 +7,7 @@ import api.service.BoSuuTapService;
 import api.service.NhaCungCapService;
 import api.service.dto.NhaCungCapDTO;
 import api.web.rest.vm.ObjectPaginationVM;
+import api.web.rest.vm.ProductStatisticsVM;
 import api.web.rest.vm.RevenueStatisticsVM;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -109,5 +110,23 @@ public class NhaCungCapResource {
         RevenueStatisticsVM statisticsVM = nhaCungCapService.getRevenueStatistics(store, from, to);
 
         return ResponseEntity.ok(statisticsVM);
+    }
+
+    @GetMapping("/store/{store}/statistics/product")
+    public ResponseEntity<ProductStatisticsVM> getProductStatistics(
+            HttpServletRequest request,
+            @PathVariable String store,
+            @RequestParam Integer type
+    ) {
+
+        if (!jwtService.validateToken(request.getHeader("Authorization"))) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        }
+
+        if (type == 1) {
+            return ResponseEntity.ok(nhaCungCapService.getProductSubscriptionStatistics(store));
+        } else {
+            return ResponseEntity.ok(nhaCungCapService.getProductSaleStatistics(store));
+        }
     }
 }
