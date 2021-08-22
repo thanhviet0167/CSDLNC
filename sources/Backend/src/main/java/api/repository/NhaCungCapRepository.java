@@ -23,4 +23,10 @@ public interface NhaCungCapRepository extends JpaRepository<NhaCungCap, String> 
 
     @Query(value = "{CALL ThongKe_LuotYeuThich(:store)}", nativeQuery = true)
     List<Object[]> getProductSaleStatistics(@Param("store") String store);
+
+    @Query(value = "{CALL ThongKe_CuaHang_DanhGia(:fromMonth, :fromYear, :toMonth, :toYear)}", nativeQuery = true)
+    List<Object[]> getStoreRateStatistics(@Param("fromMonth") int fromMonth, @Param("fromYear") int fromYear, @Param("toMonth") int toMonth, @Param("toYear") int toYear);
+
+    @Query(value = "{CALL ThongKe_CuaHang_KhieuNai(:fromMonth, :fromYear, :toMonth, :toYear)}", nativeQuery = true)
+    List<Object[]> getStoreComplainStatistics(@Param("fromMonth") int fromMonth, @Param("fromYear") int fromYear, @Param("toMonth") int toMonth, @Param("toYear") int toYear);
 }

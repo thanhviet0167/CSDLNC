@@ -26,4 +26,7 @@ public interface DonHangRepository extends JpaRepository<DonHang, Long> {
     @Modifying
     @Query(value = "{CALL update_HangTon(:MaGioHang)}", nativeQuery = true)
     void capNhatHangTon(@Param("MaGioHang") Long gioHang);
+
+    @Query(value = "{CALL ThongKe_TyLeDonHangThanhCong(:year)}", nativeQuery = true)
+    Object[] getSuccessOrderStatistics(@Param("year") Integer year);
 }

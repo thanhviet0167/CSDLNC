@@ -6,6 +6,8 @@ import api.repository.NhaCungCapRepository;
 import api.repository.ThongTinCongThanhToanRepository;
 import api.service.AdminStatisticsService;
 import api.web.rest.vm.PaymentMethodStatisticsVM;
+import api.web.rest.vm.StoreStatisticsVM;
+import api.web.rest.vm.SuccessOrderStatisticsVM;
 import api.web.rest.vm.TransportMethodStatisticsVM;
 import org.springframework.stereotype.Service;
 
@@ -88,5 +90,76 @@ public class AdminStatisticsServiceImpl implements AdminStatisticsService {
         paymentMethodStatistics.setCongThanhToan(paymentMethodItems);
 
         return paymentMethodStatistics;
+    }
+
+    @Override
+    public StoreStatisticsVM getStoreRateStatistics(String from, String to) {
+        StoreStatisticsVM storeStatistics = new StoreStatisticsVM();
+        List<StoreStatisticsVM.StoreStatisticItem> storeStatisticItems = new ArrayList<>();
+
+        String[] froms = from.split("/");
+        String[] tos = to.split("/");
+
+        int fromMonth = Integer.parseInt(froms[0]);
+        int fromYear = Integer.parseInt(froms[1]);
+
+        int toMonth = Integer.parseInt(tos[0]);
+        int toYear = Integer.parseInt(tos[1]);
+
+        List<Object[]> resultList = nhaCungCapRepository.getStoreRateStatistics(fromMonth, fromYear, toMonth, toYear);
+        resultList.forEach(result -> {
+            String storeId = (String) result[0];
+            int count = (int) result[1];
+
+            StoreStatisticsVM.StoreStatisticItem item = new StoreStatisticsVM.StoreStatisticItem(storeId, count);
+            storeStatisticItems.add(item);
+        });
+
+        storeStatistics.setLoai("DanhGia");
+        storeStatistics.setNhaCungCap(storeStatisticItems);
+
+        return storeStatistics;
+    }
+
+    @Override
+    public StoreStatisticsVM getStoreComplainStatistics(String from, String to) {
+        StoreStatisticsVM storeStatistics = new StoreStatisticsVM();
+        List<StoreStatisticsVM.StoreStatisticItem> storeStatisticItems = new ArrayList<>();
+
+        String[] froms = from.split("/");
+        String[] tos = to.split("/");
+
+        int fromMonth = Integer.parseInt(froms[0]);
+        int fromYear = Integer.parseInt(froms[1]);
+
+        int toMonth = Integer.parseInt(tos[0]);
+        int toYear = Integer.parseInt(tos[1]);
+
+        List<Object[]> resultList = nhaCungCapRepository.getStoreComplainStatistics(fromMonth, fromYear, toMonth, toYear);
+        resultList.forEach(result -> {
+            String storeId = (String) result[0];
+            int count = (int) result[1];
+
+            StoreStatisticsVM.StoreStatisticItem item = new StoreStatisticsVM.StoreStatisticItem(storeId, count);
+            storeStatisticItems.add(item);
+        });
+
+        storeStatistics.setLoai("SoLuotKhieuNai");
+        storeStatistics.setNhaCungCap(storeStatisticItems);
+
+        return storeStatistics;
+    }
+
+    @Override
+    public SuccessOrderStatisticsVM getSuccessOrderStatistics(Integer year) {
+        SuccessOrderStatisticsVM successOrderStatistics = new SuccessOrderStatisticsVM();
+
+        Object[] result = donHangRepository.getSuccessOrderStatistics(year);
+
+        successOrderStatistics.setNam(year);
+        successOrderStatistics.setSoLuongDonHangThanhCong((Integer) result[0]);
+        successOrderStatistics.setSoLuongDonHang((Integer) result[1]);
+
+        return successOrderStatistics;
     }
 }
