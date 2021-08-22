@@ -33,7 +33,7 @@ function App() {
     status : false,
     token:''
   });
-
+  
 
 
   
@@ -42,6 +42,7 @@ function App() {
     console.log("Hello" + localStorage.getItem("username"))
     localStorage.setItem("username","");
     localStorage.setItem("token","");
+    localStorage.setItem('status',false)
     setAccount({
       usename:'',
       status:false,
@@ -75,6 +76,7 @@ function App() {
           console.log(json.id_token)
           onChange_login(_username, json.id_token, true)
           console.log(localStorage.getItem("username"))
+          localStorage.setItem('status',true)
         }
         
         
@@ -214,7 +216,7 @@ function App() {
     // }
     
 
-    if(JSON.parse(localStorage.getItem('list_cart'))){
+    if(localStorage.getItem('total') > 0){
     
       
       setListCart({
@@ -398,6 +400,7 @@ function App() {
       }
       else{
         cart_current.push(data);
+        _total = data['giaBanThucTe']
       }
 
 
@@ -531,7 +534,7 @@ function App() {
                 handle_rate = {handle_rate} handle_product_details = {handle_product_details}
               /></Route>
               <Route path="/shopping-cart" exact><Shopping_Cart handle_update_plus = {handle_update_plus} handle_update_moin = {handle_update_moin} 
-              handle_remove = {handle_remove}/></Route>
+              handle_remove = {handle_remove} user = {account}/></Route>
               <Route path="/product-details" exact><Product_Details product_detail = {productDetail} add_to_cart = {add_to_cart}/></Route>
               <Route path="/check-out" exact><Checkout /></Route>
               <Route path="/card" exact><Card /></Route>

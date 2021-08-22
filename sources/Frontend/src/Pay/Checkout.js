@@ -127,8 +127,8 @@ const Checkout = () => {
             },
             "soDiaChi": {
                 "soDiaChiID": {
-                    "username": "Abbie124",
-                    "stt": 36
+                    "username": "Abbie1955",
+                    "stt": 10
                 }
             },
             "chiTietGioHangSet": JSON.parse(localStorage.getItem('list_cart')),
@@ -142,7 +142,7 @@ const Checkout = () => {
                             "chiTietQuaTangID": {
                                 "sanPhamTangKem": 1932
                             },
-                            "giaBanTangKem": 371930,
+                            "giaBanTangKem": 21930,
                             "soLuongTangKem": 1
                         }
                     ]
@@ -154,7 +154,7 @@ const Checkout = () => {
             "nhaCungCap": {
                 "username": "Copley999"
             },
-            "tongTienChuaKhuyenMai": 4919039,
+            "tongTienChuaKhuyenMai": 14919039,
             "tongTienQuaTang": 360423,
             "soTienGiamThucTe": 360423,
             "voucher": {
@@ -162,8 +162,8 @@ const Checkout = () => {
             },
             "soDiaChi": {
                 "soDiaChiID": {
-                    "username": "Abbie124",
-                    "stt": 36
+                    "username": "Abbie1955",
+                    "stt": 10
                 }
             },
             "chiTietGioHangSet": [
@@ -177,7 +177,7 @@ const Checkout = () => {
                 },
                 {
                     "chiTietGioHangID": {
-                        "maSanPham": 1932
+                        "maSanPham": 1193
                     },
                     "soLuongMua": 18,
                     "giaBanThucTe": 2759148,
@@ -194,7 +194,7 @@ const Checkout = () => {
                             "chiTietQuaTangID": {
                                 "sanPhamTangKem": 1932
                             },
-                            "giaBanTangKem": 371930,
+                            "giaBanTangKem": 21930,
                             "soLuongTangKem": 1
                         }
                     ]
@@ -203,12 +203,12 @@ const Checkout = () => {
         }
 
 
-        console.log(data)
-        console.log(beta)
+        
         fetch('http://localhost:8080/nacotiki/api/cart', {
         method: 'POST',
         headers: {
-            'Content-Type': 'application/json'
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer ' + localStorage.getItem('token')
         },
         body: JSON.stringify(data)
         })
@@ -217,6 +217,11 @@ const Checkout = () => {
            
             console.log(json)
             alert("Order Success")
+            localStorage.setItem('list_cart',[])
+            localStorage.setItem('size',0)
+            localStorage.setItem('total',0)
+            localStorage.setItem('total_final',0)
+            window.location.href = "http://localhost:3000"
         });
     }
 
@@ -224,9 +229,13 @@ const Checkout = () => {
 
     useEffect(() => {
 
-        init()
-        var price_cur = localStorage.getItem('total') - price_current['promotion'] + price_current['transport'];
-        localStorage.setItem('total_final',price_cur);
+        console.log(localStorage.getItem('total'))
+        if(localStorage.getItem('total') > 0){
+            init()
+            var price_cur = localStorage.getItem('total') - price_current['promotion'] + price_current['transport'];
+            localStorage.setItem('total_final',price_cur);
+        }
+        
        
     }
 
@@ -511,7 +520,7 @@ const Checkout = () => {
                         );
     }
     else{
-        return <Redirect to="/login" />
+        window.location.href = "http://localhost:3000/login"
     }
     
 };

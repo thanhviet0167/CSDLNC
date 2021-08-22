@@ -10,7 +10,7 @@ import Introduce from "../../Components/Layout/Footer/Introduce";
 import './Shopping_Cart.css'
 import Cart_Iteam from "./Cart_Iteam";
 
-const Shopping_Cart = ({handle_update_plus, handle_update_moin, handle_remove}) => {
+const Shopping_Cart = ({handle_update_plus, handle_update_moin, handle_remove, user}) => {
 
 
     const [cart_details, setCartDetails] = useState({
@@ -26,17 +26,19 @@ const Shopping_Cart = ({handle_update_plus, handle_update_moin, handle_remove}) 
     useEffect(() => {
 
         
-
-        var convert = JSON.parse(localStorage.getItem('list_cart'));
-        var content = []
-        for(var i = 0; i < convert.length; i++){
-            var txt = <Cart_Iteam price = {convert[i]['giaGiam']} number={convert[i]['soLuongMua']}
-            total={convert[i]['giaBanThucTe']} id={convert[i]['chiTietGioHangID']['maSanPham']}
-            handle_update_plus = {handle_update_plus} handle_update_moin = {handle_update_moin}
-            handle_remove = {handle_remove}></Cart_Iteam>
-
-            content.push(txt);
+        if(localStorage.getItem('total') > 0){
+            var convert = JSON.parse(localStorage.getItem('list_cart'));
+            var content = []
+            for(var i = 0; i < convert.length; i++){
+                var txt = <Cart_Iteam price = {convert[i]['giaGiam']} number={convert[i]['soLuongMua']}
+                total={convert[i]['giaBanThucTe']} id={convert[i]['chiTietGioHangID']['maSanPham']}
+                handle_update_plus = {handle_update_plus} handle_update_moin = {handle_update_moin}
+                handle_remove = {handle_remove}></Cart_Iteam>
+    
+                content.push(txt);
+            }
         }
+       
 
         setCartDetails({
             cart:content
@@ -135,7 +137,9 @@ const Shopping_Cart = ({handle_update_plus, handle_update_moin, handle_remove}) 
         );
     }
     else{
-        return <Redirect to="/login" />
+        // return <Redirect to="/login" />
+       
+        window.location.href = "http://localhost:3000/login"
     }
     
 }

@@ -94,8 +94,8 @@ const Product_Details = ({product_detail, add_to_cart}) => {
                                 </div>
                                 <div className="single-price">
                                     <ul>
-                                        <li>${product_detail['detail']['giaHienHanh']}</li>
-                                        <li><del>${product_detail['detail']['giaGiam']}</del></li>
+                                        <li>${product_detail['detail']['giaGiam']}</li>
+                                        <li><del>${product_detail['detail']['giaHienHanh']}</del></li>
                                         <li><span className="w3off">10% OFF</span></li>
                                         <li>Ends on: June,5th</li>
                                         <li><Link to="#"><i className="fa fa-gift" aria-hidden="true"></i> Coupon</Link></li>
