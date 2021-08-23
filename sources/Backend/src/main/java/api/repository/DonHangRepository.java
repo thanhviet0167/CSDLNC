@@ -28,5 +28,5 @@ public interface DonHangRepository extends JpaRepository<DonHang, Long> {
     void capNhatHangTon(@Param("MaGioHang") Long gioHang);
 
     @Query(value = "{CALL ThongKe_TyLeDonHangThanhCong(:year)}", nativeQuery = true)
-    Object[] getSuccessOrderStatistics(@Param("year") Integer year);
+    List<Object[]> getSuccessOrderStatistics(@Param("year") Integer year);
 }

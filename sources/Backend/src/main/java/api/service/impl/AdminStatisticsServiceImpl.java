@@ -154,13 +154,11 @@ public class AdminStatisticsServiceImpl implements AdminStatisticsService {
     public SuccessOrderStatisticsVM getSuccessOrderStatistics(Integer year) {
         SuccessOrderStatisticsVM successOrderStatistics = new SuccessOrderStatisticsVM();
 
-        Object[] result = donHangRepository.getSuccessOrderStatistics(year);
-
-	System.out.println(result[0]);
+        List<Object[]> result = donHangRepository.getSuccessOrderStatistics(year);
 
         successOrderStatistics.setNam(year);
-//        successOrderStatistics.setSoLuongDonHangThanhCong((int) result[0]);
-//       successOrderStatistics.setSoLuongDonHang((int) result[1]);
+        successOrderStatistics.setSoLuongDonHangThanhCong((int) result.get(0)[0]);
+       successOrderStatistics.setSoLuongDonHang((int) result.get(0)[1]);
 
         return successOrderStatistics;
     }
