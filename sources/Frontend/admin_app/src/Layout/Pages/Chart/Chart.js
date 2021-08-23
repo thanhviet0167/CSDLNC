@@ -100,6 +100,41 @@ const Chart = ({ }) => {
         list_data: []
     })
 
+    const [data_total, setDataTotal] = useState({
+        label: ['Thành công','Không thành công'],
+        list_data: [0,0], 
+        year: ''
+    })
+
+    const handle_Total = () => {
+        handle_getToken()
+        var url = 'http://localhost:8080/nacotiki/api/admin/statistics/success-order?year=' + document.getElementById('year').value
+        fetch(url, {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': 'Bearer ' + localStorage.getItem('token')
+                    }
+                })
+                    .then(res => res.json())
+                    .then(json => {
+
+                        console.log(json)
+                        var total = json['soLuongDonHang']
+                        var success = json['soLuongDonHangThanhCong']
+                        var list = []
+                        list.push(success)
+                        list.push(total-success)
+                        setDataTotal({
+                            year: document.getElementById('year').value,
+                            list_data: list
+                        })
+                        console.log(data_total['label'])
+
+                    });
+
+    }
+
     const handle_getDataChart_Payment = (json) => {
 
         // localStorage.setItem('label',JSON.stringify([]));
@@ -218,7 +253,7 @@ const Chart = ({ }) => {
 
                         console.log(json)
                         handle_getDataChart_Store(json)
-
+                        
 
 
                     });
@@ -360,6 +395,70 @@ const Chart = ({ }) => {
                                         onClick={() => getData()} class="btn btn-primary">Thống kê</button>
 
                                 </div>
+                                <div className="row" style={{ marginLeft: "4.5%" }}>
+                                <select class="form-select" id="year"  style={{ marginLeft: "1.5%" }} aria-label="Year">
+                                        <option value="2011" selected>2011</option>
+                                        <option value="2012">2012</option>
+                                        <option value="2013">2013</option>
+                                        <option value="2014">2014</option>
+                                        <option value="2015">2015</option>
+                                        <option value="2016">2016</option>
+                                        <option value="2017">2017</option>
+                                        <option value="2018">2018</option>
+                                        <option value="2019">2019</option>
+                                        <option value="2020">2020</option>
+                                        <option value="2021">2021</option>
+
+                                    </select>
+                                    <button type="button" onClick = {()=> handle_Total()} style={{ marginLeft: "1.5%" }}
+                                         class="btn btn-primary">Thống kê đơn hàng</button>
+                                </div>
+
+                                <hr />
+                                <hr />
+                                <hr />
+
+                                <div className="row">
+                                <h3 style={{ marginLeft: "45%", color: 'goldenrod' }}>
+                                        Pie Chart
+                                    </h3>
+                                    {data_total['list_data'][0] > 0 ?<Pie
+                                        data={{
+                                            labels: ["Thành công", "Không thành công"],
+                                            datasets: [{
+                                                label: 'values of' + data['option'],
+                                                data: data_total['list_data'],
+                                                backgroundColor: [
+                                                    
+                                                    'rgba(54, 162, 235, 0.2)',
+                                                    'rgba(255, 99, 132, 0.2)'
+                                                    
+                                                ],
+                                                borderColor: [
+                                                    
+                                                    'rgba(54, 162, 235, 1)',
+                                                    'rgba(255, 99, 132, 1)'
+                                                    
+                                                ],
+                                                borderWidth: 1
+                                            }]
+                                        }}
+                                        height={50}
+                                        width={100}
+                                    /> : <p></p>}
+                                    
+                                    <hr />
+                                    <p>
+
+                                    </p>
+                                    {data_total['list_data'][0] > 0 ? <h4 style={{marginLeft:"25%", color:'blueviolet'}}>Thống kê số lượng giao hàng năm {data_total['year']}</h4>
+                                    : <p></p>}
+                                    
+
+                                </div>
+
+                                <hr />
+                                <hr />
 
 
                                 <div className="row">
